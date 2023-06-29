@@ -16,6 +16,8 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path
+from django.conf.urls.static import static
+from django.conf import settings
 from . import views
 
 
@@ -24,5 +26,8 @@ urlpatterns = [
     path('', views.index, name='index'),
     path('login',  views.login_post),
     path('dashboard', views.dashboard, name='dashboard'),
+    path('dashboard_reload', views.dashboard_reload, name='dashboard_reload'),
     path('add_books', views.add_books),
-]
+    path('table_actions', views.table_actions),
+    path('edit_table', views.edit_table)
+] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)

@@ -1,8 +1,11 @@
+{% load static %}
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
+    <link rel="stylesheet" href="{% static 'css/styles.css' %}">
+    <script src = "{% static 'javascript/index.js' %}"></script>
 </head>
 <body>
 <h1>ENAS Book Inventory Dashboard</h1>
@@ -15,5 +18,83 @@
      <input type="submit" value="Submit">
 </form>
 
+<div cL>
+ {% if books_data %}
+        <form action="/table_actions" method="post" id="order_form">
+         {% csrf_token %}
+        <table id="books_inventory_table">
+      <tr>
+        <th>
+            <label for="select_all">Select All:</label>
+            <input type="checkbox" id="select_all" onclick="toggleAllCheckboxes(this)" >
+        <br><br></th>
+        <th>ISBN</th>
+        <th>Book Name</th>
+        <th>Quantity Requested</th>
+        <th>Year Group</th>
+        <th>Order Status</th>
+        <th>Date Requested</th>
+        <th>
+            Actions
+            <button type="submit" name="table_action" value="add_new_entry">Add new entry</button>
+            <button type="submit" name="table_action" value="update_all_statuses">Update all Order Statuses</button>
+        </th>
+      </tr>
+          {% for x in books_data %}
+            <tr>
+            <td>
+                <input type="checkbox" name="books_selection" value="{{ x.id }}">
+            </td>
+              <td>{{ x.isbn }}</td>
+              <td>{{ x.book_name }}</td>
+              <td class="editable-column" id="editable_item_{{ x.id }}">
+                 <span>{{ x.quantity_needed }}</span>
+              </td>
+              <td>{{ x.year_group}}</td>
+              <td>{{ x.order_status}}</td>
+              <td>{{ x.date_requested}}</td>
+              <td>
+                  <button type="submit" name="table_action" value="edit">Edit</button>
+                  <button type="submit" name="table_action" value="delete">Delete</button>
+                  <button type="submit" name="table_action" value="update_order_status">Update Order Status</button>
+              </td>
+            {% comment %} <td>
+                  {% if x.order_status != 'ORDERED' %}
+                        <input type="checkbox" name="orders_to_order" value="{{ x.id }}"> Mark Ordered<br>
+                        {% endif %}
+                        {% if x.order_status == 'ORDERED' and x.order_status != 'RECEIVED' %}
+                        <input type="checkbox" name="orders_to_receive" value="{{ x.id }}"> Mark Received<br>
+                        {% endif %}
+             </td>{% endcomment %}
+            </tr>
+          {% endfor %}
+    </table>
+      {% else %}
+            <p>No books data available.</p>
+         {% endif %}
+    </form>
+</div>
+
+
+
+    <script>
+      {% comment %} function toggle(source) {
+           let checkboxes = document.getElementsByName('ordered_checkbox');
+          for(let i=0, n=checkboxes.length;i<n;i++) {
+            checkboxes[i].checked = source.checked;
+          }
+        }{% endcomment %}
+
+     function toggleAllCheckboxes(source) {
+        let checkboxes = document.querySelectorAll('input[type="checkbox"][name="books_selection"]');
+        for (let i = 0; i < checkboxes.length; i++) {
+            checkboxes[i].checked = source.checked;
+        }
+    }
+
+    </script>
+
+
 </body>
+
 </html>

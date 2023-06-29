@@ -5,7 +5,7 @@ import requests
 import pandas as pd
 from datetime import datetime
 from django.http import HttpResponse
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from enasInventory.models import Book
 
 
@@ -22,7 +22,14 @@ def login_post(request):
 
 
 def dashboard(request):
-    return render(request, 'dashboard.html')
+    # Get all the books data.
+    books = Book.objects.all().order_by('-date_requested').values()
+    return render(request, 'dashboard.html', {'books_data': books, 'edit_mode': False})
+
+
+def dashboard_reload(request):
+    books = Book.objects.all().order_by('-date_requested').values()
+    return render(request, 'dashboard_reload.html', {'books_data': books, 'edit_mode': False})
 
 
 def add_books(request):
@@ -46,3 +53,70 @@ def add_books(request):
             saved_book.save()
     print(read_excel_file)
     return HttpResponse(status=200)
+
+
+# Update order status of one book
+def update_order_status(book_id):
+    selected_book = Book.objects.get(id=book_id)
+    current_order_status = selected_book.order_status
+    if current_order_status == "REQUESTED":
+        selected_book.order_status = "ORDERED"
+    if current_order_status == "ORDERED":
+        selected_book.order_status = "RECEIVED"
+    selected_book.save()
+    print("The selected book status is " + current_order_status)
+
+
+def table_actions(request):
+    if request.method == 'POST':
+        print(request.POST)
+        action = request.POST.get('table_action', None)
+        if action == "update_order_status":
+            book_selection_id = request.POST.get('books_selection')
+            print("The id is: " + book_selection_id)
+            update_order_status(book_selection_id)
+        if action == "update_all_statuses":
+            book_selection_ids = request.POST.getlist('books_selection')
+            print("The ids are: " + str(book_selection_ids))
+            for book_id in book_selection_ids:
+                print(book_id)
+                update_order_status(book_id)
+        # Fetch the books_data to render the page again
+        updated_books = Book.objects.all().order_by('-date_requested').values()
+        return render(request, 'dashboard.html', {'books_data': updated_books})
+
+
+# def table_actions(request):
+#     if request.method == 'POST':
+#         ordered_ids = request.POST.getlist('orders_to_order')
+#         received_ids = request.POST.getlist('orders_to_receive')
+#
+#         for book_id in ordered_ids:
+#             book = Book.objects.get(id=book_id)
+#             book.order_status = 'ORDERED'
+#             book.save()
+#
+#         for book_id in received_ids:
+#             book = Book.objects.get(id=book_id)
+#             book.order_status = 'RECEIVED'
+#             book.save()
+#
+#         # Fetch the books_data to render the page again
+#     books_data = Book.objects.all().order_by('-date_requested').values()
+#     context = {'books_data': books_data}
+#     action = request.POST.get('actions', None)
+#     if action == 'edit_quantity':
+#         print(request.POST)
+#         # item_id = request.POST.get('edit_item_id', None)
+#         # edited_quantity = request.POST.get(f'edit_quantity_{item_id}', None)
+#         # print(edited_quantity)
+#         # item_id = request.POST.get('edit_item_id', None)
+#         # print(item_id)
+#         return render(request, 'dashboard.html', {'books_data': books_data, 'edit_mode': 49})
+#     return redirect('/dashboard')
+
+
+def edit_table(request):
+    return
+
+    # return render(request, 'dashboard.html', {'books_data': context})
