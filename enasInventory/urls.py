@@ -29,5 +29,6 @@ urlpatterns = [
     path('dashboard_reload', views.dashboard_reload, name='dashboard_reload'),
     path('add_books', views.add_books),
     path('table_actions', views.table_actions),
+    path('save_edit_made', views.save_edit_made),
     path('edit_table', views.edit_table)
 ] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)

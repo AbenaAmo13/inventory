@@ -8,8 +8,6 @@
       1: 'book_name',
       2: 'quantity_requested',
       3: 'year_group',
-      4:'order_status',
-      5:'date_requested'
   }
   // Add click event listeners to edit buttons
   editButtons.forEach(function(editButton) {
@@ -17,6 +15,7 @@
     event.preventDefault(); // Prevent form submission
       let row = this.parentNode.parentNode;
       console.log(row)
+     // Get the updated values from input fields
       let dataCells = row.querySelectorAll('.data');
       // Convert data cells to input fields
       dataCells.forEach(function(dataCell, index) {
@@ -24,7 +23,6 @@
           let input_name = inputName[index]
           console.log(input_name)
         let content = dataCell.innerHTML;
-
         dataCell.innerHTML = '<input type="text" value="' + content + '"  name="' + input_name + '"  />';
       });
       this.style.display = 'none';
@@ -35,7 +33,65 @@
     });
   });
 
-    // Add click event listeners to save buttons
+  // Add click event listeners to save buttons
+saveButtons.forEach(function(saveButton) {
+  saveButton.addEventListener('click', function(event) {
+    event.preventDefault(); // Prevent form submission
+
+    let row = this.parentNode.parentNode;
+    let dataCells = row.querySelectorAll('.data');
+    // Send the data to the endpoint
+    let formData = new FormData();
+    let bookId = this.getAttribute('data-book-id');
+    // Get the updated values from input fields
+    let updatedValues = [];
+    formData.append('book_id', bookId);
+    dataCells.forEach(function(dataCell, index) {
+      let input_field = dataCell.querySelector('input');
+      let updated_value = input_field.value
+      let input_name= inputName[index]
+      formData.append(input_name, updated_value)
+      /*let updatedValue = inputField.value;
+      updatedValues.push(updatedValue);*/
+    });
+    //To enable csrf token in a javascript post
+    const csrftoken = Cookies.get('csrftoken');
+
+
+    /*updatedValues.forEach(value)*/
+
+    // Add other form data if needed
+    // formData.append('field_name', field_value);
+
+    // Perform AJAX request or submit the form
+    // For example, using fetch API
+    fetch('/save_edit_made', {
+      method: 'POST',
+      body: formData,
+      credentials: 'same-origin',
+        headers:{'X-CSRFToken': csrftoken}
+
+    })
+    .then(response => {
+      // Handle the response
+    })
+    .catch(error => {
+      // Handle errors
+    });
+  });
+});
+
+
+
+
+
+
+
+
+
+
+
+    /*// Add click event listeners to save buttons
   saveButtons.forEach(function(saveButton) {
     saveButton.addEventListener('click', function(event) {
         console.log('save button clicked')
@@ -50,11 +106,11 @@
       });
 
       this.style.display = 'none';
-      /*row.querySelector('.cancel').style.display = 'none';*/
+      /!*row.querySelector('.cancel').style.display = 'none';*!/
       row.querySelector('.edit').style.display = 'inline-block';
     });
   });
-
+*/
 
 /*
   let editButtons = document.querySelectorAll('.edit');

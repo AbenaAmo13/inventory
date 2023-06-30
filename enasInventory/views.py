@@ -67,11 +67,16 @@ def update_order_status(book_id):
     print("The selected book status is " + current_order_status)
 
 
-def save_edit_made(request, book_id):
-    print('The book you are editting has an id of: ' + book_id)
-    isbn = request.POST.get('isbn')
+def save_edit_made(request):
+    if request.method == 'POST':
+        book_id = request.POST.get('book_id')
+        print(book_id)
+    return redirect('dashboard')
 
-    book_name = request.POST.get('book_name')
+    # print('The book you are editting has an id of: ' + book_id)
+    # isbn = request.POST.get('isbn')
+    # print(isbn)
+    # book_name = request.POST.get('book_name')
 
 
 def table_actions(request):
@@ -88,10 +93,8 @@ def table_actions(request):
             for book_id in book_selection_ids:
                 print(book_id)
                 update_order_status(book_id)
-        if action == "save":
-            save_edit_made(request, book_selection_id)
 
-        return redirect('dashboard')
+    return redirect('dashboard')
 
 
 # def table_actions(request):

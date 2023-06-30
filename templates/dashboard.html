@@ -6,6 +6,7 @@
     <title>Title</title>
     <link rel="stylesheet" href="{% static 'css/styles.css' %}">
     <script src = "{% static 'javascript/index.js' %}" defer></script>
+    <script src="https://cdn.jsdelivr.net/npm/js-cookie@3.0.5/dist/js.cookie.min.js"></script>
 </head>
 <body>
 <h1>ENAS Book Inventory Dashboard</h1>
@@ -18,7 +19,7 @@
      <input type="submit" value="Submit">
 </form>
 
-<div cL>
+<div >
  {% if books_data %}
         <form action="/table_actions" method="post" id="order_form">
          {% csrf_token %}
@@ -44,6 +45,7 @@
             <tr>
             <td>
                 <input type="checkbox" name="books_selection" value="{{ x.id }}">
+                <input type="hidden" name="book_id" value="{{ x.id }}">
             </td>
               <td class="data">{{ x.isbn }}</td>
               <td class="data">{{ x.book_name }}</td>
@@ -51,11 +53,11 @@
                  {{ x.quantity_needed }}
               </td>
               <td class="data">{{ x.year_group}}</td>
-              <td class="data">{{ x.order_status}}</td>
-              <td class="data">{{ x.date_requested}}</td>
+              <td>{{ x.order_status}}</td>
+              <td>{{ x.date_requested}}</td>
               <td class="button_actions">
                   <button type="submit" name="table_action" value="edit" class="edit">Edit</button>
-                   <button type="submit" name="table_action" value="save" class="save">Save</button>
+                   <button  class="save" data-book-id = {{x.id }}>Save</button>
                   <button type="submit" name="table_action" value="delete" class="delete">Delete</button>
                   <button type="submit" name="table_action" value="update_order_status" class="">Update Order Status</button>
               </td>
