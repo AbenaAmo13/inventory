@@ -5,7 +5,7 @@
     <meta charset="UTF-8">
     <title>Title</title>
     <link rel="stylesheet" href="{% static 'css/styles.css' %}">
-    <script src = "{% static 'javascript/index.js' %}"></script>
+    <script src = "{% static 'javascript/index.js' %}" defer></script>
 </head>
 <body>
 <h1>ENAS Book Inventory Dashboard</h1>
@@ -45,18 +45,19 @@
             <td>
                 <input type="checkbox" name="books_selection" value="{{ x.id }}">
             </td>
-              <td>{{ x.isbn }}</td>
-              <td>{{ x.book_name }}</td>
-              <td class="editable-column" id="editable_item_{{ x.id }}">
-                 <span>{{ x.quantity_needed }}</span>
+              <td class="data">{{ x.isbn }}</td>
+              <td class="data">{{ x.book_name }}</td>
+              <td class="data">
+                 {{ x.quantity_needed }}
               </td>
-              <td>{{ x.year_group}}</td>
-              <td>{{ x.order_status}}</td>
-              <td>{{ x.date_requested}}</td>
-              <td>
-                  <button type="submit" name="table_action" value="edit">Edit</button>
-                  <button type="submit" name="table_action" value="delete">Delete</button>
-                  <button type="submit" name="table_action" value="update_order_status">Update Order Status</button>
+              <td class="data">{{ x.year_group}}</td>
+              <td class="data">{{ x.order_status}}</td>
+              <td class="data">{{ x.date_requested}}</td>
+              <td class="button_actions">
+                  <button type="submit" name="table_action" value="edit" class="edit">Edit</button>
+                   <button type="submit" name="table_action" value="save" class="save">Save</button>
+                  <button type="submit" name="table_action" value="delete" class="delete">Delete</button>
+                  <button type="submit" name="table_action" value="update_order_status" class="">Update Order Status</button>
               </td>
             {% comment %} <td>
                   {% if x.order_status != 'ORDERED' %}

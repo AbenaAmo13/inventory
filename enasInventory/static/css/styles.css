@@ -3,5 +3,11 @@
   padding: 8px;
 }
 
+.save{
+  display: none;
+}
 
+.button_actions{
+  min-width: 500px;
+}
 
