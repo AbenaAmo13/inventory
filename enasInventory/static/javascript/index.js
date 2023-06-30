@@ -23,7 +23,7 @@
           let input_name = inputName[index]
           console.log(input_name)
         let content = dataCell.innerHTML;
-        dataCell.innerHTML = '<input type="text" value="' + content + '"  name="' + input_name + '"  />';
+        dataCell.innerHTML = '<input type="text" value="'+content+'"  name="' + input_name + '"  />';
       });
       this.style.display = 'none';
       row.querySelector('.save').style.display = 'inline-block';
@@ -40,6 +40,7 @@ saveButtons.forEach(function(saveButton) {
 
     let row = this.parentNode.parentNode;
     let dataCells = row.querySelectorAll('.data');
+    console.log(dataCells)
     // Send the data to the endpoint
     let formData = new FormData();
     let bookId = this.getAttribute('data-book-id');
@@ -56,13 +57,6 @@ saveButtons.forEach(function(saveButton) {
     });
     //To enable csrf token in a javascript post
     const csrftoken = Cookies.get('csrftoken');
-
-
-    /*updatedValues.forEach(value)*/
-
-    // Add other form data if needed
-    // formData.append('field_name', field_value);
-
     // Perform AJAX request or submit the form
     // For example, using fetch API
     fetch('/save_edit_made', {
@@ -70,9 +64,14 @@ saveButtons.forEach(function(saveButton) {
       body: formData,
       credentials: 'same-origin',
         headers:{'X-CSRFToken': csrftoken}
-
     })
     .then(response => {
+            dataCells.forEach(function(dataCell, index) {
+                let input_field = dataCell.querySelector('input');
+                let updated_value = input_field.value
+                dataCell.innerHTML = updated_value
+            })
+
       // Handle the response
     })
     .catch(error => {

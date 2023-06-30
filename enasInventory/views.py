@@ -70,13 +70,16 @@ def update_order_status(book_id):
 def save_edit_made(request):
     if request.method == 'POST':
         book_id = request.POST.get('book_id')
-        print(book_id)
+        # selected_book = Book.objects.get(id=book_id)
+        isbn = request.POST.get('isbn')
+        book_name = request.POST.get('book_name')
+        quantity_requested = request.POST.get('quantity_requested')
+        year_group = request.POST.get('year_group')
+        Book.objects.filter(id=book_id).update(book_name=book_name, isbn=isbn, quantity_needed=quantity_requested,
+                                               year_group=year_group)
+
     return redirect('dashboard')
 
-    # print('The book you are editting has an id of: ' + book_id)
-    # isbn = request.POST.get('isbn')
-    # print(isbn)
-    # book_name = request.POST.get('book_name')
 
 
 def table_actions(request):
