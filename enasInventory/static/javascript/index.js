@@ -34,7 +34,7 @@
           let input_name = inputName[index]
           console.log(input_name)
         let content = dataCell.innerHTML;
-        dataCell.innerHTML = '<input type="text" value="'+content+'"  name="' + input_name + '"  />';
+        dataCell.innerHTML = '<input type="text" value="'+content+'"  name="' + input_name + '" required  />';
       });
       this.style.display = 'none';
       row.querySelector('.save').style.display = 'inline-block';
@@ -155,9 +155,9 @@ saveButtons.forEach(function(saveButton) {
           let optionsHTML = fieldConfig.options
             .map(option => `<option value="${option}">${option}</option>`)
             .join('');
-          inputHTML = `<select name="${fieldConfig.fieldName}">${optionsHTML}</select>`;
+          inputHTML = `<select name="${fieldConfig.fieldName}" required>${optionsHTML}</select>`;
         } else {
-          inputHTML = `<input type="${fieldConfig.type}" name="${fieldConfig.fieldName}" value="${fieldConfig.defaultValue}" />`;
+          inputHTML = `<input type="${fieldConfig.type}" name="${fieldConfig.fieldName}" value="${fieldConfig.defaultValue}" required />`;
         }
         cell.innerHTML = inputHTML;
       });
@@ -168,7 +168,7 @@ saveButtons.forEach(function(saveButton) {
       // Attach event listener to the newly added save button
       let add_new_save = new_row.querySelector('.add_new_save');
       add_new_save.addEventListener('click', function(event) {
-        alert('Add button saved clicked');
+        //alert('Add button saved clicked');
         event.preventDefault(); // Prevent form submission
          // Send the data to the endpoint
         let formData = new FormData();
@@ -192,6 +192,7 @@ saveButtons.forEach(function(saveButton) {
         headers:{'X-CSRFToken': csrftoken}
     })
     .then(response => {
+        location.reload()
 
       // Handle the response
     })

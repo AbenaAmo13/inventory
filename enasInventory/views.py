@@ -38,6 +38,7 @@ def add_book_entry(request):
         new_book_entry = Book(book_name=book_name, isbn=isbn, quantity_needed=quantity_requested,
                               year_group=year_group, order_status=order_status, date_requested=date_added)
         new_book_entry.save()
+    # Redirect to the dashboard page using JavaScript
     return redirect('dashboard')
 
 
