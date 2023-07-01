@@ -2,7 +2,6 @@
  let editButtons = document.querySelectorAll('.edit');
   console.log(editButtons)
   let saveButtons = document.querySelectorAll('.save');
-
   let cancelButtons = document.querySelectorAll('.cancel');
   let inputName={
       0: 'isbn',
@@ -200,9 +199,57 @@ saveButtons.forEach(function(saveButton) {
       // Handle errors
     });
       });
-
-
 });
+
+
+     let updateOrderButtons = document.querySelectorAll('.update_order');
+     updateOrderButtons.forEach(function (button, index){
+         button.addEventListener('click', function (event){
+             let updated_order_status
+             event.preventDefault(); // Prevent form submission
+             let row = this.parentNode.parentNode;
+             let dataCell = row.querySelector('.order_status_data');
+             let cell_status = dataCell.innerHTML
+                 if (cell_status==="REQUESTED"){
+                      updated_order_status= "ORDERED"
+                 }else{
+                      updated_order_status= "RECEIVED"
+                 }
+              let book_id = row.querySelector('input[name="book_id"]')
+             // console.log("The book id value is: " + book_id.value)
+              let formData = new FormData()
+             formData.append('book_id', book_id.value);
+             formData.append('order_status', updated_order_status)
+             //To enable csrf token in a javascript post
+             const csrToken = Cookies.get('csrftoken');
+             fetch('/update_order_status', {
+              method: 'POST',
+              body: formData,
+              credentials: 'same-origin',
+                headers:{'X-CSRFToken': csrToken}
+            })
+            .then(response => {
+                location.reload()
+              // Handle the response
+            })
+            .catch(error => {
+              // Handle errors
+            });
+
+
+             console.log("UPDATED ORDER STATUS: " + updated_order_status)
+         })
+     })
+
+
+
+
+
+
+
+
+
+
 
  /*  //This is to save the newly added column to the backend
     let add_new_save = document.querySelectorAll('.add_new_save');

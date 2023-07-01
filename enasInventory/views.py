@@ -66,15 +66,24 @@ def add_books(request):
 
 
 # Update order status of one book
-def update_order_status(book_id):
-    selected_book = Book.objects.get(id=book_id)
-    current_order_status = selected_book.order_status
-    if current_order_status == "REQUESTED":
-        selected_book.order_status = "ORDERED"
-    if current_order_status == "ORDERED":
-        selected_book.order_status = "RECEIVED"
-    selected_book.save()
-    print("The selected book status is " + current_order_status)
+# def update_order_status(book_id):
+#     selected_book = Book.objects.get(id=book_id)
+#     current_order_status = selected_book.order_status
+#     if current_order_status == "REQUESTED":
+#         selected_book.order_status = "ORDERED"
+#     if current_order_status == "ORDERED":
+#         selected_book.order_status = "RECEIVED"
+#     selected_book.save()
+#     print("The selected book status is " + current_order_status)
+
+def update_order_status(request):
+    if request.method == "POST":
+        book_id = request.POST.get('book_id')
+        updated_order_status = request.POST.get('order_status')
+        selected_book = Book.objects.get(id=book_id)
+        selected_book.order_status = updated_order_status
+        selected_book.save()
+        return redirect('dashboard')
 
 
 def save_edit_made(request):
@@ -96,15 +105,18 @@ def table_actions(request):
         print(request.POST)
         book_selection_id = request.POST.get('books_selection')
         action = request.POST.get('table_action', None)
-        if action == "update_order_status":
-            print("The id is: " + book_selection_id)
-            update_order_status(book_selection_id)
+        # if action == "update_order_status":
+        #     print("The id is: " + book_selection_id)
+        #     update_order_status(book_selection_id)
         if action == "update_all_statuses":
             book_selection_ids = request.POST.getlist('books_selection')
             print("The ids are: " + str(book_selection_ids))
             for book_id in book_selection_ids:
                 print(book_id)
                 update_order_status(book_id)
+        if action == "delete":
+            print(request.POST)
+            # book_selection = request.POST.get()
 
     return redirect('dashboard')
 
