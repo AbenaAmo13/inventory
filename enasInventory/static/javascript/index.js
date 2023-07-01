@@ -203,7 +203,7 @@ saveButtons.forEach(function(saveButton) {
 
 
      let updateOrderButtons = document.querySelectorAll('.update_order');
-     updateOrderButtons.forEach(function (button, index){
+     updateOrderButtons.forEach(function (button){
          button.addEventListener('click', function (event){
              let updated_order_status
              event.preventDefault(); // Prevent form submission
@@ -240,6 +240,39 @@ saveButtons.forEach(function(saveButton) {
              console.log("UPDATED ORDER STATUS: " + updated_order_status)
          })
      })
+
+
+    // Delete function to remove an item in the table in the dashboard.html
+    let deleteButton = document.querySelectorAll('.delete')
+    deleteButton.forEach(function (button){
+        button.addEventListener('click', function(event){
+            event.preventDefault()
+            let row = this.parentNode.parentNode;
+            let selected_book = row.querySelector('input[name="book_id"]')
+            console.log("SELECTED BOOK ID: " + selected_book.value)
+            let formData = new FormData()
+            formData.append('book_id', selected_book.value)
+             //To enable csrf token in a javascript post
+             const csrToken = Cookies.get('csrftoken');
+             fetch('/delete_book_item', {
+              method: 'POST',
+              body: formData,
+              credentials: 'same-origin',
+                headers:{'X-CSRFToken': csrToken}
+            })
+            .then(response => {
+                location.reload()
+              // Handle the response
+            })
+            .catch(error => {
+              // Handle errors
+            });
+        })
+
+
+
+
+    })
 
 
 

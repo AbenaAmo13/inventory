@@ -65,17 +65,6 @@ def add_books(request):
     return HttpResponse(status=200)
 
 
-# Update order status of one book
-# def update_order_status(book_id):
-#     selected_book = Book.objects.get(id=book_id)
-#     current_order_status = selected_book.order_status
-#     if current_order_status == "REQUESTED":
-#         selected_book.order_status = "ORDERED"
-#     if current_order_status == "ORDERED":
-#         selected_book.order_status = "RECEIVED"
-#     selected_book.save()
-#     print("The selected book status is " + current_order_status)
-
 def update_order_status(request):
     if request.method == "POST":
         book_id = request.POST.get('book_id')
@@ -100,6 +89,14 @@ def save_edit_made(request):
     return redirect('dashboard')
 
 
+def delete_book_item(request):
+    if request.method == 'POST':
+        selected_book_id = request.POST.get('book_id')
+        selected_book = Book.objects.get(id=selected_book_id)
+        selected_book.delete()
+    return redirect('dashboard')
+
+
 def table_actions(request):
     if request.method == 'POST':
         print(request.POST)
@@ -119,7 +116,6 @@ def table_actions(request):
             # book_selection = request.POST.get()
 
     return redirect('dashboard')
-
 
 # def table_actions(request):
 #     if request.method == 'POST':
@@ -151,7 +147,4 @@ def table_actions(request):
 #     return redirect('/dashboard')
 
 
-def edit_table(request):
-    return
-
-    # return render(request, 'dashboard.html', {'books_data': context})
+# return render(request, 'dashboard.html', {'books_data': context})
