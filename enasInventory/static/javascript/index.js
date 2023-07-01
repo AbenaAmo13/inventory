@@ -9,6 +9,8 @@
       1: 'book_name',
       2: 'quantity_requested',
       3: 'year_group',
+      4: 'order_status',
+      5: 'date_requested'
   }
   // Add click event listeners to edit buttons
   editButtons.forEach(function(editButton) {
@@ -72,6 +74,8 @@ saveButtons.forEach(function(saveButton) {
                 let updated_value = input_field.value
                 dataCell.innerHTML = updated_value
             })
+         this.style.display = 'none';
+        row.querySelector('.edit').style.display = 'inline-block';
 
       // Handle the response
     })
@@ -96,15 +100,20 @@ saveButtons.forEach(function(saveButton) {
 
       let new_row = table.insertRow(table.rows.length);
       let selection_cell=  new_row.insertCell()
-       selection_cell.innerHTML= '<input type="checkbox" name="books_selection" value="'+current_row_id+'">'
+       // Create the HTML content with multiple input elements
+       const selectionHtmlContent = '<input type="checkbox" name="books_selection" value="' + current_row_id + '">' +
+                    '<input type="hidden" name="book_id" value="'+current_row_id+'">';
+        // Set the HTML content of the selection_cell
+        selection_cell.innerHTML = selectionHtmlContent;
 
-      /*// Insert cells into the new row
-       let cell_key ={
 
-       }
-       for(let i =0; i < 7; i ++){
-           let cell+ i = new_row.insertCell()
-       }*/
+        let cells = {};
+        for (let i = 0; i < 6; i++) {
+            let input_name = inputName[i]
+          let cellName = `cell${i + 1}`; // Dynamic cell name using template literal
+          cells[cellName] = new_row.insertCell(); // Store the cell reference with dynamic name
+            cells[cellName].innerHTML = '<input type="text"   name="' + input_name + '"  />'
+        }
 
 
 });
