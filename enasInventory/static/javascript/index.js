@@ -12,6 +12,14 @@
       4: 'order_status',
       5: 'date_requested'
   }
+  let inputType={
+      0:'text',
+      1: 'text',
+      2:'number',
+      3: 'text',
+      4: 'select',
+      5: 'date',
+  }
   // Add click event listeners to edit buttons
   editButtons.forEach(function(editButton) {
     editButton.addEventListener('click', function(event) {
@@ -106,93 +114,95 @@ saveButtons.forEach(function(saveButton) {
         // Set the HTML content of the selection_cell
         selection_cell.innerHTML = selectionHtmlContent;
 
+         const fieldConfigs = [
+    {
+      fieldName: 'isbn',
+      type: 'text',
+      defaultValue: '',
+    },
+    {
+      fieldName: 'book_name',
+      type: 'text',
+      defaultValue: '',
+    },
+    {
+      fieldName: 'quantity_requested',
+      type: 'text',
+      defaultValue: '',
+    },
+    {
+      fieldName: 'year_group',
+      type: 'text',
+      defaultValue: '',
+    },
+    {
+      fieldName: 'order_status',
+      type: 'select',
+      options: ['REQUESTED', 'RECEIVED', 'ORDERED'],
+    },
+    {
+      fieldName: 'date_added',
+      type: 'date',
+      defaultValue: new Date().toISOString().slice(0, 10),
+    },
+  ];
 
-        let cells = {};
-        for (let i = 0; i < 6; i++) {
-            let input_name = inputName[i]
-          let cellName = `cell${i + 1}`; // Dynamic cell name using template literal
-          cells[cellName] = new_row.insertCell(); // Store the cell reference with dynamic name
-            cells[cellName].innerHTML = '<input type="text"   name="' + input_name + '"  />'
+
+      fieldConfigs.forEach(function(fieldConfig) {
+        let cell = new_row.insertCell();
+        let inputHTML = '';
+        if (fieldConfig.type === 'select') {
+          let optionsHTML = fieldConfig.options
+            .map(option => `<option value="${option}">${option}</option>`)
+            .join('');
+          inputHTML = `<select name="${fieldConfig.fieldName}">${optionsHTML}</select>`;
+        } else {
+          inputHTML = `<input type="${fieldConfig.type}" name="${fieldConfig.fieldName}" value="${fieldConfig.defaultValue}" />`;
         }
+        cell.innerHTML = inputHTML;
+      });
+
+        let button_action_cell = new_row.insertCell()
+        const button_save = '<button class="add_new_save">Save</button>'
+        button_action_cell.innerHTML = button_save
+       // Attach event listener to the newly added save button
+      let add_new_save = new_row.querySelector('.add_new_save');
+      add_new_save.addEventListener('click', function(event) {
+        alert('Add button saved clicked');
+        event.preventDefault(); // Prevent form submission
+         // Send the data to the endpoint
+        let formData = new FormData();
+
+        let row = this.parentNode.parentNode;
+        let inputCells = row.querySelectorAll('input[type="text"]')
+        inputCells.forEach(function(input, index){
+            console.log("The field names are" + input.name)
+            console.log('The field values are: ' + input.value)
+            //formData.append(,input.value)
+            //console.log(input.value)
+        })
+      });
 
 
 });
 
+ /*  //This is to save the newly added column to the backend
+    let add_new_save = document.querySelectorAll('.add_new_save');
+    add_new_save.forEach(function(addButton) {
+        addButton.addEventListener('click', function(event) {
+            alert('Add button saved clicked')
+            event.preventDefault(); // Prevent form submission
+            let row = this.parentNode.parentNode;
+            console.log("Add button row: " + row)
+
+        })
+
+    })*/
 
 
 
-
-
-
-
-
-
-
-
-    /*// Add click event listeners to save buttons
-  saveButtons.forEach(function(saveButton) {
-    saveButton.addEventListener('click', function(event) {
-        console.log('save button clicked')
-      event.preventDefault(); // Prevent form submission
-      let row = this.parentNode.parentNode;
-      let dataCells = row.querySelectorAll('.data');
-
-      // Update data cells with input values
-      dataCells.forEach(function(dataCell) {
-        let input = dataCell.querySelector('input');
-        dataCell.innerHTML = input.value;
-      });
-
-      this.style.display = 'none';
-      /!*row.querySelector('.cancel').style.display = 'none';*!/
-      row.querySelector('.edit').style.display = 'inline-block';
-    });
-  });
-*/
 
 /*
-  let editButtons = document.querySelectorAll('.edit');
-  console.log(editButtons)
-  let saveButtons = document.querySelectorAll('.save');
-  let cancelButtons = document.querySelectorAll('.cancel');
-
-  // Add click event listeners to edit buttons
-  editButtons.forEach(function(editButton) {
-    editButton.addEventListener('click', function() {
-      let row = this.parentNode.parentNode;
-      console.log(row)
-      let dataCells = row.querySelectorAll('.data');
-
-      // Convert data cells to input fields
-      dataCells.forEach(function(dataCell) {
-        var content = dataCell.innerHTML;
-        dataCell.innerHTML = '<input type="text" value="' + content + '" />';
-      });
-
-      this.style.display = 'none';
-      row.querySelector('.save').style.display = 'inline-block';
-      row.querySelector('.cancel').style.display = 'inline-block';
-    });
-  });
-
-  // Add click event listeners to save buttons
-  saveButtons.forEach(function(saveButton) {
-    saveButton.addEventListener('click', function() {
-      var row = this.parentNode.parentNode;
-      var dataCells = row.querySelectorAll('.data');
-
-      // Update data cells with input values
-      dataCells.forEach(function(dataCell) {
-        var input = dataCell.querySelector('input');
-        dataCell.innerHTML = input.value;
-      });
-
-      this.style.display = 'none';
-      row.querySelector('.cancel').style.display = 'none';
-      row.querySelector('.edit').style.display = 'inline-block';
-    });
-  });
-
   // Add click event listeners to cancel buttons
   cancelButtons.forEach(function(cancelButton) {
     cancelButton.addEventListener('click', function() {
