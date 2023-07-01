@@ -26,8 +26,8 @@ urlpatterns = [
     path('', views.index, name='index'),
     path('login',  views.login_post),
     path('dashboard', views.dashboard, name='dashboard'),
-    path('dashboard_reload', views.dashboard_reload, name='dashboard_reload'),
     path('add_books', views.add_books),
+    path('add_book_entry', views.add_book_entry),
     path('table_actions', views.table_actions),
     path('save_edit_made', views.save_edit_made),
     path('edit_table', views.edit_table)

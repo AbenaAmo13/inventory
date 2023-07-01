@@ -61,14 +61,6 @@
                   <button type="submit" name="table_action" value="delete" class="delete">Delete</button>
                   <button type="submit" name="table_action" value="update_order_status" class="">Update Order Status</button>
               </td>
-            {% comment %} <td>
-                  {% if x.order_status != 'ORDERED' %}
-                        <input type="checkbox" name="orders_to_order" value="{{ x.id }}"> Mark Ordered<br>
-                        {% endif %}
-                        {% if x.order_status == 'ORDERED' and x.order_status != 'RECEIVED' %}
-                        <input type="checkbox" name="orders_to_receive" value="{{ x.id }}"> Mark Received<br>
-                        {% endif %}
-             </td>{% endcomment %}
             </tr>
           {% endfor %}
     </table>

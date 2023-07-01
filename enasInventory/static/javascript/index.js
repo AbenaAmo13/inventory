@@ -162,25 +162,42 @@ saveButtons.forEach(function(saveButton) {
         cell.innerHTML = inputHTML;
       });
 
-        let button_action_cell = new_row.insertCell()
-        const button_save = '<button class="add_new_save">Save</button>'
-        button_action_cell.innerHTML = button_save
-       // Attach event listener to the newly added save button
+      let button_action_cell = new_row.insertCell()
+      const button_save = '<button class="add_new_save">Save</button>'
+      button_action_cell.innerHTML = button_save
+      // Attach event listener to the newly added save button
       let add_new_save = new_row.querySelector('.add_new_save');
       add_new_save.addEventListener('click', function(event) {
         alert('Add button saved clicked');
         event.preventDefault(); // Prevent form submission
          // Send the data to the endpoint
         let formData = new FormData();
-
         let row = this.parentNode.parentNode;
-        let inputCells = row.querySelectorAll('input[type="text"]')
+        let inputCells = row.querySelectorAll('input, select')
         inputCells.forEach(function(input, index){
-            console.log("The field names are" + input.name)
-            console.log('The field values are: ' + input.value)
+            /*console.log("The field names are" + input.name)
+            console.log('The field values are: ' + input.value)*/
+            formData.append(input.name, input.value)
             //formData.append(,input.value)
             //console.log(input.value)
         })
+
+          //To enable csrf token in a javascript post
+     const csrftoken = Cookies.get('csrftoken');
+           // For example, using fetch API
+    fetch('/add_book_entry', {
+      method: 'POST',
+      body: formData,
+      credentials: 'same-origin',
+        headers:{'X-CSRFToken': csrftoken}
+    })
+    .then(response => {
+
+      // Handle the response
+    })
+    .catch(error => {
+      // Handle errors
+    });
       });
 
 

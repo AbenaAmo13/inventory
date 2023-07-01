@@ -27,9 +27,18 @@ def dashboard(request):
     return render(request, 'dashboard.html', {'books_data': books, 'edit_mode': False})
 
 
-def dashboard_reload(request):
-    books = Book.objects.all().order_by('-date_requested').values()
-    return render(request, 'dashboard_reload.html', {'books_data': books, 'edit_mode': False})
+def add_book_entry(request):
+    if request.method == 'POST':
+        isbn = request.POST.get('isbn')
+        book_name = request.POST.get('book_name')
+        quantity_requested = request.POST.get('quantity_requested')
+        year_group = request.POST.get('year_group')
+        order_status = request.POST.get('order_status')
+        date_added = request.POST.get('date_added')
+        new_book_entry = Book(book_name=book_name, isbn=isbn, quantity_needed=quantity_requested,
+                              year_group=year_group, order_status=order_status, date_requested=date_added)
+        new_book_entry.save()
+    return redirect('dashboard')
 
 
 def add_books(request):
