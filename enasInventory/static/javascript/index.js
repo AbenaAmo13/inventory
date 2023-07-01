@@ -2,6 +2,7 @@
  let editButtons = document.querySelectorAll('.edit');
   console.log(editButtons)
   let saveButtons = document.querySelectorAll('.save');
+
   let cancelButtons = document.querySelectorAll('.cancel');
   let inputName={
       0: 'isbn',
@@ -79,6 +80,35 @@ saveButtons.forEach(function(saveButton) {
     });
   });
 });
+
+//Adding a new table entry:
+   const add_row_btn = document.getElementById('add_new_entry_button');
+   add_row_btn.addEventListener('click', function(event) {
+       event.preventDefault(); // Prevent form submission
+      const table = document.getElementById('books_inventory_table');
+      let previous_row_index = (table.rows.length)-2
+      let previous_row_id_value = table.rows[previous_row_index].cells[0]
+       console.log(previous_row_id_value)
+       let last_book_id = previous_row_id_value.querySelector('input[name="book_id"]')
+       let current_row_id = parseInt(last_book_id.value) + 1
+       console.log('The last book id is: '+ last_book_id.value)
+        console.log('The current book id is: '+current_row_id)
+
+      let new_row = table.insertRow(table.rows.length);
+      let selection_cell=  new_row.insertCell()
+       selection_cell.innerHTML= '<input type="checkbox" name="books_selection" value="'+current_row_id+'">'
+
+      /*// Insert cells into the new row
+       let cell_key ={
+
+       }
+       for(let i =0; i < 7; i ++){
+           let cell+ i = new_row.insertCell()
+       }*/
+
+
+});
+
 
 
 

@@ -81,7 +81,6 @@ def save_edit_made(request):
     return redirect('dashboard')
 
 
-
 def table_actions(request):
     if request.method == 'POST':
         print(request.POST)
