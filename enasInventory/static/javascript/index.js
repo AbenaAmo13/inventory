@@ -142,8 +142,8 @@ saveButtons.forEach(function(saveButton) {
     },
     {
       fieldName: 'date_added',
-      type: 'date',
-      defaultValue: new Date().toISOString().slice(0, 10),
+      type: 'datetime-local',
+      defaultValue: new Date().toISOString().slice(0, 16),
     },
   ];
 
