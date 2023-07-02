@@ -8,3 +8,4 @@ class Book(models.Model):
     date_requested = models.DateTimeField()
     order_status = models.CharField(max_length=255)
     quantity_needed = models.IntegerField()
+    quantity_received = models.IntegerField()
