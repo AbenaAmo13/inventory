@@ -32,6 +32,7 @@
         <th>ISBN</th>
         <th>Book Name</th>
         <th>Quantity Requested</th>
+          <th>Quantity Received</th>
         <th>Year Group</th>
         <th>Order Status</th>
         <th>Date Added</th>
@@ -52,9 +53,11 @@
               <td class="data">
                  {{ x.quantity_needed }}
               </td>
+                <td class="data">{{ x.quantity_received }}</td>
               <td class="data">{{ x.year_group}}</td>
               <td class="order_status_data">{{ x.order_status}}</td>
               <td>{{ x.date_requested}}</td>
+
               <td class="button_actions">
                   <button type="submit" name="table_action" value="edit" class="edit">Edit</button>
                   <button class="save" data-book-id = {{x.id }}>Save</button>
