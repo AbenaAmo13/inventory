@@ -209,6 +209,7 @@ saveButtons.forEach(function(saveButton) {
              event.preventDefault(); // Prevent form submission
              let row = this.parentNode.parentNode;
              let dataCell = row.querySelector('.order_status_data');
+             let received = row.querySelector('received_header')
              let cell_status = dataCell.innerHTML
                  if (cell_status==="REQUESTED"){
                       updated_order_status= "ORDERED"
