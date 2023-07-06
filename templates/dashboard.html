@@ -15,7 +15,7 @@
 <form method="post" action="/add_books" enctype="multipart/form-data" >
     {% csrf_token %}
     <label for="books_inventory">Inventory:</label><br>
-      <input type="file" name="books_inventory" id="books_inventory">
+      <input type="file" name="books_inventory" id="books_inventory" required>
      <input type="submit" value="Submit">
 </form>
 
@@ -32,7 +32,7 @@
         <th>ISBN</th>
         <th>Book Name</th>
         <th>Quantity Requested</th>
-          <th class="received_header">Quantity Received</th>
+        <th>Quantity Received</th>
         <th>Year Group</th>
         <th>Order Status</th>
         <th>Date Added</th>
@@ -50,7 +50,7 @@
             </td>
               <td class="data">{{ x.isbn }}</td>
               <td class="data">{{ x.book_name }}</td>
-              <td class="data">
+              <td class="data quantity_needed">
                  {{ x.quantity_needed }}
               </td>
                 <td class="data">{{ x.quantity_received }}</td>

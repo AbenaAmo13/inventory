@@ -4,7 +4,7 @@ import pandas
 import requests
 import pandas as pd
 from datetime import datetime
-from django.http import HttpResponse
+from django.http import HttpResponse, HttpResponseRedirect
 from django.shortcuts import render, redirect
 from enasInventory.models import Book
 
@@ -43,6 +43,7 @@ def add_book_entry(request):
 
 
 def add_books(request):
+    print(request.FILES)
     file = request.FILES['books_inventory']
     excel_file = pd.ExcelFile(file)
     sheet_names = excel_file.sheet_names
@@ -56,38 +57,40 @@ def add_books(request):
                 isbn=isbn,
                 book_name=book['book_name'],
                 quantity_needed=int(book['quantity_needed']),
+                quantity_received=0,
                 year_group=sheet,
                 date_requested=datetime.utcnow(),
                 order_status='REQUESTED'
             )
             saved_book.save()
     print(read_excel_file)
-    return HttpResponse(status=200)
+    return redirect('dashboard')
 
 
-def update_order_status(book_id):
+def update_all_order_status(book_id):
     selected_book = Book.objects.get(id=book_id)
     current_order_status = selected_book.order_status
     if current_order_status == 'ORDERED':
         selected_book.order_status = "RECEIVED"
         quantity_needed = selected_book.quantity_needed
         selected_book.quantity_received = quantity_needed
-    else:
+    elif current_order_status == 'REQUESTED':
         selected_book.order_status = "ORDERED"
     selected_book.save()
     return redirect('dashboard')
-    #        selected_book.quantity_received = quantity_needed
 
-    # if request.method == "POST":
-    #     book_id = request.POST.get('book_id')
-    #     updated_order_status = request.POST.get('order_status')
-    #     selected_book = Book.objects.get(id=book_id)
-    #     selected_book.order_status = updated_order_status
-    #     if updated_order_status == 'RECEIVED':
-    #         quantity_needed = selected_book.quantity_needed
-    #         selected_book.quantity_received = quantity_needed
-    #     selected_book.save()
-    #     return redirect('dashboard')
+
+def update_order_status(request):
+    if request.method == "POST":
+        book_id = request.POST.get('book_id')
+        updated_order_status = request.POST.get('order_status')
+        selected_book = Book.objects.get(id=book_id)
+        selected_book.order_status = updated_order_status
+        if updated_order_status == 'RECEIVED':
+            quantity_needed = selected_book.quantity_needed
+            selected_book.quantity_received = quantity_needed
+        selected_book.save()
+        return redirect('dashboard')
 
 
 def save_edit_made(request):
@@ -121,7 +124,7 @@ def table_actions(request):
             book_selection_ids = request.POST.getlist('books_selection')
             # print("The ids are: " + str(book_selection_ids))
             for book_id in book_selection_ids:
-                update_order_status(book_id)
+                update_all_order_status(book_id)
         if action == "delete":
             print(request.POST)
             # book_selection = request.POST.get()

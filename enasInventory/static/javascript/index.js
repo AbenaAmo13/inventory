@@ -209,7 +209,6 @@ saveButtons.forEach(function(saveButton) {
              event.preventDefault(); // Prevent form submission
              let row = this.parentNode.parentNode;
              let dataCell = row.querySelector('.order_status_data');
-             let received = row.querySelector('received_header')
              let cell_status = dataCell.innerHTML
                  if (cell_status==="REQUESTED"){
                       updated_order_status= "ORDERED"
@@ -217,6 +216,7 @@ saveButtons.forEach(function(saveButton) {
                       updated_order_status= "RECEIVED"
                  }
               let book_id = row.querySelector('input[name="book_id"]')
+             let quantity_received = row.querySelector('.quantity_needed')
              // console.log("The book id value is: " + book_id.value)
               let formData = new FormData()
              formData.append('book_id', book_id.value);
@@ -230,8 +230,8 @@ saveButtons.forEach(function(saveButton) {
                 headers:{'X-CSRFToken': csrToken}
             })
             .then(response => {
-                location.reload()
-              // Handle the response
+                 location.reload()
+
             })
             .catch(error => {
               // Handle errors
