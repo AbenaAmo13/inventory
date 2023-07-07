@@ -31,7 +31,7 @@
         </p>
     <form method="post" action="/add_students_bulk" enctype="multipart/form-data" >
         {% csrf_token %}
-        <label for="books_inventory">Import Student from Excel Sheet:</label><br>
+        <label for="books_inventory">Import Student List from Excel Sheet:</label><br>
           <input type="file" name="student_inventory" id="student_inventory" required>
        <button type="submit" >Bulk Add Students</button>
     </form>
