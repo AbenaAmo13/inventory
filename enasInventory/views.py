@@ -140,8 +140,9 @@ def save_edit_made(request):
         isbn = request.POST.get('isbn')
         book_name = request.POST.get('book_name')
         quantity_requested = request.POST.get('quantity_requested')
+        quantity_received = request.POST.get('quantity_received')
         year_group = request.POST.get('year_group')
-        Book.objects.filter(id=book_id).update(book_name=book_name, isbn=isbn, quantity_needed=quantity_requested,
+        Book.objects.filter(id=book_id).update(book_name=book_name, isbn=isbn, quantity_needed=quantity_requested,quantity_received=quantity_received,
                                                year_group=year_group)
 
     return redirect('dashboard')

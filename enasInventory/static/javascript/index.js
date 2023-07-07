@@ -7,17 +7,19 @@
       0: 'isbn',
       1: 'book_name',
       2: 'quantity_requested',
-      3: 'year_group',
-      4: 'order_status',
-      5: 'date_requested'
+      3: 'quantity_received',
+      4: 'year_group',
+      5: 'order_status',
+      6: 'date_requested'
   }
   let inputType={
       0:'text',
       1: 'text',
       2:'number',
-      3: 'text',
-      4: 'select',
-      5: 'date',
+      3:'number',
+      4: 'text',
+      5: 'select',
+      6: 'date',
   }
   // Add click event listeners to edit buttons
   editButtons.forEach(function(editButton) {
