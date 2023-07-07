@@ -1,0 +1,70 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+        <link rel="stylesheet" href="{% static 'css/styles.css' %}">
+    <script src = "{% static 'javascript/index.js' %}" defer></script>
+    <script src="https://cdn.jsdelivr.net/npm/js-cookie@3.0.5/dist/js.cookie.min.js"></script>
+</head>
+<body>
+{% include "header.html" %}
+
+<h3>Student Book Management</h3>
+<p>Choose class to see the students and information about their school books</p>
+<form method="post" action="/add_students_bulk" enctype="multipart/form-data" >
+        {% csrf_token %}
+        <label for="books_inventory">Import Student from Excel Sheet:</label><br>
+          <input type="file" name="student_inventory" id="student_inventory" required>
+       <button type="submit" >Bulk Add Students</button>
+</form>
+{% comment %}<form>
+        {% csrf_token %}
+    <label for="year_group">Select a class:</label>
+    <select name="year_group" id="year_group">
+      <option value="Reception">Reception</option>
+      <option value="Nursery">Nursery</option>
+      <option value="Year 1">Year 1</option>
+      <option value="Year 2">Year 2</option>
+        <option value="Year 3">Year 3</option>
+    </select>
+    <button type="submit">Show Students</button>
+</form>{% endcomment %}
+
+ {% if students_data %}
+     <table>
+            <thead>
+                <tr>
+                    <th>Student Name</th>
+                    <th>Paid Status</th>
+                     <th>Year Group</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for student in students_data %}
+                <tr>
+                    <td>{{ student.name }}</td>
+                    <td>{{ student.paid_status }}</td>
+                    <td>{{ student.year_group }}</td>
+
+                </tr>
+                {% endfor %}
+            </tbody>
+    </table>
+  {% else %}
+        <p>No student data available.</p>
+        <p>To bulk add the students, you can download and fill this Excel template down below and upload it by clicking the Choose file button: </p>
+        <a href="{% static 'excel_templates/template.xlsx' %}">Download Template</a>
+
+ {% endif %}
+
+
+
+
+
+
+
+
+</body>
+</html>

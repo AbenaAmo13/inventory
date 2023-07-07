@@ -1,12 +1,17 @@
 import http
+from io import BytesIO
 
 import pandas
 import requests
 import pandas as pd
 from datetime import datetime
-from django.http import HttpResponse, HttpResponseRedirect
 from django.shortcuts import render, redirect
 from enasInventory.models import Book
+from enasInventory.models import Student
+from django.http import HttpResponse
+from django.http import FileResponse
+from django.templatetags.static import static
+import os
 
 
 def index(request):
@@ -27,6 +32,13 @@ def dashboard(request):
     return render(request, 'dashboard.html', {'books_data': books, 'edit_mode': False})
 
 
+def student_books(request):
+    # Get all the books data.
+    students = Student.objects.all().values()
+    print(students)
+    return render(request, 'students-book.html', {'students_data': students})
+
+
 def add_book_entry(request):
     if request.method == 'POST':
         isbn = request.POST.get('isbn')
@@ -43,28 +55,56 @@ def add_book_entry(request):
 
 
 def add_books(request):
-    if request.FILES['books_inventory']:
-        file = request.FILES['books_inventory']
-        if file.name.endswith('.xlsx') or file.name.endswith('.xls'):
-            excel_file = pd.ExcelFile(file)
-            sheet_names = excel_file.sheet_names
-            print(sheet_names)
-            for sheet in sheet_names:
-                read_excel_file = pandas.read_excel(file, sheet)
-                for _, book in read_excel_file.iterrows():
-                    if not isinstance(book['isbn'], int):
-                        isbn = ''.join([i for i in book['isbn'] if i.isalnum()])
-                    saved_book = Book(
-                        isbn=isbn,
-                        book_name=book['book_name'],
-                        quantity_needed=int(book['quantity_needed']),
-                        quantity_received=0,
-                        year_group=sheet,
-                        date_requested=datetime.utcnow(),
-                        order_status='REQUESTED'
-                    )
-                    saved_book.save()
+    try:
+        if request.FILES['books_inventory']:
+            file = request.FILES['books_inventory']
+            if file.name.endswith('.xlsx') or file.name.endswith('.xls'):
+                excel_file = pd.ExcelFile(file)
+                sheet_names = excel_file.sheet_names
+                print(sheet_names)
+                for sheet in sheet_names:
+                    read_excel_file = pandas.read_excel(file, sheet)
+                    for _, book in read_excel_file.iterrows():
+                        if not isinstance(book['isbn'], int):
+                            isbn = ''.join([i for i in book['isbn'] if i.isalnum()])
+                        saved_book = Book(
+                            isbn=isbn,
+                            book_name=book['book_name'],
+                            quantity_needed=int(book['quantity_needed']),
+                            quantity_received=0,
+                            year_group=sheet,
+                            date_requested=datetime.utcnow(),
+                            order_status='REQUESTED'
+                        )
+                        saved_book.save()
+            return redirect('dashboard')
+    except Exception as e:
+        print(str(e))
         return redirect('dashboard')
+
+
+def add_students_bulk(request):
+    try:
+        if request.FILES['student_inventory']:
+            file = request.FILES['student_inventory']
+            if file.name.endswith('.xlsx') or file.name.endswith('.xls'):
+                excel_file = pd.ExcelFile(file)
+                sheet_names = excel_file.sheet_names
+                print(sheet_names)
+                for sheet in sheet_names:
+                    read_excel_file = pandas.read_excel(file, sheet)
+                    for _, book in read_excel_file.iterrows():
+                        saved_students = Student(
+                            name=book['student_name'],
+                            year_group=sheet,
+                            paid_status=False
+                        )
+                        saved_students.save()
+            return redirect('students_book')
+    except Exception as e:
+        print(str(e))
+        return redirect('students_book')
+    return redirect('students_book')
 
 
 def update_all_order_status(book_id):
@@ -130,6 +170,20 @@ def table_actions(request):
             # book_selection = request.POST.get()
 
     return redirect('dashboard')
+
+
+def download_template(request):
+    # Get the file path of the template Excel file using the static() helper function
+    template_file_path = os.path.join(static('excel_templates'), 'template.xlsx')
+
+    # Open the file using FileResponse and set the appropriate content type
+    response = FileResponse(open(template_file_path, 'rb'), content_type='application/vnd.openxmlformats-officedocument.spreadsheetml.sheet')
+
+    # Set the Content-Disposition header to force download with the original filename
+    response['Content-Disposition'] = 'attachment; filename="template.xlsx"'
+
+    return response
+
 
 # def table_actions(request):
 #     if request.method == 'POST':

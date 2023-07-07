@@ -3,6 +3,7 @@
   padding: 8px;
 }
 
+
 .save{
   display: none;
 }
@@ -17,3 +18,28 @@
   align-items: center;
 
 }
+
+table {
+  width: 100%; /* Set the table width to 100% of its container */
+  border-collapse: collapse; /* Merge the table borders */
+  border: 1px solid #ccc; /* Add a border around the table */
+  margin-bottom: 20px; /* Add some spacing at the bottom of the table */
+}
+
+th, td {
+  padding: 8px; /* Add padding to table cells */
+  text-align: left; /* Align text to the left */
+}
+
+th {
+  background-color: #f2f2f2; /* Add a background color to table headers */
+}
+
+tr:nth-child(even) {
+  background-color: #f9f9f9; /* Add a background color to even rows */
+}
+
+tr:hover {
+  background-color: #e5e5e5; /* Add a background color to hovered rows */
+}
+
