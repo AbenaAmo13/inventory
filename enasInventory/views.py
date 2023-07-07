@@ -43,28 +43,28 @@ def add_book_entry(request):
 
 
 def add_books(request):
-    print(request.FILES)
-    file = request.FILES['books_inventory']
-    excel_file = pd.ExcelFile(file)
-    sheet_names = excel_file.sheet_names
-    print(sheet_names)
-    for sheet in sheet_names:
-        read_excel_file = pandas.read_excel(file, sheet)
-        for _, book in read_excel_file.iterrows():
-            if not isinstance(book['isbn'], int):
-                isbn = ''.join([i for i in book['isbn'] if i.isalnum()])
-            saved_book = Book(
-                isbn=isbn,
-                book_name=book['book_name'],
-                quantity_needed=int(book['quantity_needed']),
-                quantity_received=0,
-                year_group=sheet,
-                date_requested=datetime.utcnow(),
-                order_status='REQUESTED'
-            )
-            saved_book.save()
-    print(read_excel_file)
-    return redirect('dashboard')
+    if request.FILES['books_inventory']:
+        file = request.FILES['books_inventory']
+        if file.name.endswith('.xlsx') or file.name.endswith('.xls'):
+            excel_file = pd.ExcelFile(file)
+            sheet_names = excel_file.sheet_names
+            print(sheet_names)
+            for sheet in sheet_names:
+                read_excel_file = pandas.read_excel(file, sheet)
+                for _, book in read_excel_file.iterrows():
+                    if not isinstance(book['isbn'], int):
+                        isbn = ''.join([i for i in book['isbn'] if i.isalnum()])
+                    saved_book = Book(
+                        isbn=isbn,
+                        book_name=book['book_name'],
+                        quantity_needed=int(book['quantity_needed']),
+                        quantity_received=0,
+                        year_group=sheet,
+                        date_requested=datetime.utcnow(),
+                        order_status='REQUESTED'
+                    )
+                    saved_book.save()
+        return redirect('dashboard')
 
 
 def update_all_order_status(book_id):
