@@ -12,13 +12,8 @@
 {% include "header.html" %}
 
 <h3>Student Book Management</h3>
-<p>Choose class to see the students and information about their school books</p>
-<form method="post" action="/add_students_bulk" enctype="multipart/form-data" >
-        {% csrf_token %}
-        <label for="books_inventory">Import Student from Excel Sheet:</label><br>
-          <input type="file" name="student_inventory" id="student_inventory" required>
-       <button type="submit" >Bulk Add Students</button>
-</form>
+
+
 {% comment %}<form>
         {% csrf_token %}
     <label for="year_group">Select a class:</label>
@@ -31,6 +26,15 @@
     </select>
     <button type="submit">Show Students</button>
 </form>{% endcomment %}
+        <p>To bulk add the students, you can download and fill this Excel template by   <a href="{% static 'excel_templates/student_template.xlsx' %}">Downloading Student Template</a>
+        and uploading it in by clicking "Choose File" down below:
+        </p>
+    <form method="post" action="/add_students_bulk" enctype="multipart/form-data" >
+        {% csrf_token %}
+        <label for="books_inventory">Import Student from Excel Sheet:</label><br>
+          <input type="file" name="student_inventory" id="student_inventory" required>
+       <button type="submit" >Bulk Add Students</button>
+    </form>
 
  {% if students_data %}
      <table>
@@ -54,8 +58,7 @@
     </table>
   {% else %}
         <p>No student data available.</p>
-        <p>To bulk add the students, you can download and fill this Excel template down below and upload it by clicking the Choose file button: </p>
-        <a href="{% static 'excel_templates/template.xlsx' %}">Download Template</a>
+
 
  {% endif %}
 

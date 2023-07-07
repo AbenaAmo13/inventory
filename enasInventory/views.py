@@ -174,13 +174,12 @@ def table_actions(request):
 
 def download_template(request):
     # Get the file path of the template Excel file using the static() helper function
-    template_file_path = os.path.join(static('excel_templates'), 'template.xlsx')
+    template_file_path = os.path.join(static('excel_templates'), 'student_template.xlsx')
 
     # Open the file using FileResponse and set the appropriate content type
     response = FileResponse(open(template_file_path, 'rb'), content_type='application/vnd.openxmlformats-officedocument.spreadsheetml.sheet')
-
     # Set the Content-Disposition header to force download with the original filename
-    response['Content-Disposition'] = 'attachment; filename="template.xlsx"'
+    response['Content-Disposition'] = 'attachment; filename="student_template.xlsx"'
 
     return response
 
