@@ -54,7 +54,27 @@ saveBtn.forEach(function (button, index){
         }).then(r =>{
             location.reload()
             console.log(r)})
+    })
+})
 
+let updatePaidStatusBtn = document.querySelectorAll('.update_paid_status')
+updatePaidStatusBtn.forEach(function (btn){
+    btn.addEventListener('click', function (event){
+        event.preventDefault(); // Prevent form submission
+        let row = this.parentNode.parentNode
+        let bookId = this.getAttribute('data-book-id');
+        let formData = new FormData()
+        formData.append('book_id', bookId);
+          //To enable csrf token in a javascript post
+        const csrftoken = Cookies.get('csrftoken');
+        fetch('/update_paid_status', {
+            method: 'POST',
+            body: formData,
+            credentials: 'same-origin',
+            headers: {'X-CSRFToken': csrftoken}
+        }).then(r =>{
+            location.reload()
+            console.log(r)})
     })
 })
 

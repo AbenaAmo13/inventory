@@ -222,7 +222,6 @@ saveButtons.forEach(function(saveButton) {
                       updated_order_status= "RECEIVED"
                  }
               let book_id = row.querySelector('input[name="book_id"]')
-             let quantity_received = row.querySelector('.quantity_needed')
              // console.log("The book id value is: " + book_id.value)
               let formData = new FormData()
              formData.append('book_id', book_id.value);

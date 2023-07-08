@@ -32,6 +32,7 @@ urlpatterns = [
                   path('table_actions', views.table_actions),
                   path('save_edit_made', views.save_edit_made),
                   path('edit_student_row', views.edit_student_row),
+                  path('update_paid_status', views.update_paid_status),
                   path('update_order_status', views.update_order_status),
                   path('delete_book_item', views.delete_book_item),
                   path('students_book', views.student_books, name='students_book')

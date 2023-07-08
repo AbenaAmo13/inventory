@@ -158,6 +158,13 @@ def edit_student_row(request):
     return redirect('students_book')
 
 
+def update_paid_status(request):
+    if request.method == 'POST':
+        book_id = request.POST.get('book_id')
+        Student.objects.filter(id=book_id).update(paid_status=True)
+    return redirect('students_book')
+
+
 def delete_book_item(request):
     if request.method == 'POST':
         selected_book_id = request.POST.get('book_id')
