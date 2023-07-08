@@ -173,6 +173,14 @@ def delete_book_item(request):
     return redirect('dashboard')
 
 
+def delete_student_row(request):
+    if request.method == 'POST':
+        student_id = request.POST.get('book_id')
+        selected_student = Student.objects.get(id=student_id)
+        selected_student.delete()
+    return redirect('students_book')
+
+
 def table_actions(request):
     if request.method == 'POST':
         print(request.POST)

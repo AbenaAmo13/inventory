@@ -35,5 +35,6 @@ urlpatterns = [
                   path('update_paid_status', views.update_paid_status),
                   path('update_order_status', views.update_order_status),
                   path('delete_book_item', views.delete_book_item),
+                  path('delete_student_row', views.delete_student_row),
                   path('students_book', views.student_books, name='students_book')
               ] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
