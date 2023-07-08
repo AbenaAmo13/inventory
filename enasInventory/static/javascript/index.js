@@ -1,5 +1,6 @@
 
- let editButtons = document.querySelectorAll('.edit');
+
+let editButtons = document.querySelectorAll('.edit');
   console.log(editButtons)
   let saveButtons = document.querySelectorAll('.save');
   let cancelButtons = document.querySelectorAll('.cancel');
@@ -96,7 +97,8 @@ saveButtons.forEach(function(saveButton) {
 
 //Adding a new table entry:
    const add_row_btn = document.getElementById('add_new_entry_button');
-   add_row_btn.addEventListener('click', function(event) {
+    if(add_row_btn){
+         add_row_btn.addEventListener('click', function(event) {
        event.preventDefault(); // Prevent form submission
       const table = document.getElementById('books_inventory_table');
       let previous_row_index = (table.rows.length)-2
@@ -203,6 +205,8 @@ saveButtons.forEach(function(saveButton) {
       });
 });
 
+    }
+
 
      let updateOrderButtons = document.querySelectorAll('.update_order');
      updateOrderButtons.forEach(function (button){
@@ -271,10 +275,6 @@ saveButtons.forEach(function(saveButton) {
               // Handle errors
             });
         })
-
-
-
-
     })
 
 

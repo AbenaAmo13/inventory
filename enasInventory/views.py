@@ -142,10 +142,20 @@ def save_edit_made(request):
         quantity_requested = request.POST.get('quantity_requested')
         quantity_received = request.POST.get('quantity_received')
         year_group = request.POST.get('year_group')
-        Book.objects.filter(id=book_id).update(book_name=book_name, isbn=isbn, quantity_needed=quantity_requested,quantity_received=quantity_received,
+        Book.objects.filter(id=book_id).update(book_name=book_name, isbn=isbn, quantity_needed=quantity_requested,
+                                               quantity_received=quantity_received,
                                                year_group=year_group)
 
     return redirect('dashboard')
+
+
+def edit_student_row(request):
+    if request.method == 'POST':
+        book_id = request.POST.get('book_id')
+        student_name = request.POST.get('student_name')
+        year_group = request.POST.get('year_group')
+        Student.objects.filter(id=book_id).update(name=student_name, year_group=year_group)
+    return redirect('students_book')
 
 
 def delete_book_item(request):
@@ -178,12 +188,12 @@ def download_template(request):
     template_file_path = os.path.join(static('excel_templates'), 'student_template.xlsx')
 
     # Open the file using FileResponse and set the appropriate content type
-    response = FileResponse(open(template_file_path, 'rb'), content_type='application/vnd.openxmlformats-officedocument.spreadsheetml.sheet')
+    response = FileResponse(open(template_file_path, 'rb'),
+                            content_type='application/vnd.openxmlformats-officedocument.spreadsheetml.sheet')
     # Set the Content-Disposition header to force download with the original filename
     response['Content-Disposition'] = 'attachment; filename="student_template.xlsx"'
 
     return response
-
 
 # def table_actions(request):
 #     if request.method == 'POST':

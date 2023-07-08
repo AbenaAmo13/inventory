@@ -5,7 +5,7 @@
     <meta charset="UTF-8">
     <title>Title</title>
         <link rel="stylesheet" href="{% static 'css/styles.css' %}">
-    <script src = "{% static 'javascript/index.js' %}" defer></script>
+    <script src = "{% static 'javascript/student-index.js' %}" defer></script>
     <script src="https://cdn.jsdelivr.net/npm/js-cookie@3.0.5/dist/js.cookie.min.js"></script>
 </head>
 <body>
@@ -43,15 +43,20 @@
                     <th>Student Name</th>
                     <th>Paid Status</th>
                      <th>Year Group</th>
+                    <th>Actions</th>
+
                 </tr>
             </thead>
             <tbody>
                 {% for student in students_data %}
                 <tr>
-                    <td>{{ student.name }}</td>
+                    <td class="editable_data">{{ student.name }}</td>
                     <td>{{ student.paid_status }}</td>
-                    <td>{{ student.year_group }}</td>
-
+                    <td class="editable_data">{{ student.year_group }}</td>
+                    <td>
+                        <button class="student_edit">Edit</button>
+                        <button class="student_save" data-book-id = {{student.id }}>Save</button>
+                    </td>
                 </tr>
                 {% endfor %}
             </tbody>

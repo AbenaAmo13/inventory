@@ -6,7 +6,7 @@
 */
 
 
-.save{
+.save, .student_save{
   display: none;
 }
 
@@ -45,3 +45,34 @@ tr:hover {
   background-color: #e5e5e5; /* Add a background color to hovered rows */
 }
 
+#select_all_dashboard{
+  display: flex;
+  min-width: 100px;
+  align-items: center;
+}
+
+
+#books_inventory_table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+#books_inventory_table th,
+#books_inventory_table td {
+    padding: 10px;
+    text-align: left;
+    border-bottom: 1px solid #ddd;
+}
+
+#books_inventory_table th {
+    background-color: #f2f2f2;
+}
+
+#books_inventory_table td {
+    vertical-align: middle;
+    word-wrap: break-word;
+}
+
+#books_inventory_table td.button_actions button {
+    margin-right: 5px;
+}
