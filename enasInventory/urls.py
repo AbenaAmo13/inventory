@@ -33,6 +33,7 @@ urlpatterns = [
                   path('save_edit_made', views.save_edit_made),
                   path('edit_student_row', views.edit_student_row),
                   path('update_paid_status', views.update_paid_status),
+                  path('update_all_paid', views.update_all_paid),
                   path('update_order_status', views.update_order_status),
                   path('delete_book_item', views.delete_book_item),
                   path('delete_student_row', views.delete_student_row),

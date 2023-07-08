@@ -4,6 +4,7 @@ from io import BytesIO
 import pandas
 import requests
 import pandas as pd
+import json
 from datetime import datetime
 from django.shortcuts import render, redirect
 from enasInventory.models import Book
@@ -35,7 +36,7 @@ def dashboard(request):
 def student_books(request):
     # Get all the books data.
     students = Student.objects.all().values()
-    print(students)
+    # print(students)
     return render(request, 'students-book.html', {'students_data': students})
 
 
@@ -196,6 +197,15 @@ def table_actions(request):
             # book_selection = request.POST.get()
 
     return redirect('dashboard')
+
+
+def update_all_paid(request):
+    if request.method == 'POST':
+        data = json.loads(request.body)
+        student_ids = data['student_ids']
+        for ids in student_ids:
+            student_update = Student.objects.filter(id=ids).update(paid_status=True)
+    return redirect('students_book')
 
 
 def download_template(request):

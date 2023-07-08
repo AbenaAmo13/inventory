@@ -102,7 +102,37 @@ deleteBtn.forEach(function (btn){
 
 
 
+     function toggleAllCheckboxes(source) {
+        let checkboxes = document.querySelectorAll('input[type="checkbox"][name="students_check"]');
+        for (let i = 0; i < checkboxes.length; i++) {
+            checkboxes[i].checked = source.checked;
+        }
+    }
 
+    let updateAllBtn = document.querySelector('#update_all_students')
+    let update_ids = []
+    updateAllBtn.addEventListener('click', function (event){
+        let student_id= document.querySelectorAll('input[type="checkbox"][name="students_check"]')
+        student_id.forEach(function (button){
+            console.log(button)
+            if (button.checked){
+                console.log("Checked ids are" + button.value)
+                update_ids.push(button.value)
+            }
+            let data = {
+                student_ids : update_ids
+            }
+             //To enable csrf token in a javascript post
+            const csrftoken = Cookies.get('csrftoken');
+            fetch('/update_all_paid', {
+                method: "POST",
+                body: JSON.stringify(data),
+                credentials: 'same-origin',
+                headers: {'X-CSRFToken': csrftoken}
+
+            }).then(r=>{location.reload()})
+        })
+     })
 
 
 

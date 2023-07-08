@@ -40,16 +40,27 @@
      <table>
             <thead>
                 <tr>
+                    <th>
+                        <label for="select_all">Select All:</label>
+                        <input type="checkbox" id="select_all" onclick="toggleAllCheckboxes(this)" >
+                    </th>
                     <th>Student Name</th>
                     <th>Paid Status</th>
                      <th>Year Group</th>
-                    <th>Actions</th>
+                    <th>
+                        Actions
+                        <button id="update_all_students">Update All</button>
+                    </th>
 
                 </tr>
             </thead>
             <tbody>
                 {% for student in students_data %}
                 <tr>
+                     <td>
+                        <input type="checkbox" name="students_check" value="{{ student.id }}" required>
+                        <input type="hidden" name="student_id" value="{{ student.id }}">
+                     </td>
                     <td class="editable_data">{{ student.name }}</td>
                     <td class="paid_status">{{ student.paid_status }}</td>
                     <td class="editable_data">{{ student.year_group }}</td>
