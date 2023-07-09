@@ -29,6 +29,7 @@ urlpatterns = [
                   path('add_books', views.add_books),
                   path('add_students_bulk', views.add_students_bulk),
                   path('add_book_entry', views.add_book_entry),
+                  path('add_student_entry', views.add_student_entry),
                   path('table_actions', views.table_actions),
                   path('save_edit_made', views.save_edit_made),
                   path('edit_student_row', views.edit_student_row),

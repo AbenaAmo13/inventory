@@ -191,7 +191,7 @@ deleteBtn.forEach(function (btn){
 
         let addStudentRow = new_row.querySelector('.add_save')
         addStudentRow.addEventListener('click', function (event) {
-            alert('Saved entry was clicked')
+            //alert('Saved entry was clicked')
             //alert('Add button saved clicked');
             event.preventDefault(); // Prevent form submission
             // Send the data to the endpoint
@@ -202,8 +202,16 @@ deleteBtn.forEach(function (btn){
                 console.log("The field names are" + input.name)
                 console.log('The field values are: ' + input.value)
                 formData.append(input.name, input.value)
-                //formData.append(,input.value)
-                //console.log(input.value)
+                 const csrftoken = Cookies.get('csrftoken');
+                // For example, using fetch API
+                fetch('/add_student_entry', {
+                  method: 'POST',
+                  body: formData,
+                  credentials: 'same-origin',
+                    headers:{'X-CSRFToken': csrftoken}
+                })
+                .then(response => {location.reload()})
+
             })
         })
     })

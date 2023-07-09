@@ -55,6 +55,16 @@ def add_book_entry(request):
     return redirect('dashboard')
 
 
+def add_student_entry(request):
+    if request.method == 'POST':
+        print(request.POST)
+        student_name = request.POST.get('student_name')
+        year_group = request.POST.get('year_group')
+        new_student = Student(name=student_name, year_group=year_group, paid_status=False)
+        new_student.save()
+    return redirect('students_book')
+
+
 def add_books(request):
     try:
         if request.FILES['books_inventory']:
