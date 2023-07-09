@@ -137,6 +137,80 @@ deleteBtn.forEach(function (btn){
 
 
 
+    const year_options = ['Reception', 'Nursery 1', 'Nursery 2', 'Year 1', 'Year 2', 'Year 3', 'Year 4', 'Year 5', 'Year 6', 'Year 7', 'Year 9', 'Year 10', 'Year 11', 'Year 12', 'Year 13']
+    document.querySelector('#add_new_student').addEventListener('click', function (event) {
+        //alert('Heyyy aaa')
+        let studentTable = document.getElementById("student_table");
+        let row_count = studentTable.rows.length
+        let new_row = studentTable.insertRow(row_count)
+        //Get the last Id:
+
+        // Insert new cells (<td> elements) at the 1st and 2nd position of the "new" <tr> element:
+        let cell1 = new_row.insertCell(0);
+        let cell2 = new_row.insertCell(1);
+        let cell3 = new_row.insertCell(2);
+        let cell4 = new_row.insertCell(3);
+        let cell5 = new_row.insertCell(4);
+        let input1 = document.createElement('input');
+
+        input1.type = 'checkbox';
+        input1.name = 'students_check';
+        cell1.appendChild(input1);
+
+        let input2 = document.createElement('input');
+        input2.type = 'text';
+        input2.name = 'student_name';
+        cell2.appendChild(input2);
+
+        let input3 = document.createElement('input');
+        input3.type = 'text';
+        input3.name = 'paid_status';
+        input3.value = "False"
+        input3.readOnly = true
+        cell3.appendChild(input3);
+
+        /*let input4 = document.createElement('input');
+        input4.type = 'text';
+        input4.name = 'year_group';
+        cell4.appendChild(input4);*/
+        let selectElement = document.createElement('select')
+        selectElement.name='year_group'
+        year_options.forEach((option_name,index)=>{
+            option_name = document.createElement('option');
+            option_name.value = year_options[index]
+            option_name.text = year_options[index]
+            selectElement.appendChild(option_name)
+        })
+        cell4.appendChild(selectElement)
+
+        let saveBtn = document.createElement('button');
+        saveBtn.className = 'add_save';
+        saveBtn.name = 'save';
+        saveBtn.innerHTML = "Save entry"
+        cell5.appendChild(saveBtn);
+
+        let addStudentRow = new_row.querySelector('.add_save')
+        addStudentRow.addEventListener('click', function (event) {
+            alert('Saved entry was clicked')
+            //alert('Add button saved clicked');
+            event.preventDefault(); // Prevent form submission
+            // Send the data to the endpoint
+            let formData = new FormData();
+            let row = this.parentNode.parentNode;
+            let inputCells = row.querySelectorAll('input, select')
+            inputCells.forEach(function (input, index) {
+                console.log("The field names are" + input.name)
+                console.log('The field values are: ' + input.value)
+                formData.append(input.name, input.value)
+                //formData.append(,input.value)
+                //console.log(input.value)
+            })
+        })
+    })
+
+
+
+
 
 
 

@@ -37,7 +37,7 @@
     </form>
 
  {% if students_data %}
-     <table>
+     <table id="student_table">
             <thead>
                 <tr>
                     <th>
@@ -50,6 +50,7 @@
                     <th>
                         Actions
                         <button id="update_all_students">Update All</button>
+                        <button id="add_new_student">Add new Student</button>
                     </th>
 
                 </tr>
@@ -59,7 +60,6 @@
                 <tr>
                      <td>
                         <input type="checkbox" name="students_check" value="{{ student.id }}" required>
-                        <input type="hidden" name="student_id" value="{{ student.id }}">
                      </td>
                     <td class="editable_data">{{ student.name }}</td>
                     <td class="paid_status">{{ student.paid_status }}</td>
