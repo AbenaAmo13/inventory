@@ -12,24 +12,19 @@
 {% include "header.html" %}
 
 <h3>Student Book Management</h3>
-<form method="get">
-    {{ filter_form.as_p }}
+<div class="student-forms">
+    <form method="get">
+    {{ filter_form.as_table }}
     <button type="submit">Filter</button>
 </form>
+    <form method="get">
+        {{ search_form.as_table }}
+        <button type="submit">Search</button>
+    </form>
+</div>
 
-{% comment %}<form>
-        {% csrf_token %}
-    <label for="year_group">Select a class:</label>
-    <select name="year_group" id="year_group" >
-     <option value="">All</option>
-      <option value="Reception">Reception</option>
-      <option value="Nursery">Nursery</option>
-      <option value="Year 1">Year 1</option>
-      <option value="Year 2">Year 2</option>
-        <option value="Year 3">Year 3</option>
-    </select>
-    <button type="submit">Filter</button>
-</form>{% endcomment %}
+
+
         <p>To bulk add the students, you can download and fill this Excel template by   <a href="{% static 'excel_templates/student_template.xlsx' %}">Downloading Student Template</a>
         and uploading it in by clicking "Choose File" down below:
         </p>
@@ -69,10 +64,10 @@
                     <td class="paid_status">{{ student.paid_status }}</td>
                     <td class="editable_data">{{ student.year_group }}</td>
                     <td>
-                        <button class="student_edit">Edit</button>
-                        <button class="student_save" data-book-id = {{student.id }}>Save</button>
-                        <button class="student_delete" data-book-id = {{student.id }}>Delete</button>
-                        <button class="update_paid_status" data-book-id = {{student.id }}>Update Paid Status</button>
+                        <button class="student_edit" data-student-id = {{student.id }}>Edit</button>
+                        <button class="student_save" data-student-id = {{student.id }}>Save</button>
+                        <button class="student_delete" data-student-id = {{student.id }}>Delete</button>
+                        <button class="update_paid_status" data-student-id = {{student.id }}>Update Paid Status</button>
                     </td>
                 </tr>
                 {% endfor %}

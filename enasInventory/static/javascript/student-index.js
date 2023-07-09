@@ -1,28 +1,39 @@
 /*Edit for the students book*/
 
 let studentEdit = document.querySelectorAll('.student_edit');
-let studentInputConfig={
-    0: "student_name",
-    1: "year_group"
-}
+const year_options = ['Reception', 'Nursery 1', 'Nursery 2', 'Year 1', 'Year 2', 'Year 3', 'Year 4', 'Year 5', 'Year 6', 'Year 7', 'Year 9', 'Year 10', 'Year 11', 'Year 12', 'Year 13']
+
 studentEdit.forEach(function (button){
     button.addEventListener('click', function (event){
     event.preventDefault(); // Prevent form submission
     let row = this.parentNode.parentNode;
              // Get the updated values from input fields
-      let dataCells = row.querySelectorAll('.editable_data');
-      dataCells.forEach(function (cell, index){
-          console.log(cell)
-          let input_name = studentInputConfig[index]
-          console.log(input_name)
-          let content = cell.innerHTML;
-          cell.innerHTML= '<input type="text" value="'+content+'"  name="' + input_name + '" required  />';
-          console.log(content)
-      })
+    let dataCells = row.querySelectorAll('.editable_data');
+    let input1 = document.createElement('input')
+    input1.name='student_name'
+    input1.type= 'text'
+    input1.value = dataCells[0].innerHTML
+    input1.required= true
+    dataCells[0].innerHTML =''
+    dataCells[0].appendChild(input1)
+    let year_group_selection = document.createElement('select')
+        year_group_selection.name = "year_group"
+        year_group_selection.value= dataCells[1].innerHTML
+        year_options.forEach((option_name, index)=>{
+            option_name = document.createElement('option');
+            option_name.value = year_options[index]
+            option_name.text = year_options[index]
+            year_group_selection.appendChild(option_name)
+             // Set the selected attribute if the option value matches the cell content
+            if (option_name.value === dataCells[1].innerHTML) {
+            option_name.selected = true;
+            }
+        })
 
-      this.style.display = 'none';
-      row.querySelector('.student_save').style.display = 'inline-block';
-
+    dataCells[1].innerHTML=''
+    dataCells[1].appendChild(year_group_selection)
+    this.style.display = 'none';
+    row.querySelector('.student_save').style.display = 'inline-block';
     })
 })
 
@@ -35,10 +46,10 @@ saveBtn.forEach(function (button, index){
         //console.log(dataCells)
         // Send the data to the endpoint
         let formData = new FormData();
-        let bookId = this.getAttribute('data-book-id');
-        formData.append('book_id', bookId)
+        let student_id = this.getAttribute('data-student-id');
+        formData.append('student_id', student_id)
         dataCells.forEach(function(dataCell, index) {
-          let input_field = dataCell.querySelector('input');
+          let input_field = dataCell.querySelector('input, select');
           let updated_value = input_field.value
           let input_name= input_field.name
           console.log(input_name)
@@ -46,7 +57,7 @@ saveBtn.forEach(function (button, index){
         });
         //To enable csrf token in a javascript post
         const csrftoken = Cookies.get('csrftoken');
-        fetch('/edit_student_row', {
+        fetch('/students/edit_student_row', {
             method: 'POST',
             body: formData,
             credentials: 'same-origin',
@@ -62,12 +73,12 @@ updatePaidStatusBtn.forEach(function (btn){
     btn.addEventListener('click', function (event){
         event.preventDefault(); // Prevent form submission
         let row = this.parentNode.parentNode
-        let bookId = this.getAttribute('data-book-id');
+        let studentId = this.getAttribute('data-student-id');
         let formData = new FormData()
-        formData.append('book_id', bookId);
+        formData.append('student_id', studentId);
           //To enable csrf token in a javascript post
         const csrftoken = Cookies.get('csrftoken');
-        fetch('/update_paid_status', {
+        fetch('/students/update_paid_status', {
             method: 'POST',
             body: formData,
             credentials: 'same-origin',
@@ -84,12 +95,12 @@ deleteBtn.forEach(function (btn){
     btn.addEventListener('click', function (event){
         event.preventDefault(); // Prevent form submission
         let row = this.parentNode.parentNode
-        let bookId = this.getAttribute('data-book-id');
+        let studentId = this.getAttribute('data-student-id');
         let formData = new FormData()
-        formData.append('book_id', bookId);
+        formData.append('student_id', studentId);
           //To enable csrf token in a javascript post
         const csrftoken = Cookies.get('csrftoken');
-        fetch('/delete_student_row', {
+        fetch('/students/delete_student_row', {
             method: 'POST',
             body: formData,
             credentials: 'same-origin',
@@ -124,20 +135,20 @@ deleteBtn.forEach(function (btn){
             }
              //To enable csrf token in a javascript post
             const csrftoken = Cookies.get('csrftoken');
-            fetch('/update_all_paid', {
+            fetch('/students/update_all_paid', {
                 method: "POST",
                 body: JSON.stringify(data),
                 credentials: 'same-origin',
                 headers: {'X-CSRFToken': csrftoken}
 
             }).then(r=>{location.reload()})
+                .catch(error=>{console.log(error)})
         })
      })
 
 
 
 
-    const year_options = ['Reception', 'Nursery 1', 'Nursery 2', 'Year 1', 'Year 2', 'Year 3', 'Year 4', 'Year 5', 'Year 6', 'Year 7', 'Year 9', 'Year 10', 'Year 11', 'Year 12', 'Year 13']
     document.querySelector('#add_new_student').addEventListener('click', function (event) {
         //alert('Heyyy aaa')
         let studentTable = document.getElementById("student_table");
@@ -204,7 +215,7 @@ deleteBtn.forEach(function (btn){
                 formData.append(input.name, input.value)
                  const csrftoken = Cookies.get('csrftoken');
                 // For example, using fetch API
-                fetch('/add_student_entry', {
+                fetch('/students/add_student_entry', {
                   method: 'POST',
                   body: formData,
                   credentials: 'same-origin',
