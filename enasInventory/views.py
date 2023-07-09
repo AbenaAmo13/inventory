@@ -13,6 +13,8 @@ from django.http import HttpResponse
 from django.http import FileResponse
 from django.templatetags.static import static
 import os
+from .forms.student import YearGroupFilterForm
+
 
 
 def index(request):
@@ -34,10 +36,18 @@ def dashboard(request):
 
 
 def student_books(request):
-    # Get all the books data.
-    students = Student.objects.all().values()
-    # print(students)
-    return render(request, 'students-book.html', {'students_data': students})
+    filter_form = YearGroupFilterForm(request.GET or None)  # Instantiate the form with the submitted data, if any
+    if filter_form.is_valid():
+        year_group = filter_form.cleaned_data['year_group']
+        students = Student.objects.all()
+
+        if year_group:
+            students = students.filter(year_group=year_group)
+    else:
+        students = Student.objects.all()
+    students_data = students.values()
+
+    return render(request, 'students-book.html', {'students_data': students_data, 'filter_form': filter_form})
 
 
 def add_book_entry(request):

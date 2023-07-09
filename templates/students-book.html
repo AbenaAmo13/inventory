@@ -12,19 +12,23 @@
 {% include "header.html" %}
 
 <h3>Student Book Management</h3>
-
+<form method="get">
+    {{ filter_form.as_p }}
+    <button type="submit">Filter</button>
+</form>
 
 {% comment %}<form>
         {% csrf_token %}
     <label for="year_group">Select a class:</label>
-    <select name="year_group" id="year_group">
+    <select name="year_group" id="year_group" >
+     <option value="">All</option>
       <option value="Reception">Reception</option>
       <option value="Nursery">Nursery</option>
       <option value="Year 1">Year 1</option>
       <option value="Year 2">Year 2</option>
         <option value="Year 3">Year 3</option>
     </select>
-    <button type="submit">Show Students</button>
+    <button type="submit">Filter</button>
 </form>{% endcomment %}
         <p>To bulk add the students, you can download and fill this Excel template by   <a href="{% static 'excel_templates/student_template.xlsx' %}">Downloading Student Template</a>
         and uploading it in by clicking "Choose File" down below:
