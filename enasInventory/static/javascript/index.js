@@ -4,6 +4,8 @@ let editButtons = document.querySelectorAll('.edit');
   console.log(editButtons)
   let saveButtons = document.querySelectorAll('.save');
   let cancelButtons = document.querySelectorAll('.cancel');
+  const year_options = ['Reception', 'Nursery 1', 'Nursery 2', 'Year 1', 'Year 2', 'Year 3', 'Year 4', 'Year 5', 'Year 6', 'Year 7', 'Year 9', 'Year 10', 'Year 11', 'Year 12', 'Year 13']
+  const order_status_options = ['REQUESTED', 'ORDERED','RECEIVED']
   let inputName={
       0: 'isbn',
       1: 'book_name',
@@ -98,7 +100,118 @@ saveButtons.forEach(function(saveButton) {
 //Adding a new table entry:
    const add_row_btn = document.getElementById('add_new_entry_button');
     if(add_row_btn){
-         add_row_btn.addEventListener('click', function(event) {
+    add_row_btn.addEventListener('click', function (event){
+             event.preventDefault(); // Prevent form submission
+        const table = document.getElementById('books_inventory_table');
+        let newRow = table.insertRow()
+        let input1 = document.createElement('input')
+        input1.type='checkbox'
+        input1.name = 'select_checkbox'
+        let cell1 = newRow.insertCell()
+        cell1.append(input1)
+
+        let input2 = document.createElement('input')
+        input2.type='text'
+        input2.name = 'isbn'
+        input2.required = true
+        let cell2 = newRow.insertCell()
+        cell2.append(input2)
+
+        let input3 = document.createElement('input')
+        input3.type='text'
+        input3.name = 'book_name'
+        input3.required = true
+        let cell3 = newRow.insertCell()
+        cell3.append(input3)
+
+        let input4 = document.createElement('input')
+        input4.type='number'
+        input4.name = 'quantity_requested'
+        input4.required = true
+        let cell4 = newRow.insertCell()
+        cell4.append(input4)
+
+        let input5 = document.createElement('input')
+        input5.type='number'
+        input5.name = 'quantity_received'
+        input5.required = true
+        let cell5 = newRow.insertCell()
+        cell5.append(input5)
+
+        let year_group_selection = document.createElement('select')
+        let cell6 = newRow.insertCell()
+        year_options.forEach(function (option_name, index){
+            option_name = document.createElement('option');
+            option_name.value = year_options[index]
+            option_name.text = year_options[index]
+            year_group_selection.appendChild(option_name)
+        })
+        year_group_selection.name= 'year_group'
+        year_group_selection.required = true
+        cell6.append(year_group_selection)
+
+        let cell7 = newRow.insertCell()
+        let order_status_selection = document.createElement('select')
+        order_status_selection.required = true
+        order_status_selection.name = 'order_status'
+        order_status_options.forEach(function (option_name, index){
+            option_name= document.createElement('option')
+            option_name.value = order_status_options[index]
+            option_name.text = order_status_options[index]
+            order_status_selection.appendChild(option_name)
+        })
+        cell7.append(order_status_selection)
+
+        let input6 = document.createElement('input')
+        input6.value=new Date().toISOString().slice(0, 16)
+        input6.type= 'datetime-local'
+        input6.name= 'date_added'
+        input6.readOnly = true
+        let cell8 = newRow.insertCell()
+        cell8.appendChild(input6)
+
+        let cell9 = newRow.insertCell()
+        let saveBtn = document.createElement('button')
+        saveBtn.innerHTML = 'Save'
+        saveBtn.className = 'add_book'
+        cell9.appendChild(saveBtn)
+
+        let addStudentRow = newRow.querySelector('.add_book')
+        addStudentRow.addEventListener('click', function (event){
+            let form = new FormData()
+            let inputData = newRow.querySelectorAll('input, select')
+            inputData.forEach((data)=>{
+                console.log(data.name, data.value)
+                form.append(data.name, data.value)
+            })
+             const csrftoken = Cookies.get('csrftoken');
+
+            fetch('/books/add_book_entry', {
+                method: 'POST',
+                body: form,
+                credentials: 'same-origin',
+                headers:{'X-CSRFToken': csrftoken}
+            }).then(r =>{
+                location.reload()
+            })
+
+        })
+
+
+
+
+
+
+
+        })
+    }
+
+
+
+
+
+
+   /*      add_row_btn.addEventListener('click', function(event) {
        event.preventDefault(); // Prevent form submission
       const table = document.getElementById('books_inventory_table');
       let previous_row_index = (table.rows.length)-2
@@ -178,8 +291,8 @@ saveButtons.forEach(function(saveButton) {
         let row = this.parentNode.parentNode;
         let inputCells = row.querySelectorAll('input, select')
         inputCells.forEach(function(input, index){
-            /*console.log("The field names are" + input.name)
-            console.log('The field values are: ' + input.value)*/
+            /!*console.log("The field names are" + input.name)
+            console.log('The field values are: ' + input.value)*!/
             formData.append(input.name, input.value)
             //formData.append(,input.value)
             //console.log(input.value)
@@ -203,9 +316,9 @@ saveButtons.forEach(function(saveButton) {
       // Handle errors
     });
       });
-});
+});*/
 
-    }
+
 
 
      let updateOrderButtons = document.querySelectorAll('.update_order');

@@ -219,10 +219,9 @@ deleteBtn.forEach(function (btn){
                   method: 'POST',
                   body: formData,
                   credentials: 'same-origin',
-                    headers:{'X-CSRFToken': csrftoken}
+                  headers:{'X-CSRFToken': csrftoken}
                 })
                 .then(response => {location.reload()})
-
             })
         })
     })

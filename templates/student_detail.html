@@ -23,8 +23,13 @@
                   </thead>
                 <tbody>
                     <td>{{book.book_name}}</td>
-                     <td>No</td>
-                     <td>Testing</td>
+                      {% if books in received_books %}
+                          <td>Yes</td>
+                            <td>{{ received_books.date_received }}</td>
+                          {% else %}
+                          <td>No</td>
+                          <td>Not received</td>
+                    {% endif %}
                      <td>
                          <button>Update Received Status</button>
 

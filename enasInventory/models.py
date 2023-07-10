@@ -21,3 +21,4 @@ class Student(models.Model):
 class BookReceived(models.Model):
     student = models.ForeignKey(Student, on_delete=models.CASCADE)
     book = models.ForeignKey(Book, on_delete=models.CASCADE)
+    date_received = models.DateTimeField()

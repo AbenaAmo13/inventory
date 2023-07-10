@@ -9,6 +9,7 @@ from django.templatetags.static import static
 from enasInventory.forms.student import SearchStudentForm, YearGroupFilterForm, StudentBookForm
 from enasInventory.models import Student
 from enasInventory.models import Book
+from enasInventory.models import BookReceived
 from datetime import datetime
 
 
@@ -118,6 +119,7 @@ def student_detail(request, pk):
     student = get_object_or_404(Student, pk=pk)
     student_year_group = student.year_group
     year_books = Book.objects.filter(year_group=student_year_group)
+    received_books = BookReceived.objects.filter(student_id=pk)
     book_form = StudentBookForm(request.POST or None)
     if request.method == "POST":
         if book_form.is_valid():
@@ -133,4 +135,5 @@ def student_detail(request, pk):
                             year_group=student_year_group, order_status=order_status, date_requested=current_time)
             new_book.save()
 
-    return render(request, 'student_detail.html', {'student': student, 'books': year_books, 'book_form': book_form})
+    return render(request, 'student_detail.html', {'student': student, 'books': year_books, 'book_form': book_form, 'received_books': received_books})
+

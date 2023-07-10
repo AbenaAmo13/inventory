@@ -15,18 +15,6 @@ from django.templatetags.static import static
 import os
 
 
-def index(request):
-    x = 'Hello'
-    return render(request, 'index.html', {'test': x})
-
-
-def login_post(request):
-    username = request.POST['username']
-    print(username)
-    print(request.POST)
-    return HttpResponse(status=200)
-
-
 def dashboard(request):
     # Get all the books data.
     books = Book.objects.all().order_by('-date_requested').values()
@@ -40,8 +28,10 @@ def add_book_entry(request):
         quantity_requested = request.POST.get('quantity_requested')
         year_group = request.POST.get('year_group')
         order_status = request.POST.get('order_status')
+        quantity_received = request.POST.get('quantity_received')
         date_added = request.POST.get('date_added')
         new_book_entry = Book(book_name=book_name, isbn=isbn, quantity_needed=quantity_requested,
+                              quantity_received=quantity_received,
                               year_group=year_group, order_status=order_status, date_requested=date_added)
         new_book_entry.save()
     # Redirect to the dashboard page using JavaScript
@@ -115,7 +105,6 @@ def save_edit_made(request):
         Book.objects.filter(id=book_id).update(book_name=book_name, isbn=isbn, quantity_needed=quantity_requested,
                                                quantity_received=quantity_received,
                                                year_group=year_group)
-
     return redirect('dashboard')
 
 
