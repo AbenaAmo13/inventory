@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
-        <link rel="stylesheet" href="{% static 'css/styles.css' %}">
+    <link rel="stylesheet" href="{% static 'css/styles.css' %}">
     <script src = "{% static 'javascript/student-index.js' %}" defer></script>
     <script src="https://cdn.jsdelivr.net/npm/js-cookie@3.0.5/dist/js.cookie.min.js"></script>
 </head>
@@ -14,7 +14,9 @@
 <h3>Student Book Management</h3>
 <div class="student-forms">
     <form method="get">
+          {% csrf_token %}
     {{ filter_form.as_table }}
+
     <button type="submit">Filter</button>
 </form>
     <form method="get">
@@ -68,6 +70,7 @@
                         <button class="student_save" data-student-id = {{student.id }}>Save</button>
                         <button class="student_delete" data-student-id = {{student.id }}>Delete</button>
                         <button class="update_paid_status" data-student-id = {{student.id }}>Update Paid Status</button>
+                        <a href="{% url 'students:student_detail' student.id  %}">View Book Details</a>
                     </td>
                 </tr>
                 {% endfor %}

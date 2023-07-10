@@ -12,5 +12,5 @@ urlpatterns = [
     path('update_all_paid', views.update_all_paid),
     path('students_book', views.student_books, name='students_book'),
     path('delete_student_row', views.delete_student_row),
-
+    path('<int:pk>/', views.student_detail, name='student_detail'),
 ]

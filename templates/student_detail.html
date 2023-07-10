@@ -1,0 +1,48 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link rel="stylesheet" href="{% static 'css/styles.css' %}">
+
+</head>
+<body>
+{% include "header.html" %}
+    <h1>Student Books Detail</h1>
+    <p><strong>Name:</strong> {{ student.name }}</p>
+    <p><strong>Year Group:</strong> {{ student.year_group }}</p>
+     {% if books %}
+          {% for book in books %}
+              <table>
+                  <thead>
+                    <th>Book Name</th>
+                    <th>Received</th>
+                    <th>Date Received</th>
+                    <th>Actions</th>
+                  </thead>
+                <tbody>
+                    <td>{{book.book_name}}</td>
+                     <td>No</td>
+                     <td>Testing</td>
+                     <td>
+                         <button>Update Received Status</button>
+
+                     </td>
+                </tbody>
+
+              </table>
+
+
+         {% endfor %}
+          {% else %}
+         <p>No books is available in the system for this year group.</p>
+         <p>You can add a book for this year group and student by completing the form down below</p>
+         <form method="post">
+             {% csrf_token %}
+            {{ book_form.as_table }}
+            <button type="submit">Add Book</button>
+         </form>
+    {% endif %}
+</body>
+</html>

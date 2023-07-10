@@ -3,11 +3,13 @@ import os
 import pandas
 import pandas as pd
 from django.http import FileResponse
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 import json
 from django.templatetags.static import static
-from enasInventory.forms.student import SearchStudentForm, YearGroupFilterForm
+from enasInventory.forms.student import SearchStudentForm, YearGroupFilterForm, StudentBookForm
 from enasInventory.models import Student
+from enasInventory.models import Book
+from datetime import datetime
 
 
 def add_student_entry(request):
@@ -110,3 +112,25 @@ def download_template(request):
     # Set the Content-Disposition header to force download with the original filename
     response['Content-Disposition'] = 'attachment; filename="student_template.xlsx"'
     return response
+
+
+def student_detail(request, pk):
+    student = get_object_or_404(Student, pk=pk)
+    student_year_group = student.year_group
+    year_books = Book.objects.filter(year_group=student_year_group)
+    book_form = StudentBookForm(request.POST or None)
+    if request.method == "POST":
+        if book_form.is_valid():
+            isbn = book_form.cleaned_data['isbn_name']
+            book_name = book_form.cleaned_data['book_name']
+            order_status = "REQUESTED"
+            current_time = datetime.now().strftime("%Y-%m-%d %H:%M:%S.%f")
+            print(current_time)
+            quantity_needed = 1
+            quantity_received = 0
+            new_book = Book(book_name=book_name, isbn=isbn, quantity_needed=quantity_needed,
+                            quantity_received=quantity_received,
+                            year_group=student_year_group, order_status=order_status, date_requested=current_time)
+            new_book.save()
+
+    return render(request, 'student_detail.html', {'student': student, 'books': year_books, 'book_form': book_form})

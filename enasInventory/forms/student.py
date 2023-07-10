@@ -30,5 +30,16 @@ class SearchStudentForm(forms.Form):
         label='Search',
         widget=forms.TextInput(attrs={'placeholder': 'Search Student Record Here'}),
         required=False
-
     )
+
+
+class StudentBookForm(forms.Form):
+    isbn_name = forms.CharField(
+        label='ISBN',
+        required=True
+    )
+    book_name = forms.CharField(
+        label='Book Name',
+        required=True
+    )
+

@@ -72,7 +72,7 @@ saveButtons.forEach(function(saveButton) {
     const csrftoken = Cookies.get('csrftoken');
     // Perform AJAX request or submit the form
     // For example, using fetch API
-    fetch('/save_edit_made', {
+    fetch('/books/save_edit_made', {
       method: 'POST',
       body: formData,
       credentials: 'same-origin',
@@ -188,7 +188,7 @@ saveButtons.forEach(function(saveButton) {
           //To enable csrf token in a javascript post
      const csrftoken = Cookies.get('csrftoken');
            // For example, using fetch API
-    fetch('/add_book_entry', {
+    fetch('/books/add_book_entry', {
       method: 'POST',
       body: formData,
       credentials: 'same-origin',
@@ -228,7 +228,7 @@ saveButtons.forEach(function(saveButton) {
              formData.append('order_status', updated_order_status)
              //To enable csrf token in a javascript post
              const csrToken = Cookies.get('csrftoken');
-             fetch('/update_order_status', {
+             fetch('/books/update_order_status', {
               method: 'POST',
               body: formData,
               credentials: 'same-origin',
@@ -260,7 +260,7 @@ saveButtons.forEach(function(saveButton) {
             formData.append('book_id', selected_book.value)
              //To enable csrf token in a javascript post
              const csrToken = Cookies.get('csrftoken');
-             fetch('/delete_book_item', {
+             fetch('/books/delete_book_item', {
               method: 'POST',
               body: formData,
               credentials: 'same-origin',
