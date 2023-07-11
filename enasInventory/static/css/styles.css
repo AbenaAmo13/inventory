@@ -76,3 +76,8 @@ tr:hover {
     display: flex;
     justify-content: space-evenly;
 }
+
+
+.cancel{
+    display: none;
+}

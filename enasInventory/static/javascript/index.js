@@ -15,17 +15,74 @@ let editButtons = document.querySelectorAll('.edit');
       5: 'order_status',
       6: 'date_requested'
   }
-  let inputType={
-      0:'text',
-      1: 'text',
-      2:'number',
-      3:'number',
-      4: 'text',
-      5: 'select',
-      6: 'date',
-  }
+
   // Add click event listeners to edit buttons
-  editButtons.forEach(function(editButton) {
+editButtons.forEach(function (editBtn){
+    editBtn.addEventListener('click', function (event){
+        event.preventDefault()
+        let row = this.parentNode.parentNode
+        let dataCells = row.querySelectorAll('.data');
+        let isbn = dataCells[0]
+        let input1 = document.createElement('input')
+        input1.type = 'text'
+        input1.name= 'isbn'
+        input1.value = isbn.innerHTML
+        isbn.innerHTML = ''
+        isbn.appendChild(input1)
+
+        let bookName = dataCells[1]
+        let input2 = document.createElement('input')
+        input2.type = 'text'
+        input2.name= 'book_name'
+        input2.value = bookName.innerHTML
+        bookName.innerHTML = ''
+        bookName.appendChild(input2)
+
+        let quantity_requested = dataCells[2];
+        let input3 = document.createElement('input');
+        input3.type = 'number';
+        input3.name = 'quantity_requested';
+        input3.value = quantity_requested.innerText;
+        quantity_requested.innerHTML = '';
+        quantity_requested.appendChild(input3);
+
+        let quantity_received = dataCells[3]
+        let input4 = document.createElement('input')
+        input4.type= 'number';
+        input4.name = 'quantity_received'
+        input4.value = quantity_received.innerText;
+        quantity_received.innerHTML = '';
+        quantity_received.appendChild(input4)
+
+        let year_group = dataCells[4]
+        let year_selection = document.createElement('select')
+        year_selection.name = "year_group"
+        year_options.forEach((option)=>{
+            let option_name = document.createElement('option')
+            option_name.text = option
+            option_name.value = option
+            if(option=== year_group.innerText){
+                option_name.selected = true
+            }
+            year_selection.appendChild(option_name)
+        })
+        console.log(year_selection)
+        year_group.innerHTML = ''
+        year_group.appendChild(year_selection)
+
+        let selection =
+
+
+
+        this.style.display = 'none';
+        row.querySelector('.save').style.display = 'inline-block';
+        row.querySelector('')
+
+
+    })
+
+})
+  /*editButtons.forEach(function(editButton) {
     editButton.addEventListener('click', function(event) {
     event.preventDefault(); // Prevent form submission
       let row = this.parentNode.parentNode;
@@ -42,11 +99,11 @@ let editButtons = document.querySelectorAll('.edit');
       });
       this.style.display = 'none';
       row.querySelector('.save').style.display = 'inline-block';
-/*
+/!*
       row.querySelector('.cancel').style.display = 'inline-block';*!/
-*/
+*!/
     });
-  });
+  });*/
 
   // Add click event listeners to save buttons
 saveButtons.forEach(function(saveButton) {
@@ -172,9 +229,14 @@ saveButtons.forEach(function(saveButton) {
 
         let cell9 = newRow.insertCell()
         let saveBtn = document.createElement('button')
+        let cancelBtn = document.createElement('button')
         saveBtn.innerHTML = 'Save'
         saveBtn.className = 'add_book'
+        cancelBtn.className = 'cancel_book'
+        cancelBtn.innerHTML = 'Cancel'
+        cell9.className = 'button_actions'
         cell9.appendChild(saveBtn)
+        cell9.appendChild(cancelBtn)
 
         let addStudentRow = newRow.querySelector('.add_book')
         addStudentRow.addEventListener('click', function (event){

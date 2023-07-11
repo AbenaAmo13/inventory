@@ -30,6 +30,8 @@ studentEdit.forEach(function (button){
             }
         })
 
+
+
     dataCells[1].innerHTML=''
     dataCells[1].appendChild(year_group_selection)
     this.style.display = 'none';
