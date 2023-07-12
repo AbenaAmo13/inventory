@@ -24,7 +24,7 @@ urlpatterns = [
                   path("admin/", admin.site.urls),
                   path('', views.index, name='index'),
                   # Other URL patterns
-                  path('students/', include('student.urls')),
+                  path('students/', include('students.urls')),
                   path('login', views.login_post),
                   path('books/', include('books.urls'))
 

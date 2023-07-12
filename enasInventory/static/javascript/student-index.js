@@ -30,8 +30,6 @@ studentEdit.forEach(function (button){
             }
         })
 
-
-
     dataCells[1].innerHTML=''
     dataCells[1].appendChild(year_group_selection)
     this.style.display = 'none';
@@ -123,7 +121,8 @@ deleteBtn.forEach(function (btn){
     }
 
     let updateAllBtn = document.querySelector('#update_all_students')
-    let update_ids = []
+   if(updateAllBtn){
+       let update_ids = []
     updateAllBtn.addEventListener('click', function (event){
         let student_id= document.querySelectorAll('input[type="checkbox"][name="students_check"]')
         student_id.forEach(function (button){
@@ -147,11 +146,13 @@ deleteBtn.forEach(function (btn){
                 .catch(error=>{console.log(error)})
         })
      })
+   }
 
 
 
-
-    document.querySelector('#add_new_student').addEventListener('click', function (event) {
+   let add_new_student =  document.querySelector('#add_new_student')
+   if (add_new_student){
+       add_new_student.addEventListener('click', function (event) {
         //alert('Heyyy aaa')
         let studentTable = document.getElementById("student_table");
         let row_count = studentTable.rows.length
@@ -227,6 +228,34 @@ deleteBtn.forEach(function (btn){
             })
         })
     })
+   }
+
+
+
+
+let updateReceivedStatus = document.querySelectorAll('.update_received_status')
+if(updateReceivedStatus){
+    updateReceivedStatus.forEach((btn)=>{
+    btn.addEventListener('click', function(event){
+        event.preventDefault()
+        let bookID = this.getAttribute('data-book-id')
+        let studentID = this.getAttribute('data-student-id')
+        let formData = new FormData()
+        formData.append('book_id', bookID)
+        formData.append('student_id', studentID)
+         const csrToken = Cookies.get('csrftoken');
+        let updateReceivedStatusURL = this.getAttribute('data-url');
+        fetch('/students/update_received_status', {
+            method: 'POST',
+            body: formData,
+            credentials: 'same-origin',
+                headers:{'X-CSRFToken': csrToken}
+        })
+        .then(response => response.json())
+        console.log(bookID, studentID)
+    })
+})
+}
 
 
 

@@ -5,6 +5,8 @@
     <meta charset="UTF-8">
     <title>Title</title>
     <link rel="stylesheet" href="{% static 'css/styles.css' %}">
+        <script src = "{% static 'javascript/student-index.js' %}" defer></script>
+    <script src="https://cdn.jsdelivr.net/npm/js-cookie@3.0.5/dist/js.cookie.min.js"></script>
 
 </head>
 <body>
@@ -13,16 +15,16 @@
     <p><strong>Name:</strong> {{ student.name }}</p>
     <p><strong>Year Group:</strong> {{ student.year_group }}</p>
      {% if books %}
-          {% for book in books %}
-              <table>
-                  <thead>
+         <table>
+          <thead>
                     <th>Book Name</th>
                     <th>Received</th>
                     <th>Date Received</th>
                     <th>Actions</th>
                   </thead>
-                <tbody>
-                    <td>{{book.book_name}}</td>
+          {% for book in books %}
+                <tr>
+                    <td class="">{{book.book_name}}</td>
                       {% if books in received_books %}
                           <td>Yes</td>
                             <td>{{ received_books.date_received }}</td>
@@ -31,15 +33,12 @@
                           <td>Not received</td>
                     {% endif %}
                      <td>
-                         <button>Update Received Status</button>
-
+                        <button class="update_received_status" data-book-id="{{ book.id }}" data-student-id="{{ student.id }}" data-url="{% url 'students:update_received_status' %}">Update Received Status</button>
                      </td>
-                </tbody>
-
-              </table>
-
+                </tr>
 
          {% endfor %}
+          </table>
           {% else %}
          <p>No books is available in the system for this year group.</p>
          <p>You can add a book for this year group and student by completing the form down below</p>

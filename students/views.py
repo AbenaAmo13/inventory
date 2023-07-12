@@ -2,25 +2,32 @@ import os
 
 import pandas
 import pandas as pd
-from django.http import FileResponse
+from django.http import FileResponse, HttpResponse
 from django.shortcuts import render, redirect, get_object_or_404
 import json
 from django.templatetags.static import static
-from enasInventory.forms.student import SearchStudentForm, YearGroupFilterForm, StudentBookForm
+from enasInventory.forms.student import SearchStudentForm, YearGroupFilterForm, StudentBookForm, BookReceivedForm
 from enasInventory.models import Student
 from enasInventory.models import Book
 from enasInventory.models import BookReceived
 from datetime import datetime
+from django.db import IntegrityError
 
 
 def add_student_entry(request):
     if request.method == 'POST':
-        print(request.POST)
         student_name = request.POST.get('student_name')
         year_group = request.POST.get('year_group')
-        new_student = Student(name=student_name, year_group=year_group, paid_status=False)
-        new_student.save()
-    return redirect('students_book')
+        try:
+            new_student = Student(name=student_name, year_group=year_group, paid_status=False)
+            new_student.save()
+            return redirect('students:students_book')
+        except IntegrityError:
+            # Handle the IntegrityError if needed
+            pass
+
+    # Handle other cases or display an error message
+    return HttpResponse("Error occurred while adding a student.")
 
 
 def student_books(request):
@@ -66,8 +73,8 @@ def add_students_bulk(request):
             return redirect('students_book')
     except Exception as e:
         print(str(e))
-        return redirect('students_book')
-    return redirect('students_book')
+        return redirect('students:students_book')
+    return redirect('students:students_book')
 
 
 def edit_student_row(request):
@@ -76,14 +83,14 @@ def edit_student_row(request):
         student_name = request.POST.get('student_name')
         year_group = request.POST.get('year_group')
         Student.objects.filter(id=student_id).update(name=student_name, year_group=year_group)
-    return redirect('students_book')
+    return redirect('students:students_book')
 
 
 def update_paid_status(request):
     if request.method == 'POST':
         book_id = request.POST.get('student_id')
         Student.objects.filter(id=book_id).update(paid_status=True)
-    return redirect('students_book')
+    return redirect('students:students_book')
 
 
 def update_all_paid(request):
@@ -92,7 +99,7 @@ def update_all_paid(request):
         student_ids = data['student_ids']
         for ids in student_ids:
             Student.objects.filter(id=ids).update(paid_status=True)
-    return redirect('students_book')
+    return redirect('students:students_book')
 
 
 def delete_student_row(request):
@@ -100,7 +107,7 @@ def delete_student_row(request):
         student_id = request.POST.get('student_id')
         selected_student = Student.objects.get(id=student_id)
         selected_student.delete()
-    return redirect('students_book')
+    return redirect('students:students_book')
 
 
 def download_template(request):
@@ -134,6 +141,15 @@ def student_detail(request, pk):
                             quantity_received=quantity_received,
                             year_group=student_year_group, order_status=order_status, date_requested=current_time)
             new_book.save()
+    return render(request, 'student_detail.html',
+                  {'student': student, 'books': year_books, 'book_form': book_form, 'received_books': received_books,
+                   })
 
-    return render(request, 'student_detail.html', {'student': student, 'books': year_books, 'book_form': book_form, 'received_books': received_books})
 
+def update_received_books(request):
+    student_id = request.POST.get('student_id')
+    book_id = request.POST.get('book_id')
+    date_received = datetime.now()
+    new_received_book = BookReceived(book_id=book_id, student_id=student_id, date_received=date_received)
+    new_received_book.save()
+    return redirect('students:student_detail', student_id)
