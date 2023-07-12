@@ -21,6 +21,9 @@ editButtons.forEach(function (editBtn){
     editBtn.addEventListener('click', function (event){
         event.preventDefault()
         let row = this.parentNode.parentNode
+        let form = new FormData()
+        let bookId = this.getAttribute('data-book-id')
+        form.append('book_id',bookId)
         let dataCells = row.querySelectorAll('.data');
         let isbn = dataCells[0]
         let input1 = document.createElement('input')
@@ -70,13 +73,36 @@ editButtons.forEach(function (editBtn){
         year_group.innerHTML = ''
         year_group.appendChild(year_selection)
 
-        let selection =
-
-
-
         this.style.display = 'none';
-        row.querySelector('.save').style.display = 'inline-block';
-        row.querySelector('')
+        let save = row.querySelector('.save')
+        save.style.display = 'inline-block'
+        let cancel = row.querySelector('.cancel')
+        cancel.style.display= 'inline-block';
+        row.querySelector('.delete').style.display= 'none';
+        row.querySelector('.update_order').style.display= 'none';
+        save.addEventListener('click', function (event){
+            event.preventDefault()
+            let inputValues = row.querySelectorAll('input, select')
+            inputValues.forEach(inputValue=>{
+                form.append(inputValue.name, inputValue.value)
+            })
+             const csrftoken = Cookies.get('csrftoken');
+            fetch('/books/save_edit_made', {
+                method: 'POST',
+                body: form,
+                credentials: 'same-origin',
+                headers: {'X-CSRFToken': csrftoken}
+            }).then(r => {
+                location.reload()
+            })
+        })
+        cancel.addEventListener('click', function (event){
+            location.reload()
+        })
+
+
+
+
 
 
     })
@@ -106,7 +132,7 @@ editButtons.forEach(function (editBtn){
   });*/
 
   // Add click event listeners to save buttons
-saveButtons.forEach(function(saveButton) {
+/*saveButtons.forEach(function(saveButton) {
   saveButton.addEventListener('click', function(event) {
     event.preventDefault(); // Prevent form submission
 
@@ -124,8 +150,8 @@ saveButtons.forEach(function(saveButton) {
       let updated_value = input_field.value
       let input_name= inputName[index]
       formData.append(input_name, updated_value)
-      /*let updatedValue = inputField.value;
-      updatedValues.push(updatedValue);*/
+      /!*let updatedValue = inputField.value;
+      updatedValues.push(updatedValue);*!/
     });
     //To enable csrf token in a javascript post
     const csrftoken = Cookies.get('csrftoken');
@@ -152,7 +178,7 @@ saveButtons.forEach(function(saveButton) {
       // Handle errors
     });
   });
-});
+});*/
 
 //Adding a new table entry:
    const add_row_btn = document.getElementById('add_new_entry_button');
