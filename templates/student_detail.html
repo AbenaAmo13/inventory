@@ -22,22 +22,16 @@
                     <th>Date Received</th>
                     <th>Actions</th>
                   </thead>
-          {% for book in books %}
-                <tr>
-                    <td class="">{{book.book_name}}</td>
-                      {% if books in received_books %}
-                          <td>Yes</td>
-                            <td>{{ received_books.date_received }}</td>
-                          {% else %}
-                          <td>No</td>
-                          <td>Not received</td>
-                    {% endif %}
-                     <td>
+           {% for book_received in received_books %}
+              <tr>
+                <td>{{ book_received.book.book_name }}</td>
+                <td>Yes</td>
+                <td>{{ book_received.date_received }}</td>
+              <td>
                         <button class="update_received_status" data-book-id="{{ book.id }}" data-student-id="{{ student.id }}" data-url="{% url 'students:update_received_status' %}">Update Received Status</button>
                      </td>
-                </tr>
-
-         {% endfor %}
+              </tr>
+        {% endfor %}
           </table>
           {% else %}
          <p>No books is available in the system for this year group.</p>
