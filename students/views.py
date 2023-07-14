@@ -2,6 +2,7 @@ import os
 
 import pandas
 import pandas as pd
+from django.db.models import Q
 from django.http import FileResponse, HttpResponse
 from django.shortcuts import render, redirect, get_object_or_404
 import json
@@ -127,9 +128,14 @@ def student_detail(request, pk):
     student = get_object_or_404(Student, pk=pk)
     student_year_group = student.year_group
     year_books = Book.objects.filter(year_group=student_year_group)
-    received_books = BookReceived.objects.filter(student_id=pk)
-    #received_books_list = list(received_books.values_list('book_id', flat=True))
+    received_books = BookReceived.objects.filter(student=student)
+    received_books_list = list(received_books.values_list('book_id', flat=True))
+    print(received_books_list)
+    # not_received_books = Book.objects.filter(~Q(id__in=received_books))
+    not_received_books = year_books.exclude(id__in=received_books_list)
+    print('The books not received' + str(not_received_books))
     book_form = StudentBookForm(request.POST or None)
+
     if request.method == "POST":
         if book_form.is_valid():
             isbn = book_form.cleaned_data['isbn_name']
@@ -149,6 +155,7 @@ def student_detail(request, pk):
                       'books': year_books,
                       'book_form': book_form,
                       'received_books': received_books,
+                      'not_received_books': not_received_books,
                   })
 
 

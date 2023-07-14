@@ -32,6 +32,16 @@
                      </td>
               </tr>
         {% endfor %}
+          {% for not_received in not_received_books %}
+              <tr>
+                <td>{{ not_received.book_name }}</td>
+                <td>No</td>
+                <td>Not received</td>
+              <td>
+                        <button class="update_received_status" data-book-id="{{ book.id }}" data-student-id="{{ student.id }}" data-url="{% url 'students:update_received_status' %}">Update Received Status</button>
+                     </td>
+              </tr>
+        {% endfor %}
           </table>
           {% else %}
          <p>No books is available in the system for this year group.</p>
