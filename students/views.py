@@ -130,10 +130,7 @@ def student_detail(request, pk):
     year_books = Book.objects.filter(year_group=student_year_group)
     received_books = BookReceived.objects.filter(student=student)
     received_books_list = list(received_books.values_list('book_id', flat=True))
-    print(received_books_list)
-    # not_received_books = Book.objects.filter(~Q(id__in=received_books))
     not_received_books = year_books.exclude(id__in=received_books_list)
-    print('The books not received' + str(not_received_books))
     book_form = StudentBookForm(request.POST or None)
 
     if request.method == "POST":
@@ -142,7 +139,6 @@ def student_detail(request, pk):
             book_name = book_form.cleaned_data['book_name']
             order_status = "REQUESTED"
             current_time = datetime.now().strftime("%Y-%m-%d %H:%M:%S.%f")
-            print(current_time)
             quantity_needed = 1
             quantity_received = 0
             new_book = Book(book_name=book_name, isbn=isbn, quantity_needed=quantity_needed,
@@ -162,7 +158,14 @@ def student_detail(request, pk):
 def update_received_books(request):
     student_id = request.POST.get('student_id')
     book_id = request.POST.get('book_id')
-    date_received = timezone.now()
-    new_received_book = BookReceived(book_id=book_id, student_id=student_id, date_received=date_received)
-    new_received_book.save()
-    return redirect('students:student_detail', student_id)
+    already_received = BookReceived.objects.filter(book_id=book_id, student_id=student_id)
+    if not already_received:
+        date_received = timezone.now()
+        new_received_book = BookReceived(book_id=book_id, student_id=student_id, date_received=date_received)
+        new_received_book.save()
+        return redirect('students:student_detail', student_id)
+    else:
+        print('Already done')
+
+        #print('The following has already been received' + already_received[0])
+

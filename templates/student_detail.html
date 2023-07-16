@@ -28,7 +28,7 @@
                 <td>Yes</td>
                 <td>{{ book_received.date_received }}</td>
               <td>
-                        <button class="update_received_status" data-book-id="{{ book.id }}" data-student-id="{{ student.id }}" data-url="{% url 'students:update_received_status' %}">Update Received Status</button>
+                        <button class="update_received_status" data-book-id="{{ book_received.book.id }}" data-student-id="{{ student.id }}" data-url="{% url 'students:update_received_status' %}">Update Received Status</button>
                      </td>
               </tr>
         {% endfor %}
@@ -38,7 +38,7 @@
                 <td>No</td>
                 <td>Not received</td>
               <td>
-                        <button class="update_received_status" data-book-id="{{ book.id }}" data-student-id="{{ student.id }}" data-url="{% url 'students:update_received_status' %}">Update Received Status</button>
+                        <button class="update_received_status" data-book-id="{{ not_received.id }}" data-student-id="{{ student.id }}" data-url="{% url 'students:update_received_status' %}">Update Received Status</button>
                      </td>
               </tr>
         {% endfor %}
