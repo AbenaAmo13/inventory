@@ -5,8 +5,22 @@
   display: none;
 }
 
+html,body{
+    margin: auto;
+}
 .button_actions{
   min-width: 500px;
+}
+
+.table_container{
+    padding: 16px;
+}
+.date_added{
+    min-width: 200px;
+}
+
+.shift_left{
+    padding-left: 16px;
 }
 
 .header{

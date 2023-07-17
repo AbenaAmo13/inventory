@@ -11,18 +11,18 @@
 <body>
 {% include "header.html" %}
 
-<h3>Books Inventory Management</h3>
-<p>To bulk add the students, you can download and fill this Excel template by   <a href="{% static 'excel_templates/book_template.xlsx' %}">Downloading Book Template</a>
+<h3 class="shift_left">Books Inventory Management</h3>
+<p class="shift_left">To bulk add the students, you can download and fill this Excel template by   <a href="{% static 'excel_templates/book_template.xlsx' %}">Downloading Book Template</a>
         and uploading it in by clicking "Choose File" down below:
 </p>
-<form method="post" action="/add_books" enctype="multipart/form-data" >
+<form method="post" action="/add_books" enctype="multipart/form-data" class="shift_left" >
     {% csrf_token %}
     <label for="books_inventory">Import Student List from Excel Sheet:</label><br>
       <input type="file" name="books_inventory" id="books_inventory" required>
      <input type="submit" value="Bulk Add Books Lists">
 </form>
 
-<div >
+<div class="table_container" >
  {% if books_data %}
         <form action="/table_actions" method="post" id="order_form">
          {% csrf_token %}
@@ -59,7 +59,7 @@
              <td class="data">{{ x.quantity_received }}</td>
               <td class="data">{{ x.year_group}}</td>
               <td class="order_status_data">{{ x.order_status}}</td>
-              <td>{{ x.date_requested}}</td>
+              <td class="date_added">{{ x.date_requested}}</td>
 
               <td class="button_actions">
                   <button type="submit" name="table_action" value="edit" class="edit" data-book-id = {{ x.id }}>Edit</button>
