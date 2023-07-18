@@ -10,8 +10,8 @@
 </head>
 <body>
 {% include "header.html" %}
-
-<h3>Student Book Management</h3>
+<div class="shift_left">
+    <h3>Student Book Management</h3>
 <div class="student-forms">
     <form method="get">
           {% csrf_token %}
@@ -78,13 +78,8 @@
     </table>
   {% else %}
         <p>No student data available.</p>
-
-
  {% endif %}
-
-
-
-
+</div>
 
 
 
