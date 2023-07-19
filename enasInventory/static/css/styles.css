@@ -32,7 +32,7 @@ html,body{
 }
 
 table {
-  width: 100%; /* Set the table width to 100% of its container */
+  /*width: 100%*/; /* Set the table width to 100% of its container */
   border-collapse: collapse; /* Merge the table borders */
   border: 1px solid #ccc; /* Add a border around the table */
   margin-bottom: 20px; /* Add some spacing at the bottom of the table */
@@ -91,7 +91,9 @@ tr:hover {
     display: flex;
     gap: 20px;
 }
-
+.padding_bottom{
+    padding-bottom: 20px;
+}
 
 .cancel{
     display: none;
