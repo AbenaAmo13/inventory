@@ -98,3 +98,54 @@ tr:hover {
 .cancel{
     display: none;
 }
+
+
+
+/* styles.css */
+
+/* Apply general styles to make the table responsive */
+.table_container {
+  overflow-x: auto;
+}
+
+#books_inventory_table {
+  width: 100%;
+  border-collapse: collapse;
+  white-space: nowrap; /* Prevent line breaks in table cells */
+}
+
+/* Set a minimum width for the columns (optional) */
+#books_inventory_table th,
+#books_inventory_table td {
+  min-width: 100px; /* Adjust this value as needed */
+  padding: 8px;
+  text-align: left;
+}
+
+/* Adjust table header styles */
+#books_inventory_table th {
+  background-color: #f2f2f2;
+}
+
+/* Add responsive styles for smaller screens */
+@media screen and (max-width: 768px) {
+  .table_container {
+    overflow-x: scroll;
+  }
+
+  #books_inventory_table {
+    min-width: 100%; /* Ensure the table takes the full width of the container */
+  }
+
+  /* Hide the "Select All" checkbox in smaller screens */
+  #select_all_dashboard {
+    display: none;
+  }
+
+  /* Set the table header to a fixed position so that it remains visible while scrolling */
+  #books_inventory_table th {
+    position: sticky;
+    top: 0;
+    z-index: 1;
+  }
+}
