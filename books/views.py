@@ -51,6 +51,8 @@ def add_books(request):
                     for _, book in read_excel_file.iterrows():
                         if not isinstance(book['isbn'], int):
                             isbn = ''.join([i for i in book['isbn'] if i.isalnum()])
+                        else:
+                            isbn = book['isbn']
                         saved_book = Book(
                             isbn=isbn,
                             book_name=book['book_name'],
