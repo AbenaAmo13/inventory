@@ -7,6 +7,8 @@ import pandas as pd
 import json
 from datetime import datetime
 from django.shortcuts import render, redirect
+
+from enasInventory.forms.student import BooksYearGroupFilterForm
 from enasInventory.models import Book
 from enasInventory.models import Student
 from django.http import HttpResponse
@@ -17,8 +19,14 @@ import os
 
 def dashboard(request):
     # Get all the books data.
+    filter_form = BooksYearGroupFilterForm(request.GET or None)  # Instantiate the form with the submitted data, if any
     books = Book.objects.all().order_by('-date_requested').values()
-    return render(request, 'dashboard.html', {'books_data': books, 'edit_mode': False})
+    if filter_form.is_valid():
+        year_group = filter_form.cleaned_data['year_group']
+        if year_group:
+            books = Book.objects.filter(year_group=year_group)
+
+    return render(request, 'dashboard.html', {'books_data': books, 'edit_mode': False, 'filter_form': filter_form})
 
 
 def add_book_entry(request):
