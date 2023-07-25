@@ -2,13 +2,14 @@ import http
 from io import BytesIO
 
 import pandas
+from django.db.models import Q
 import requests
 import pandas as pd
 import json
 from datetime import datetime
 from django.shortcuts import render, redirect
 
-from enasInventory.forms.student import BooksYearGroupFilterForm
+from enasInventory.forms.forms import BooksYearGroupFilterForm, BooksSearchForm
 from enasInventory.models import Book
 from enasInventory.models import Student
 from django.http import HttpResponse
@@ -20,13 +21,16 @@ import os
 def dashboard(request):
     # Get all the books data.
     filter_form = BooksYearGroupFilterForm(request.GET or None)  # Instantiate the form with the submitted data, if any
+    book_search_form = BooksSearchForm(request.GET or None)
     books = Book.objects.all().order_by('-date_requested').values()
     if filter_form.is_valid():
         year_group = filter_form.cleaned_data['year_group']
         if year_group:
             books = Book.objects.filter(year_group=year_group)
-
-    return render(request, 'dashboard.html', {'books_data': books, 'edit_mode': False, 'filter_form': filter_form})
+    if book_search_form.is_valid():
+        books_search = book_search_form.cleaned_data['books_query']
+        books = books.filter(Q(book_name__icontains=books_search) | Q(isbn__icontains=books_search))
+    return render(request, 'dashboard.html', {'books_data': books, 'edit_mode': False, 'filter_form': filter_form, 'books_search_form': book_search_form})
 
 
 def add_book_entry(request):

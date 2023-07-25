@@ -7,7 +7,7 @@ from django.http import FileResponse, HttpResponse
 from django.shortcuts import render, redirect, get_object_or_404
 import json
 from django.templatetags.static import static
-from enasInventory.forms.student import SearchStudentForm, YearGroupFilterForm, StudentBookForm, BookReceivedForm
+from enasInventory.forms.forms import SearchStudentForm, YearGroupFilterForm, StudentBookForm, BookReceivedForm
 from enasInventory.models import Student
 from enasInventory.models import Book
 from enasInventory.models import BookReceived

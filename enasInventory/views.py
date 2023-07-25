@@ -13,8 +13,8 @@ from django.http import HttpResponse
 from django.http import FileResponse
 from django.templatetags.static import static
 import os
-from .forms.student import YearGroupFilterForm
-from .forms.student import *
+from .forms.forms import YearGroupFilterForm
+from .forms.forms import *
 
 
 def index(request):
