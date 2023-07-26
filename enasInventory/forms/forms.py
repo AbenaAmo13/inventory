@@ -54,6 +54,19 @@ class BooksYearGroupFilterForm(forms.Form):
     )
 
 
+class StatusFiltering(forms.Form):
+    status_filtering = forms.ChoiceField(
+        choices=[
+            ('', 'All'),
+            ('ORDERED', 'ORDERED'),
+            ('REQUESTED', 'REQUESTED'),
+            ('RECEIVED', 'RECEIVED'),
+        ],
+        required=False,
+        label='Select an order status to filter the books order status:'
+    )
+
+
 class SearchStudentForm(forms.Form):
     search_student_query = forms.CharField(
         label='Search',
