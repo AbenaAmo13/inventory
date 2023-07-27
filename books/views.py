@@ -9,7 +9,7 @@ import json
 from datetime import datetime
 from django.shortcuts import render, redirect
 
-from enasInventory.forms.forms import BooksYearGroupFilterForm, BooksSearchForm
+from enasInventory.forms.forms import BooksYearGroupFilterForm, BooksSearchForm, StatusFiltering
 from enasInventory.models import Book
 from enasInventory.models import Student
 from django.http import HttpResponse
@@ -22,6 +22,7 @@ def dashboard(request):
     # Get all the books data.
     filter_form = BooksYearGroupFilterForm(request.GET or None)  # Instantiate the form with the submitted data, if any
     book_search_form = BooksSearchForm(request.GET or None)
+    status_form = StatusFiltering(request.GET or None)
     books = Book.objects.all().order_by('-date_requested').values()
     if filter_form.is_valid():
         year_group = filter_form.cleaned_data['year_group']
@@ -30,7 +31,11 @@ def dashboard(request):
     if book_search_form.is_valid():
         books_search = book_search_form.cleaned_data['books_query']
         books = books.filter(Q(book_name__icontains=books_search) | Q(isbn__icontains=books_search))
-    return render(request, 'dashboard.html', {'books_data': books, 'edit_mode': False, 'filter_form': filter_form, 'books_search_form': book_search_form})
+    if status_form.is_valid():
+        status_filtering = status_form.cleaned_data['status_filtering']
+        if status_filtering:
+            books = Book.objects.filter(order_status=status_filtering)
+    return render(request, 'dashboard.html', {'books_data': books, 'edit_mode': False, 'filter_form': filter_form, 'books_search_form': book_search_form, 'status_form': status_form})
 
 
 def add_book_entry(request):

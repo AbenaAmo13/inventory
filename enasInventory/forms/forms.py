@@ -63,7 +63,7 @@ class StatusFiltering(forms.Form):
             ('RECEIVED', 'RECEIVED'),
         ],
         required=False,
-        label='Select an order status to filter the books order status:'
+        label='Filter books by order status:'
     )
 
 
