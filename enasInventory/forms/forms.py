@@ -67,6 +67,18 @@ class StatusFiltering(forms.Form):
     )
 
 
+class PaidStatusFiltering(forms.Form):
+    paid_status = forms.ChoiceField(
+        choices=[
+            ('', 'All'),
+            ('True', 'True'),
+            ('False', 'False'),
+        ],
+        required=False,
+        label='Filter books by paid status:'
+    )
+
+
 class SearchStudentForm(forms.Form):
     search_student_query = forms.CharField(
         label='Search',

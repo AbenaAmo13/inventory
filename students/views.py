@@ -7,7 +7,8 @@ from django.http import FileResponse, HttpResponse
 from django.shortcuts import render, redirect, get_object_or_404
 import json
 from django.templatetags.static import static
-from enasInventory.forms.forms import SearchStudentForm, YearGroupFilterForm, StudentBookForm, BookReceivedForm
+from enasInventory.forms.forms import SearchStudentForm, YearGroupFilterForm, StudentBookForm, BookReceivedForm, \
+    PaidStatusFiltering
 from enasInventory.models import Student
 from enasInventory.models import Book
 from enasInventory.models import BookReceived
@@ -35,6 +36,7 @@ def add_student_entry(request):
 def student_books(request):
     search_form = SearchStudentForm(request.GET or None)
     filter_form = YearGroupFilterForm(request.GET or None)  # Instantiate the form with the submitted data, if any
+    paid_status = PaidStatusFiltering(request.GET or None)
     students = Student.objects.all()
     if filter_form.is_valid():
         year_group = filter_form.cleaned_data['year_group']
@@ -48,11 +50,14 @@ def student_books(request):
         search_query = search_form.cleaned_data['search_student_query']
         if search_query:
             students = students.filter(name__icontains=search_query)
-
+    if paid_status.is_valid():
+        paid_status_query = paid_status.cleaned_data['paid_status']
+        if paid_status_query:
+            students = students.filter(paid_status=paid_status_query)
     students_data = students.values()
 
     return render(request, 'students-book.html',
-                  {'students_data': students_data, 'filter_form': filter_form, 'search_form': search_form})
+                  {'students_data': students_data, 'filter_form': filter_form, 'search_form': search_form, 'paid_filter': paid_status })
 
 
 def add_students_bulk(request):

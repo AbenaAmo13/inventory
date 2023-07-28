@@ -18,6 +18,11 @@
     {{ filter_form.as_table }}
     <button type="submit">Filter</button>
 </form>
+        <form method="get">
+          {% csrf_token %}
+    {{ paid_filter.as_table }}
+    <button type="submit">Filter</button>
+</form>
     <form method="get">
         {{ search_form.as_table }}
         <button type="submit">Search</button>
