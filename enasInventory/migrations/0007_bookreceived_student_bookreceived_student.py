@@ -59,7 +59,7 @@ class Migration(migrations.Migration):
             model_name="bookreceived",
             name="students",
             field=models.ForeignKey(
-                on_delete=django.db.models.deletion.CASCADE, to="enasInventory.students"
+                on_delete=django.db.models.deletion.CASCADE, to="enasInventory.student"
             ),
         ),
     ]

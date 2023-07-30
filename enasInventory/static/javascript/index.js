@@ -250,13 +250,10 @@ editButtons.forEach(function (editBtn){
             })
             .then(response => {
                  location.reload()
-
             })
             .catch(error => {
               // Handle errors
             });
-
-
              console.log("UPDATED ORDER STATUS: " + updated_order_status)
          })
      })
@@ -289,6 +286,90 @@ editButtons.forEach(function (editBtn){
             });
         })
     })
+
+    let tableAppended = false; // Flag variable to keep track of whether the table has been appended
+
+    let add_first_entry = document.getElementById('add_first_book')
+    if(add_first_entry){
+        add_first_entry.addEventListener('click', function (event){
+            if(!tableAppended){
+                          let div_container = document.getElementsByClassName('table_container')[0]
+            let body = document.getElementsByTagName('body')[0]
+            let table = document.createElement('table');
+            let table_row = table.insertRow()
+            let headers = ['ISBN', 'Book Name', 'Quantity Requested', 'Quantity Received', 'Year Group', 'Order Status', 'Date Added']
+            headers.forEach(function (headers_name){
+                let header_title = document.createElement('th')
+                header_title.textContent = headers_name
+                table_row.appendChild(header_title)
+            })
+
+            let input_row = table.insertRow()
+            let input1_cell = input_row.insertCell()
+            let input1 = document.createElement('input')
+            input1.type = 'text'
+            input1.name = 'isbn'
+            input1_cell.appendChild(input1)
+
+            let input2_cell = input_row.insertCell()
+            let input2 = document.createElement('input')
+            input2.type = 'text'
+            input2.name = 'book_name'
+            input2_cell.appendChild(input2)
+
+            let input3_cell = input_row.insertCell()
+            let input3 = document.createElement('input')
+            input3.type = 'number'
+            input3.name = 'quantity_requested'
+            input3_cell.appendChild(input3)
+
+            let input4_cell = input_row.insertCell()
+            let input4 = document.createElement('input')
+            input4.type = 'number'
+            input4.name = 'quantity_received'
+            input4_cell.appendChild(input4)
+
+            let input5_cell = input_row.insertCell()
+            const year_options = ['Reception', 'Nursery 1', 'Nursery 2', 'Year 1', 'Year 2', 'Year 3', 'Year 4', 'Year 5', 'Year 6', 'Year 7', 'Year 9', 'Year 10', 'Year 11', 'Year 12', 'Year 13']
+            let year_group_element = document.createElement('select')
+            year_group_element.name='year_group'
+            year_options.forEach((option_name,index)=>{
+                option_name = document.createElement('option');
+                option_name.value = year_options[index]
+                option_name.text = year_options[index]
+                year_group_element.appendChild(option_name)
+            })
+            input5_cell.appendChild(year_group_element)
+
+            let input6_cell = input_row.insertCell()
+            const order_options = ['REQUESTED', 'ORDERED', 'RECEIVED']
+            let order_group_element = document.createElement('select')
+            order_group_element.name = 'order_status'
+                order_options.forEach((order_items, index)=>{
+                    order_items = document.createElement('option');
+                    order_items.value = order_options[index]
+                    order_items.text = order_options[index]
+                    order_group_element.appendChild(order_items)
+                })
+            input6_cell.appendChild(order_group_element)
+
+
+            let input7 = document.createElement('input')
+            input7.value=new Date().toISOString().slice(0, 16)
+            input7.type= 'datetime-local'
+            input7.name= 'date_added'
+            input7.readOnly = true
+            let input7_cell = input_row.insertCell()
+            input7_cell.appendChild(input7)
+
+
+            div_container.appendChild(table)
+             tableAppended = true; // Set the flag to true, indicating that the table has been appended
+            }
+
+
+        })
+    }
 
 
 

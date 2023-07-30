@@ -21,6 +21,17 @@
       <input type="file" name="books_inventory" id="books_inventory" required>
      <input type="submit" value="Bulk Add Books Lists">
 </form>
+ {% if not books_data %}
+<div class="shift_left">
+    <p> To add a single book item, click the Add first book entry</p>
+  <button id="add_first_book">Add first book entry </button>
+</div>
+ {% endif %}
+
+
+
+
+
 
 <div class="books-forms">
     <form method="get">
@@ -41,7 +52,7 @@
 
 <div class="table_container" >
  {% if books_data %}
-        <form action="/table_actions" method="post" id="order_form">
+        <form action="/books/table_actions" method="post" id="order_form">
          {% csrf_token %}
         <table id="books_inventory_table">
       <tr>
@@ -89,7 +100,7 @@
           {% endfor %}
     </table>
       {% else %}
-            <p>No books data available.</p>
+            <p>No books data available</p>
          {% endif %}
     </form>
 </div>

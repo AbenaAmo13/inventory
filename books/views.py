@@ -11,11 +11,6 @@ from django.shortcuts import render, redirect
 
 from enasInventory.forms.forms import BooksYearGroupFilterForm, BooksSearchForm, StatusFiltering
 from enasInventory.models import Book
-from enasInventory.models import Student
-from django.http import HttpResponse
-from django.http import FileResponse
-from django.templatetags.static import static
-import os
 
 
 def dashboard(request):
@@ -142,6 +137,7 @@ def table_actions(request):
         action = request.POST.get('table_action', None)
         if action == "update_all_statuses":
             book_selection_ids = request.POST.getlist('books_selection')
+            #print(book_selection_ids)
             # print("The ids are: " + str(book_selection_ids))
             for book_id in book_selection_ids:
                 update_all_order_status(book_id)
