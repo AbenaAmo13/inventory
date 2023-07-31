@@ -50,6 +50,8 @@ def add_book_entry(request):
     return redirect('dashboard')
 
 
+
+
 def add_books(request):
     try:
         if request.FILES['books_inventory']:

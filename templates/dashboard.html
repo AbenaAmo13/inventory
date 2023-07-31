@@ -7,6 +7,8 @@
     <link rel="stylesheet" href="{% static 'css/styles.css' %}">
     <script src = "{% static 'javascript/index.js' %}" defer></script>
     <script src="https://cdn.jsdelivr.net/npm/js-cookie@3.0.5/dist/js.cookie.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.4.0/jspdf.umd.min.js"></script>
+
 </head>
 <body>
 {% include "header.html" %}
@@ -27,12 +29,6 @@
   <button id="add_first_book">Add first book entry </button>
 </div>
  {% endif %}
-
-
-
-
-
-
 <div class="books-forms">
     <form method="get">
           {% csrf_token %}
@@ -47,7 +43,19 @@
         {{ books_search_form.as_table }}
         <button type="submit">Search</button>
     </form>
+</div>
+<!-- Add the "Print PDF" button -->
+<button id="print_pdf_button">Print PDF</button>
 
+<div class="column-options">
+    <label><input type="checkbox" id="toggleISBN" checked> Show ISBN</label>
+    <label><input type="checkbox" id="toggleBookName" checked> Show Book Name</label>
+    <label><input type="checkbox" id="toggleQuantityRequested" checked> Show Quantity Requested</label>
+    <label><input type="checkbox" id="toggleQuantityReceived" checked> Show Quantity Received</label>
+    <label><input type="checkbox" id="toggleYearGroup" checked>Show Year Group</label>
+    <label><input type="checkbox" id="toggleOrderStatus" checked>Show Order Status</label>
+    <label><input type="checkbox" id="toggleDateAdded" checked>Show Date Added</label>
+    <!-- Add more checkboxes for other columns as needed -->
 </div>
 
 <div class="table_container" >
@@ -105,7 +113,7 @@
     </form>
 </div>
 
-
+<!-- Checkboxes to toggle column visibility -->
 
     <script>
       {% comment %} function toggle(source) {

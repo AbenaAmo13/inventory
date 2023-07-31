@@ -37,6 +37,13 @@ table {
   border: 1px solid #ccc; /* Add a border around the table */
   margin-bottom: 20px; /* Add some spacing at the bottom of the table */
 }
+.column-options{
+    padding: 16px;
+}
+.added_table{
+    display: flex;
+    gap: 20px;
+}
 
 th, td {
   padding: 8px; /* Add padding to table cells */

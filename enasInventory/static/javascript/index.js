@@ -293,11 +293,11 @@ editButtons.forEach(function (editBtn){
     if(add_first_entry){
         add_first_entry.addEventListener('click', function (event){
             if(!tableAppended){
-                          let div_container = document.getElementsByClassName('table_container')[0]
+            let div_container = document.getElementsByClassName('table_container')[0]
             let body = document.getElementsByTagName('body')[0]
             let table = document.createElement('table');
             let table_row = table.insertRow()
-            let headers = ['ISBN', 'Book Name', 'Quantity Requested', 'Quantity Received', 'Year Group', 'Order Status', 'Date Added']
+            let headers = ['ISBN', 'Book Name', 'Quantity Requested', 'Quantity Received', 'Year Group', 'Order Status', 'Date Added', 'Actions']
             headers.forEach(function (headers_name){
                 let header_title = document.createElement('th')
                 header_title.textContent = headers_name
@@ -362,14 +362,151 @@ editButtons.forEach(function (editBtn){
             let input7_cell = input_row.insertCell()
             input7_cell.appendChild(input7)
 
-
+            let input8_cell = input_row.insertCell()
+            let button_save = document.createElement('button')
+            button_save.className= 'save_button'
+            button_save.textContent = 'Save'
+            let button_cancel = document.createElement('button')
+            button_cancel.className= 'cancel_button'
+            button_cancel.textContent = 'Cancel'
+            input8_cell.appendChild(button_save)
+            input8_cell.appendChild(button_cancel)
+            input8_cell.className = 'added_table'
             div_container.appendChild(table)
-             tableAppended = true; // Set the flag to true, indicating that the table has been appended
+            tableAppended = true; // Set the flag to true, indicating that the table has been appended
+            let formData = new FormData()
+
+            let save_add = input_row.querySelector('.save_button')
+            if(save_add){
+                 save_add.addEventListener('click', function (event){
+                        let inputCells = document.querySelectorAll('input, select')
+                        inputCells.forEach(function (input, index){
+                             formData.append(input.name, input.value)
+                             const csrftoken = Cookies.get('csrftoken');
+                             fetch('/books/add_book_entry', {
+                                 method: 'POST',
+                                 body: formData,
+                                 credentials: 'same-origin',
+                                 headers:{'X-CSRFToken': csrftoken}
+
+                             }).then(response => {location.reload()})
+                        })
+                 })
             }
+            let cancel_btn = input_row.querySelector('.cancel_button')
+            cancel_btn.addEventListener('click', function (event){
+                // Remove the table from the div_container
+                div_container.removeChild(table);
+                // Reset the tableAppended flag to false so the table can be re-added when the user clicks the 'add_first_book' button again
+                tableAppended = false;
+
+            })
 
 
-        })
+        }
+    })
+}
+
+
+     // Function to toggle column visibility based on checkbox status
+    function toggleColumnVisibility(checkboxId, columnIndex) {
+        const checkbox = document.getElementById(checkboxId);
+        const columnCells = document.querySelectorAll(`td:nth-child(${columnIndex})`);
+        const headerCell = document.querySelector(`th:nth-child(${columnIndex})`);
+        headerCell.style.display = checkbox.checked ? 'table-cell' : 'none';
+        columnCells.forEach(cell => {
+            cell.style.display = checkbox.checked ? 'table-cell' : 'none';
+        });
     }
+
+    // Add event listeners to the checkboxes
+    document.getElementById('toggleISBN').addEventListener('change', function () {
+        toggleColumnVisibility('toggleISBN', 2); // 2 represents the column index (1-based) of ISBN in the table
+    });
+
+      document.getElementById('toggleBookName').addEventListener('change', function () {
+        toggleColumnVisibility('toggleBookName', 3); // 2 represents the column index (1-based) of ISBN in the table
+    });
+
+    document.getElementById('toggleQuantityRequested').addEventListener('change', function () {
+        toggleColumnVisibility('toggleQuantityRequested', 4); // 4 represents the column index (1-based) of Quantity Requested in the table
+    });
+
+
+    document.getElementById('toggleQuantityReceived').addEventListener('change', function () {
+        toggleColumnVisibility('toggleQuantityReceived', 5); // 4 represents the column index (1-based) of Quantity Requested in the table
+    });
+
+      document.getElementById('toggleYearGroup').addEventListener('change', function () {
+        toggleColumnVisibility('toggleYearGroup', 6); // 4 represents the column index (1-based) of Quantity Requested in the table
+    });
+
+   document.getElementById('toggleOrderStatus').addEventListener('change', function () {
+        toggleColumnVisibility('toggleOrderStatus', 7); // 4 represents the column index (1-based) of Quantity Requested in the table
+    });
+
+
+   document.getElementById('toggleOrderStatus').addEventListener('change', function () {
+        toggleColumnVisibility('toggleOrderStatus', 7); // 4 represents the column index (1-based) of Quantity Requested in the table
+    });
+
+   document.getElementById('toggleDateAdded').addEventListener('change', function () {
+        toggleColumnVisibility('toggleDateAdded', 8); // 4 represents the column index (1-based) of Quantity Requested in the table
+    });
+
+
+
+    // Add more event listeners for other checkboxes and columns as needed
+
+    // Function to toggle all checkboxes in the table
+    function toggleAllCheckboxes(source) {
+        const checkboxes = document.querySelectorAll('input[type="checkbox"][name="books_selection"]');
+        checkboxes.forEach(checkbox => {
+            checkbox.checked = source.checked;
+        });
+    }
+
+
+    function generatePDF() {
+        // Create a new jsPDF instance
+        const doc = new jsPDF();
+
+        // Get the visible columns' headers and data cells
+        const visibleHeaders = document.querySelectorAll('th[style*="display: table-cell"]');
+        const visibleDataCells = document.querySelectorAll('td[style*="display: table-cell"]');
+
+        // Convert the visible columns' headers and data cells into arrays
+        const headers = Array.from(visibleHeaders).map(header => header.innerText);
+        const data = Array.from(visibleDataCells).map(cell => cell.innerText);
+
+        // Prepare the data for the autotable plugin
+        const tableData = [headers, ...splitArray(data, headers.length)];
+
+        // Set the column widths for the PDF
+        const columnWidths = visibleHeaders.length > 0 ? 'auto' : 'wrap';
+
+        // Generate the PDF using the autotable plugin
+        doc.autoTable({
+            head: [tableData[0]],
+            body: tableData.slice(1),
+            columnStyles: { 0: { columnWidth: columnWidths } },
+        });
+
+        // Save or open the generated PDF
+        doc.save('books_inventory.pdf');
+    }
+
+    // Helper function to split an array into rows
+    function splitArray(arr, size) {
+        const result = [];
+        for (let i = 0; i < arr.length; i += size) {
+            result.push(arr.slice(i, i + size));
+        }
+        return result;
+    }
+
+    // Add event listener for the "Print PDF" button
+    document.getElementById('print_pdf_button').addEventListener('click', generatePDF);
 
 
 
