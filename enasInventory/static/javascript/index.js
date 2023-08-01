@@ -469,6 +469,7 @@ editButtons.forEach(function (editBtn){
 
     function generatePDF() {
         // Create a new jsPDF instance
+        window.jsPDF = window.jspdf.jsPDF
         const doc = new jsPDF();
 
         // Get the visible columns' headers and data cells
