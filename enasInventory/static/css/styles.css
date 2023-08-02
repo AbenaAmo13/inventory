@@ -31,6 +31,13 @@ html,body{
 
 }
 
+@media print {
+  body :not(.printable) {
+    display: none;
+  }
+}
+
+
 table {
   /*width: 100%*/; /* Set the table width to 100% of its container */
   border-collapse: collapse; /* Merge the table borders */
