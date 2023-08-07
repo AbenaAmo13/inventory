@@ -31,10 +31,24 @@ html,body{
 
 }
 
-@media print {
-  body :not(.printable) {
-    display: none;
-  }
+@media print{
+    .non-printable{
+        display: none;
+    }
+
+    .header{
+        display: none;
+    }
+    .column-options{
+        display: none;
+    }
+    #select_all_dashboard{
+        display: none !important;
+    }
+    *{
+        font-size: 30px;
+    }
+
 }
 
 

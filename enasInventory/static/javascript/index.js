@@ -506,8 +506,30 @@ editButtons.forEach(function (editBtn){
         return result;
     }
 
-    // Add event listener for the "Print PDF" button
-    document.getElementById('print_pdf_button').addEventListener('click', generatePDF);
+    function printTable() {
+        // Create a new window for printing
+        const printWindow = window.open('', '_blank');
+
+        // Get the table content
+        const tableContent = document.querySelector('.table_container.printable').innerHTML;
+
+        // Set the content of the new window to the table content
+        printWindow.document.write('<html><head><title>Printed Table</title></head><body>');
+        printWindow.document.write(tableContent);
+        printWindow.document.write('</body></html>');
+
+        // Print the new window
+        printWindow.document.close();
+        printWindow.print();
+        //printWindow.close();
+    }
+
+ document.getElementById('print_pdf_button').addEventListener('click', function() {
+        printTable();
+    });
+
+
+
 
 
 

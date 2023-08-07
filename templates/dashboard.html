@@ -12,39 +12,41 @@
 </head>
 <body>
 {% include "header.html" %}
-<h3 class="shift_left ">Books Inventory Management</h3>
-<p class="shift_left">To bulk add the students, you can download and fill this Excel template by   <a href="{% static 'excel_templates/book_template.xlsx' %}">Downloading Book Template</a>
-        and uploading it in by clicking "Choose File" down below:
-</p>
-<form method="post" action="/books/add_books" enctype="multipart/form-data" class="shift_left" >
-    {% csrf_token %}
-    <label for="books_inventory">Import Student List from Excel Sheet:</label><br>
-      <input type="file" name="books_inventory" id="books_inventory" required>
-     <input type="submit" value="Bulk Add Books Lists">
-</form>
- {% if not books_data %}
-<div class="shift_left">
-    <p> To add a single book item, click the Add first book entry</p>
-  <button id="add_first_book">Add first book entry </button>
-</div>
- {% endif %}
-<div class="books-forms">
-    <form method="get">
-          {% csrf_token %}
-    {{ filter_form.as_table }}
-    <button type="submit">Filter</button>
-</form>
-    <form method="get">
-        {{ status_form.as_table }}
-        <button type="submit">Filter Status</button>
+
+<div class="non-printable">
+        <h3 class="shift_left ">Books Inventory Management</h3>
+    <p class="shift_left">To bulk add the students, you can download and fill this Excel template by   <a href="{% static 'excel_templates/book_template.xlsx' %}">Downloading Book Template</a>
+            and uploading it in by clicking "Choose File" down below:
+    </p>
+    <form method="post" action="/books/add_books" enctype="multipart/form-data" class="shift_left" >
+        {% csrf_token %}
+        <label for="books_inventory">Import Student List from Excel Sheet:</label><br>
+          <input type="file" name="books_inventory" id="books_inventory" required>
+         <input type="submit" value="Bulk Add Books Lists">
     </form>
-    <form method="get">
-        {{ books_search_form.as_table }}
-        <button type="submit">Search</button>
+     {% if not books_data %}
+    <div class="shift_left">
+        <p> To add a single book item, click the Add first book entry</p>
+      <button id="add_first_book">Add first book entry </button>
+    </div>
+     {% endif %}
+    <div class="books-forms">
+        <form method="get">
+              {% csrf_token %}
+        {{ filter_form.as_table }}
+        <button type="submit">Filter</button>
     </form>
+        <form method="get">
+            {{ status_form.as_table }}
+            <button type="submit">Filter Status</button>
+        </form>
+        <form method="get">
+            {{ books_search_form.as_table }}
+            <button type="submit">Search</button>
+        </form>
+    </div>
 </div>
-<!-- Add the "Print PDF" button -->
-<button id="print_pdf_button">Print PDF</button>
+
 
 <div class="column-options">
     <label><input type="checkbox" id="toggleISBN" checked> Show ISBN</label>
@@ -57,16 +59,17 @@
     <!-- Add more checkboxes for other columns as needed -->
 </div>
 
-<div class="table_container" >
+<div class="table_container printable" >
  {% if books_data %}
         <form action="/books/table_actions" method="post" id="order_form">
          {% csrf_token %}
-        <table id="books_inventory_table"  class="printable">
+        <table id="books_inventory_table">
       <tr>
-        <th id="select_all_dashboard">
-            <label for="select_all">Select All:</label>
-            <input type="checkbox" id="select_all" onclick="toggleAllCheckboxes(this)" >
-        <br><br></th>
+        <th id="select_all_dashboard" class="non-printable">
+            <label for="select_all" class="non-printable">Select All:</label>
+            <input type="checkbox" id="select_all" onclick="toggleAllCheckboxes(this)" class="non-printable" >
+        <br><br>
+        </th>
         <th>ISBN</th>
         <th>Book Name</th>
         <th>Quantity Requested</th>
@@ -74,7 +77,7 @@
         <th>Year Group</th>
         <th>Order Status</th>
         <th>Date Added</th>
-        <th>
+        <th class="non-printable">
             Actions
             <button id="add_new_entry_button">Add new entry</button>
             <button type="submit" name="table_action" value="update_all_statuses">Update all Order Statuses</button>
@@ -82,7 +85,7 @@
       </tr>
           {% for x in books_data %}
             <tr>
-            <td>
+            <td class="non-printable">
                 <input type="checkbox" name="books_selection" value="{{ x.id }}" required>
                 <input type="hidden" name="book_id" value="{{ x.id }}">
             </td>
@@ -96,7 +99,7 @@
               <td class="order_status_data">{{ x.order_status}}</td>
               <td class="date_added">{{ x.date_requested}}</td>
 
-              <td class="button_actions">
+              <td class="button_actions non-printable">
                   <button type="submit" name="table_action" value="edit" class="edit" data-book-id = {{ x.id }}>Edit</button>
                   <button class="save" data-book-id = {{x.id }}>Save</button>
                   <button class="cancel" data-book-id="{{ x.id }}">Cancel</button>
