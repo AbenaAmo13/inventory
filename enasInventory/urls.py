@@ -23,6 +23,8 @@ from . import views
 urlpatterns = [
                   path("admin/", admin.site.urls),
                   path('', views.index, name='index'),
+                  path('add_account/', views.add_account_index, name='add_account'),
+                  path('account_setup', views.account_setup, name='account_setup'),
                   # Other URL patterns
                   path('students/', include('students.urls')),
                   path('login', views.login_post),
