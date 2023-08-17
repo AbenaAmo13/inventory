@@ -5,8 +5,16 @@
   display: none;
 }
 
+.show_password{
+    display: flex;
+}
+
 html,body{
     margin: auto;
+}
+
+.login_body{
+    margin: 8px;
 }
 .button_actions{
   min-width: 500px;
@@ -50,6 +58,7 @@ html,body{
     }
 
 }
+
 
 
 table {

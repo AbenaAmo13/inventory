@@ -1,17 +1,29 @@
+
+{% load static %}
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
+    <link rel="stylesheet" href="{% static 'css/styles.css' %}">
+            <script src = "{% static 'javascript/login.js' %}" defer></script>
+
+
 </head>
-<body>
+<body class="login_body">
 <h1>ENAS Book Inventory</h1>
 <form method="post" action="/login" >
     {% csrf_token %}
     <label for="username">Username:</label><br>
       <input type="text" id="username" name="username"><br>
       <label for="password">Password:</label><br>
-      <input type="text" id="password" name="password"><br><br>
+      <input type="password" id="password" name="password"><br><br>
+      <!-- An element to toggle between password visibility -->
+      <div class="show_password">
+         <input type="checkbox" onclick="togglePassword()" name="showPassword" id="showPassword">
+         <label for="showPassword"> Show password</label><br>
+      </div>
+
       <input type="submit" value="Submit">
     {% if errors %}
         {% for error in errors %}
