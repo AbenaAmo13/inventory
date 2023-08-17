@@ -4,6 +4,8 @@ import os
 from django.contrib.auth.models import User
 from dotenv import load_dotenv
 from django.shortcuts import render, redirect
+from django.contrib.auth import authenticate
+
 from django.http import HttpResponse
 
 load_dotenv()
@@ -29,7 +31,7 @@ def index(request):
     if len(user) <= 0:
         return redirect('add_account')
     else:
-        return render(request, 'index.html')
+        return render(request, 'index.html', {'errors': None})
     # if User.objects.all()
     # database_user = os.getenv('USERNAME'),
     # database_password = os.getenv('PASSWORD'),
@@ -38,7 +40,17 @@ def index(request):
 
 
 def login_post(request):
-    username = request.POST['username']
-    print(username)
-    print(request.POST)
-    return HttpResponse(status=200)
+    if request.method == 'POST':
+        errors = []
+        username = request.POST['username']
+        password = request.POST['password']
+        created_user = authenticate(username=username, password=password)
+        if created_user is not None:
+            return redirect('dashboard')
+        else:
+            errors.append('Invalid user credentials')
+            return render(request, 'index.html', {'errors': errors})
+
+
+        #return redirect('dashboard')
+

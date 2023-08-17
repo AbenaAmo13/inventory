@@ -13,6 +13,13 @@
       <label for="password">Password:</label><br>
       <input type="text" id="password" name="password"><br><br>
       <input type="submit" value="Submit">
+    {% if errors %}
+        {% for error in errors %}
+            <ul>
+                <li> {{ error }} </li>
+            </ul>
+        {% endfor %}
+    {% endif %}
 </form>
 
 </body>
