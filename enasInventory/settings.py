@@ -117,7 +117,15 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/4.2/howto/static-files/
 
-STATIC_URL = "static/"
+#STATIC_URL = "static/"
+
+# Define the URL prefix for static files (CSS, JavaScript, images, etc.)
+STATIC_URL = '/static/'
+
+STATIC_ROOT= os.path.join(BASE_DIR, 'enasInventory/static/')
+
+# Specify the directory where your static files are located
+#STATICFILES_DIRS = [os.path.join(BASE_DIR, 'enasInventory/static/')]
 
 
 
