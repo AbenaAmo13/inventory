@@ -417,6 +417,14 @@ editButtons.forEach(function (editBtn){
         columnCells.forEach(cell => {
             cell.style.display = checkbox.checked ? 'table-cell' : 'none';
         });
+        if (checkbox.checked){
+            //console.log(checkboxId + "has been checked")
+            localStorage.setItem(checkboxId, 'visible'); // Store the state in localStorage
+        }else{
+            //console.log(checkboxId + "has not been checked")
+            localStorage.setItem(checkboxId, 'hidden'); // Store the state in localStorage
+
+        }
     }
 
     // Add event listeners to the checkboxes
@@ -454,7 +462,34 @@ editButtons.forEach(function (editBtn){
         toggleColumnVisibility('toggleDateAdded', 8); // 4 represents the column index (1-based) of Quantity Requested in the table
     });
 
+    const checkboxIds = [
+        'toggleISBN',
+        'toggleBookName',
+        'toggleQuantityRequested',
+        'toggleQuantityReceived',
+        'toggleYearGroup',
+        'toggleOrderStatus',
+        'toggleDateAdded'
+    ];
 
+   function applyStoredColumnSettings() {
+
+    checkboxIds.forEach(checkboxId => {
+        const visibility = localStorage.getItem(checkboxId);
+        console.log(checkboxId, visibility)
+        const columnIndex = parseInt(document.getElementById(checkboxId).getAttribute('data-column-index'));
+
+        if (visibility === 'hidden') {
+            toggleColumnVisibility(checkboxId, columnIndex);
+            document.getElementById(checkboxId).checked = false;
+        }else{
+               document.getElementById(checkboxId).checked = true;
+        }
+    });
+}
+
+// Call the function on page load
+window.addEventListener('load', applyStoredColumnSettings);
 
     // Add more event listeners for other checkboxes and columns as needed
 
@@ -467,66 +502,7 @@ editButtons.forEach(function (editBtn){
     }
 
 
-    function generatePDF() {
-        // Create a new jsPDF instance
-        window.jsPDF = window.jspdf.jsPDF
-        const doc = new jsPDF();
 
-        // Get the visible columns' headers and data cells
-        const visibleHeaders = document.querySelectorAll('th[style*="display: table-cell"]');
-        const visibleDataCells = document.querySelectorAll('td[style*="display: table-cell"]');
-
-        // Convert the visible columns' headers and data cells into arrays
-        const headers = Array.from(visibleHeaders).map(header => header.innerText);
-        const data = Array.from(visibleDataCells).map(cell => cell.innerText);
-
-        // Prepare the data for the autotable plugin
-        const tableData = [headers, ...splitArray(data, headers.length)];
-
-        // Set the column widths for the PDF
-        const columnWidths = visibleHeaders.length > 0 ? 'auto' : 'wrap';
-
-        // Generate the PDF using the autotable plugin
-        doc.autoTable({
-            head: [tableData[0]],
-            body: tableData.slice(1),
-            columnStyles: { 0: { columnWidth: columnWidths } },
-        });
-
-        // Save or open the generated PDF
-        doc.save('books_inventory.pdf');
-    }
-
-    // Helper function to split an array into rows
-    function splitArray(arr, size) {
-        const result = [];
-        for (let i = 0; i < arr.length; i += size) {
-            result.push(arr.slice(i, i + size));
-        }
-        return result;
-    }
-
-    function printTable() {
-        // Create a new window for printing
-        const printWindow = window.open('', '_blank');
-
-        // Get the table content
-        const tableContent = document.querySelector('.table_container.printable').innerHTML;
-
-        // Set the content of the new window to the table content
-        printWindow.document.write('<html><head><title>Printed Table</title></head><body>');
-        printWindow.document.write(tableContent);
-        printWindow.document.write('</body></html>');
-
-        // Print the new window
-        printWindow.document.close();
-        printWindow.print();
-        //printWindow.close();
-    }
-
- document.getElementById('print_pdf_button').addEventListener('click', function() {
-        printTable();
-    });
 
 
 
