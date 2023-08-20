@@ -33,6 +33,20 @@ def add_student_entry(request):
     return HttpResponse("Error occurred while adding a student.")
 
 
+def add_new_student_entry(request):
+    if request.method == 'POST':
+        student_name = request.POST.get('student_name')
+        year_group = request.POST.get('year_group')
+        paid_status = request.POST.get('paid_status')
+        if paid_status == 'True':
+            paid_status = True
+        else:
+            paid_status = False
+        new_student = Student(name=student_name, year_group=year_group, paid_status=paid_status)
+        new_student.save()
+        return redirect('students:students_book')
+
+
 def student_books(request):
     search_form = SearchStudentForm(request.GET or None)
     filter_form = YearGroupFilterForm(request.GET or None)  # Instantiate the form with the submitted data, if any
@@ -55,7 +69,8 @@ def student_books(request):
     students_data = students.values()
 
     return render(request, 'students-book.html',
-                  {'students_data': students_data, 'filter_form': filter_form, 'search_form': search_form, 'paid_filter': paid_status })
+                  {'students_data': students_data, 'filter_form': filter_form, 'search_form': search_form,
+                   'paid_filter': paid_status})
 
 
 def add_students_bulk(request):
@@ -170,5 +185,4 @@ def update_received_books(request):
     else:
         print('Already done')
 
-        #print('The following has already been received' + already_received[0])
-
+        # print('The following has already been received' + already_received[0])

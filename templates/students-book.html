@@ -41,8 +41,16 @@
        <button type="submit" >Bulk Add Students</button>
     </form>
 
+       {% if not students_data %}
+    <div>
+        <p> To add a single student item, click the Add first student entry</p>
+      <button id="add_student_entry">Add first student entry </button>
+    </div>
+     {% endif %}
+
+<div class="student_table_container">
  {% if students_data %}
-     <table id="student_table">
+         <table id="student_table">
             <thead>
                 <tr>
                     <th>
@@ -55,6 +63,7 @@
                     <th>
                         Actions
                         <button id="update_all_students">Update All</button>
+                        <button id="delete_all_students">Delete</button>
                         <button id="add_new_student">Add new Student</button>
                     </th>
 
@@ -72,7 +81,7 @@
                     <td>
                         <button class="student_edit" data-student-id = {{student.id }}>Edit</button>
                         <button class="student_save" data-student-id = {{student.id }}>Save</button>
-                        <button class="student_delete" data-student-id = {{student.id }}>Cancel</button>
+                        <button class="student_delete" data-student-id = {{student.id }}>Delete</button>
                         <button class="update_paid_status" data-student-id = {{student.id }}>Update Paid Status</button>
                         <a href="{% url 'students:student_detail' student.id  %}">View Book Details</a>
                     </td>
@@ -83,6 +92,7 @@
   {% else %}
         <p>No student data available.</p>
  {% endif %}
+</div>
 </div>
 
 

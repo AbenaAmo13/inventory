@@ -258,6 +258,96 @@ if(updateReceivedStatus){
 }
 
 
+const add_student_entry = document.getElementById('add_student_entry');
+let studentTableAppended = false; // Flag variable to keep track of whether the table has been appended
+if(add_student_entry){
+    add_student_entry.addEventListener('click', function (event){
+        console.log('I am here')
+        event.preventDefault()
+        if(!studentTableAppended){
+            console.log('I am not appended ')
+            let div_container = document.getElementsByClassName('student_table_container')[0]
+            //console.log(div_container[0])
+            let table = document.createElement('table');
+            let table_row = table.insertRow()
+            let headers = ['Student name', 'Paid Status', 'Year Group', 'Actions']
+            headers.forEach(function (tableHeadersName){
+                  let header_title = document.createElement('th')
+                header_title.textContent = tableHeadersName
+                table_row.appendChild(header_title)
+            })
+
+            //Input
+            let inputRows = table.insertRow()
+            let studentNameInputCell = inputRows.insertCell()
+            let studentNameInput = document.createElement('input')
+            studentNameInput.type= 'text'
+            studentNameInput.name= 'student_name'
+            studentNameInputCell.appendChild(studentNameInput)
+
+            let paidStatusInputCell = inputRows.insertCell()
+            let paidStatusOptions = ['True', 'False']
+            let paidStatusSelect = document.createElement('select')
+            paidStatusSelect.name= 'paid_status'
+            paidStatusOptions.forEach((option, index)=>{
+                let optionElement = document.createElement('option')
+                optionElement.value = paidStatusOptions[index]
+                optionElement.text= paidStatusOptions[index]
+                paidStatusSelect.appendChild(optionElement)
+            })
+            paidStatusInputCell.appendChild(paidStatusSelect)
+
+            let studentYearGroupCell = inputRows.insertCell()
+            const year_options = ['Reception', 'Nursery 1', 'Nursery 2', 'Year 1', 'Year 2', 'Year 3', 'Year 4', 'Year 5', 'Year 6', 'Year 7', 'Year 9', 'Year 10', 'Year 11', 'IGCSE', 'Year 12', 'Year 13', 'A-level']
+            let student_year_group = document.createElement('select')
+            student_year_group.name='year_group'
+            year_options.forEach((option_name,index)=>{
+                option_name = document.createElement('option');
+                option_name.value = year_options[index]
+                option_name.text = year_options[index]
+                student_year_group.appendChild(option_name)
+            })
+            studentYearGroupCell.appendChild(student_year_group)
+
+            let ActionInputCell = inputRows.insertCell()
+            let button_save = document.createElement('button')
+            button_save.className= 'save_button'
+            button_save.textContent = 'Save'
+            let button_cancel = document.createElement('button')
+            button_cancel.className= 'cancel_button'
+            button_cancel.textContent = 'Cancel'
+            ActionInputCell.appendChild(button_save)
+            ActionInputCell.appendChild(button_cancel)
+            ActionInputCell.className = 'added_table'
+            div_container.appendChild(table)
+            studentTableAppended = true;
+
+            let formData = new FormData()
+            let save_add = inputRows.querySelector('.save_button')
+             if(save_add){
+                 save_add.addEventListener('click', function (event){
+                     let inputCells = inputRows.querySelectorAll('input, select')
+                        inputCells.forEach(function (input, index) {
+                            console.log('The input is' + input)
+                            formData.append(input.name, input.value)
+                            const csrftoken = Cookies.get('csrftoken');
+                            fetch('/students/add_first_entry', {
+                                 method: 'POST',
+                                 body: formData,
+                                 credentials: 'same-origin',
+                                 headers:{'X-CSRFToken': csrftoken}
+                             }).then(response => {location.reload()})
+
+                        })
+                 })
+             }
+        }else{
+
+        }
+
+    })
+}
+
 
 
 

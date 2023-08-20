@@ -7,6 +7,7 @@ urlpatterns = [
     # Other URL patterns
     path('add_students_bulk', views.add_students_bulk),
     path('add_student_entry', views.add_student_entry),
+    path('add_first_entry', views.add_new_student_entry),
     path('edit_student_row', views.edit_student_row),
     path('update_paid_status', views.update_paid_status),
     path('update_received_status', views.update_received_books, name='update_received_status'),

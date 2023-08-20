@@ -294,7 +294,6 @@ editButtons.forEach(function (editBtn){
         add_first_entry.addEventListener('click', function (event){
             if(!tableAppended){
             let div_container = document.getElementsByClassName('table_container')[0]
-            let body = document.getElementsByTagName('body')[0]
             let table = document.createElement('table');
             let table_row = table.insertRow()
             let headers = ['ISBN', 'Book Name', 'Quantity Requested', 'Quantity Received', 'Year Group', 'Order Status', 'Date Added', 'Actions']
