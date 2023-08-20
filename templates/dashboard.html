@@ -87,7 +87,7 @@
           {% for x in books_data %}
             <tr>
             <td class="non-printable">
-                <input type="checkbox" name="books_selection" value="{{ x.id }}" required>
+                <input type="checkbox" name="books_selection" value="{{ x.id }}">
                 <input type="hidden" name="book_id" value="{{ x.id }}">
             </td>
               <td class="data">{{ x.isbn }}</td>
