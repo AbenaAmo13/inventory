@@ -30,7 +30,8 @@ def dashboard(request):
         status_filtering = status_form.cleaned_data['status_filtering']
         if status_filtering:
             books = Book.objects.filter(order_status=status_filtering)
-    return render(request, 'dashboard.html', {'books_data': books, 'edit_mode': False, 'filter_form': filter_form, 'books_search_form': book_search_form, 'status_form': status_form})
+    return render(request, 'dashboard.html', {'books_data': books, 'edit_mode': False, 'filter_form': filter_form,
+                                              'books_search_form': book_search_form, 'status_form': status_form})
 
 
 def add_book_entry(request):
@@ -48,8 +49,6 @@ def add_book_entry(request):
         new_book_entry.save()
     # Redirect to the dashboard page using JavaScript
     return redirect('dashboard')
-
-
 
 
 def add_books(request):
@@ -96,6 +95,11 @@ def update_all_order_status(book_id):
     return redirect('dashboard')
 
 
+def delete_all_selected(book_id):
+    selected_book = Book.objects.get(id=book_id)
+    selected_book.delete()
+
+
 def update_order_status(request):
     if request.method == "POST":
         book_id = request.POST.get('book_id')
@@ -106,6 +110,11 @@ def update_order_status(request):
             quantity_needed = selected_book.quantity_needed
             selected_book.quantity_received = quantity_needed
         selected_book.save()
+        return redirect('dashboard')
+
+
+def bulk_delete(request):
+    if request.method == "POST":
         return redirect('dashboard')
 
 
@@ -139,12 +148,14 @@ def table_actions(request):
         action = request.POST.get('table_action', None)
         if action == "update_all_statuses":
             book_selection_ids = request.POST.getlist('books_selection')
-            #print(book_selection_ids)
+            # print(book_selection_ids)
             # print("The ids are: " + str(book_selection_ids))
             for book_id in book_selection_ids:
                 update_all_order_status(book_id)
-        if action == "delete":
-            print(request.POST)
+        if action == "delete_all":
+            book_selection_ids = request.POST.getlist('books_selection')
+            for ids in book_selection_ids:
+                delete_all_selected(ids)
             # book_selection = request.POST.get()
 
     return redirect('dashboard')

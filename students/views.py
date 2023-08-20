@@ -41,10 +41,8 @@ def student_books(request):
     if filter_form.is_valid():
         year_group = filter_form.cleaned_data['year_group']
         students = Student.objects.all()
-
         if year_group:
             students = students.filter(year_group=year_group)
-
     if search_form.is_valid():
         print(search_form)
         search_query = search_form.cleaned_data['search_student_query']
