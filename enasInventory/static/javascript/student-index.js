@@ -348,6 +348,14 @@ if(add_student_entry){
     })
 }
 
+let currentPage = window.location.href
+if (currentPage.includes('students')) {
+    let books_active = document.getElementsByClassName('tabs_links')[0]
+    books_active.classList.remove('active_link')
+    let student_active = document.getElementsByClassName('tabs_links')[1]
+    student_active.classList.add('active_link')
+}
+
 
 
 
