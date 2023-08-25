@@ -51,7 +51,7 @@ class BooksYearGroupFilterForm(forms.Form):
 
         ],
         required=False,
-        label='Select a year group to filter the books:'
+        label='Filter by year group'
     )
 
 
@@ -99,11 +99,20 @@ class BooksSearchForm(forms.Form):
 class StudentBookForm(forms.Form):
     isbn_name = forms.CharField(
         label='ISBN',
-        required=True
+        required=True,
+        widget=forms.TextInput(attrs={'placeholder': 'Enter ISBN'}),
+
     )
     book_name = forms.CharField(
         label='Book Name',
-        required=True
+        required=True,
+        widget=forms.TextInput(
+            attrs={
+                'placeholder': 'Enter Book Name',
+                'class': 'textfield_mui'
+        })
+
+
     )
 
 

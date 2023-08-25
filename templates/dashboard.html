@@ -31,8 +31,18 @@
         <form method="post" action="/books/add_books" enctype="multipart/form-data" class="shift_left">
             {% csrf_token %}
             <label for="books_inventory">Import Student List from Excel Sheet:</label><br>
-            <input type="file" name="books_inventory" id="books_inventory" required>
-            <input type="submit" value="Bulk Add Books Lists" class="button_style">
+            <input type="file" name="books_inventory" id="books_inventory" required class="button_style">
+            <button type="submit" value="Bulk Add Books Lists" class="button_style">
+                <div class="align-button">
+                    Bulk Add Books
+                    <span class="material-symbols-outlined">
+                        add
+                        </span>
+                    <span class="material-symbols-outlined">
+                        library_books
+                    </button>
+                </div>
+                </button>
         </form>
         {% if not books_data %}
         <div class="shift_left">

@@ -113,6 +113,7 @@ html,body{
 
 /* Basic reset and styling for the input */
 .textfield_mui {
+  font-size: 16px;
   padding: 10px 15px;
   border: 1px solid #ccc;
   border-radius: 5px;
@@ -123,6 +124,12 @@ html,body{
 .textfield_mui:focus {
   border-color: #1976d2; /* Replace with your desired focus color */
   outline: none;
+}
+
+.form_align{
+  display: flex;
+  align-items: center;
+  gap:20px
 }
 
 

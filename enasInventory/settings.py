@@ -40,7 +40,8 @@ INSTALLED_APPS = [
     "django.contrib.staticfiles",
     "enasInventory",
     "students",
-    "books"
+    "books",
+    'widget_tweaks'
 ]
 
 MIDDLEWARE = [

@@ -1,4 +1,5 @@
 {% load static %}
+{% load widget_tweaks %}
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -16,18 +17,45 @@
     <h3>Student Book Management</h3>
 <div class="student-forms">
     <form method="get">
-          {% csrf_token %}
-    {{ filter_form.as_table }}
-    <button type="submit">Filter</button>
+        {% csrf_token %}
+        {{ filter_form.year_group.label_tag }}
+        {{ filter_form.year_group|add_class:"mui_select" }}
+    <button type="submit" class="button_style">
+        <div class="align-button">
+            Filter
+            <span class="material-symbols-outlined">
+                filter_alt
+            </span>
+        </div>
+    </button>
 </form>
         <form method="get">
           {% csrf_token %}
-    {{ paid_filter.as_table }}
-    <button type="submit">Filter</button>
+          {{paid_filter.paid_status.label_tag}}
+          {{paid_filter.paid_status|add_class:"mui_select"}}
+    <!--{{ paid_filter.as_table }}-->
+    <button type="submit" class="button_style">
+        <div class="align-button">
+            Filter
+            <span class="material-symbols-outlined">
+                filter_alt
+            </span>
+        </div>
+    </button>
 </form>
-    <form method="get">
-        {{ search_form.as_table }}
-        <button type="submit">Search</button>
+    <form method="get"> 
+        {% csrf_token %}
+        {{search_form.search_student_query.label_tag}}
+        {{search_form.search_student_query|add_class:"textfield_mui"}}
+        <!--{{ search_form.as_table }}-->
+        <button type="submit" class="button_style">
+            <div class="align-button">
+                <span class="material-symbols-outlined">
+                    search
+                </span>
+                Search
+            </div>
+            </button>
     </form>
 </div>
 
@@ -40,7 +68,17 @@
         {% csrf_token %}
         <label for="books_inventory">Import Student List from Excel Sheet:</label><br>
           <input type="file" name="student_inventory" id="student_inventory" required>
-       <button type="submit" >Bulk Add Students</button>
+       <button type="submit" class="button_style" >
+        <div class="align-button">
+            <span class="material-symbols-outlined">
+                add
+                </span>
+            <span class="material-symbols-outlined">
+                library_books
+            </span>
+            Bulk Add Students
+        </div>
+    </button>
     </form>
 
        {% if not students_data %}

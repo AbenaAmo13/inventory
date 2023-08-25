@@ -1,4 +1,5 @@
 {% load static %}
+{% load widget_tweaks %}
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -6,14 +7,17 @@
     <title>Title</title>
     <link rel="stylesheet" href="{% static 'css/styles.css' %}">
         <script src = "{% static 'javascript/student-index.js' %}" defer></script>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@300;400;600;700&display=swap">
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@48,400,0,0" />
     <script src="https://cdn.jsdelivr.net/npm/js-cookie@3.0.5/dist/js.cookie.min.js"></script>
 
 </head>
 <body>
 {% include "header.html" %}
-    <h1>Student Books Detail</h1>
-    <p><strong>Name:</strong> {{ student.name }}</p>
-    <p><strong>Year Group:</strong> {{ student.year_group }}</p>
+  <div class="shift_left">
+    <h3>Student Books Detail</h1>
+    <p>Name: {{ student.name }}</p>
+    <p>Year Group: {{ student.year_group }}</p>
      {% if books %}
          <table>
           <thead>
@@ -46,11 +50,24 @@
           {% else %}
          <p>No books is available in the system for this year group.</p>
          <p>You can add a book for this year group and student by completing the form down below</p>
-         <form method="post">
+         <form method="post" class="form_alignc">
              {% csrf_token %}
-            {{ book_form.as_table }}
-            <button type="submit">Add Book</button>
+             {{book_form.isbn_name.label_tag}}
+             {{book_form.isbn_name|add_class:"textfield_mui"}}
+             {{book_form.book_name.label_tag}}
+             {{book_form.book_name}}
+            <!--{{ book_form.as_table }}-->
+            <button type="submit" class="button_style">
+              <div class="align-button">
+                  <span class="material-symbols-outlined">
+                      add
+                  </span>
+                  Add book
+              </div>
+            </button>
          </form>
     {% endif %}
+  </div>
+    
 </body>
 </html>
