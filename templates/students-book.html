@@ -64,9 +64,30 @@
                      <th>Year Group</th>
                     <th>
                         Actions
-                        <button id="update_all_students">Update All</button>
-                        <button id="delete_all_students">Delete</button>
-                        <button id="add_new_student">Add new Student</button>
+                        <button id="add_new_student" class="button_style">
+                            <div class="align-button">
+                                Add new Student
+                                <span class="material-symbols-outlined">
+                                    add
+                                </span>
+                            </div>
+                        </button>
+                        <button id="update_all_students" class="button_style">
+                            <div class="align-button">
+                                Update All
+                                <span class="material-symbols-outlined">
+                                    sync
+                                </span>
+                            </div>
+                        </button>
+                        <button id="delete_all_students" class="button_style">
+                            <div class="align-button">
+                                Delete
+                                <span class="material-symbols-outlined">
+                                    delete
+                                </span>
+                            </div>
+                        </button>
                     </th>
 
                 </tr>
@@ -81,11 +102,43 @@
                     <td class="paid_status">{{ student.paid_status }}</td>
                     <td class="editable_data">{{ student.year_group }}</td>
                     <td>
-                        <button class="student_edit" data-student-id = {{student.id }}>Edit</button>
-                        <button class="student_save" data-student-id = {{student.id }}>Save</button>
-                        <button class="student_delete" data-student-id = {{student.id }}>Delete</button>
-                        <button class="update_paid_status" data-student-id = {{student.id }}>Update Paid Status</button>
-                        <a href="{% url 'students:student_detail' student.id  %}">View Book Details</a>
+                        <button class="student_edit button_style" data-student-id = {{student.id }}>
+                            <div class="align-button">
+                                <span class="material-symbols-outlined">
+                                    edit
+                                </span>
+                                Edit
+                            </div>
+                            
+                        </button>
+                        <button class="student_save button_style" data-student-id = {{student.id }}>
+                            <div class="align-button">
+                                <span class="material-symbols-outlined">
+                                    save
+                                </span>
+                                Save
+                            </div>
+                           
+                        </button>
+                        <button class="student_delete button_style" data-student-id = {{student.id }}>
+                            <div class="align-button">
+                                <span class="material-symbols-outlined">
+                                    delete
+                                </span>
+                                Delete
+                            </div>
+                        </button>
+
+                        <button class="update_paid_statu button_style" data-student-id = {{student.id }}>
+                            <div class="align-button">
+                                <span class="material-symbols-outlined">
+                                        check
+                                </span>
+                                Update Paid Status
+                            </div>
+                            
+                        </button>
+                        <a href="{% url 'students:student_detail' student.id  %}" class="mui_link">View Book Details</a>
                     </td>
                 </tr>
                 {% endfor %}

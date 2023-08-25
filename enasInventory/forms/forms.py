@@ -24,6 +24,7 @@ class YearGroupFilterForm(forms.Form):
         ],
         required=False,
         label='Select a class:'
+
     )
 
 
