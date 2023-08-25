@@ -50,7 +50,7 @@
           {% else %}
          <p>No books is available in the system for this year group.</p>
          <p>You can add a book for this year group and student by completing the form down below</p>
-         <form method="post" class="form_alignc">
+         <form method="post" class="form_align">
              {% csrf_token %}
              {{book_form.isbn_name.label_tag}}
              {{book_form.isbn_name|add_class:"textfield_mui"}}
