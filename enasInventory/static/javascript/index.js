@@ -116,13 +116,15 @@ if (add_row_btn) {
         let input1 = document.createElement('input')
         input1.type = 'checkbox'
         input1.name = 'select_checkbox'
+        input1.required = true
         let cell1 = newRow.insertCell()
         cell1.append(input1)
 
         let input2 = document.createElement('input')
         input2.type = 'text'
         input2.name = 'isbn'
-        input2.required = true
+        input2.setAttribute('required', true)
+        input2.classList.add("textfield_mui")
         let cell2 = newRow.insertCell()
         cell2.append(input2)
 
@@ -130,6 +132,7 @@ if (add_row_btn) {
         input3.type = 'text'
         input3.name = 'book_name'
         input3.required = true
+        input3.classList.add("textfield_mui")
         let cell3 = newRow.insertCell()
         cell3.append(input3)
 
@@ -190,6 +193,8 @@ if (add_row_btn) {
         cell9.appendChild(saveBtn)
         cell9.appendChild(cancelBtn)
 
+        let isFormValid = true
+
         let addStudentRow = newRow.querySelector('.add_book')
         addStudentRow.addEventListener('click', function (event) {
             let form = new FormData()
@@ -197,17 +202,32 @@ if (add_row_btn) {
             inputData.forEach((data) => {
                 console.log(data.name, data.value)
                 form.append(data.name, data.value)
+                if(!data.value){
+                    isFormValid= false
+                }
             })
-            const csrftoken = Cookies.get('csrftoken');
+            console.log(isFormValid)
 
-            fetch('/books/add_book_entry', {
-                method: 'POST',
-                body: form,
-                credentials: 'same-origin',
-                headers: { 'X-CSRFToken': csrftoken }
-            }).then(r => {
-                location.reload()
-            })
+            if(!isFormValid){
+                //run
+                alert('Form is invalid, check your inputs')
+                
+            }else{
+                const csrftoken = Cookies.get('csrftoken');
+                fetch('/books/add_book_entry', {
+                    method: 'POST',
+                    body: form,
+                    credentials: 'same-origin',
+                    headers: { 'X-CSRFToken': csrftoken }
+                }).then(r => {
+                    location.reload()
+                })
+            }
+
+          
+
+            
+           
 
         })
         let cancelRow = newRow.querySelector('.cancel_book')
@@ -294,28 +314,48 @@ if (add_first_entry) {
             let div_container = document.getElementsByClassName('table_container')[0]
             let table = document.createElement('table');
             let table_row = table.insertRow()
-            let headers = ['ISBN', 'Book Name', 'Quantity Requested', 'Quantity Received', 'Year Group', 'Order Status', 'Date Added', 'Actions']
+            
+            let headers = ['Hidden','ISBN', 'Book Name', 'Quantity Requested', 'Quantity Received', 'Year Group', 'Order Status', 'Date Added', 'Actions']
             headers.forEach(function (headers_name) {
                 let header_title = document.createElement('th')
                 header_title.textContent = headers_name
+                if (headers_name==="Hidden"){
+                    header_title.style.display='none'
+
+                }
                 table_row.appendChild(header_title)
+               
+                
             })
 
+            
+            
             let input_row = table.insertRow()
+
+            let hidden_cell = input_row.insertCell()
+            hidden_cell.style.display='none'
+
+
             let input1_cell = input_row.insertCell()
             let input1 = document.createElement('input')
             input1.type = 'text'
             input1.name = 'isbn'
+            input1.setAttribute('data-column-index', 1)
+            input1.classList.add('textfield_mui')
             input1_cell.appendChild(input1)
-
+            
+    
             let input2_cell = input_row.insertCell()
             let input2 = document.createElement('input')
+            input2.setAttribute('data-column-index', 2)
             input2.type = 'text'
             input2.name = 'book_name'
+            input2.classList.add('textfield_mui')
             input2_cell.appendChild(input2)
 
             let input3_cell = input_row.insertCell()
             let input3 = document.createElement('input')
+            input3.classList.add('textfield_mui')
             input3.type = 'number'
             input3.name = 'quantity_requested'
             input3_cell.appendChild(input3)
@@ -324,6 +364,7 @@ if (add_first_entry) {
             let input4 = document.createElement('input')
             input4.type = 'number'
             input4.name = 'quantity_received'
+            input4.classList.add('textfield_mui')
             input4_cell.appendChild(input4)
 
             let input5_cell = input_row.insertCell()
@@ -336,6 +377,8 @@ if (add_first_entry) {
                 option_name.text = year_options[index]
                 year_group_element.appendChild(option_name)
             })
+            year_group_element.classList.add('mui_select')
+            
             input5_cell.appendChild(year_group_element)
 
             let input6_cell = input_row.insertCell()
@@ -348,6 +391,7 @@ if (add_first_entry) {
                 order_items.text = order_options[index]
                 order_group_element.appendChild(order_items)
             })
+            order_group_element.classList.add('mui_select')
             input6_cell.appendChild(order_group_element)
 
 
@@ -355,6 +399,7 @@ if (add_first_entry) {
             input7.value = new Date().toISOString().slice(0, 16)
             input7.type = 'datetime-local'
             input7.name = 'date_added'
+            input7.classList.add('textfield_mui')
             input7.readOnly = true
             let input7_cell = input_row.insertCell()
             input7_cell.appendChild(input7)
@@ -363,22 +408,60 @@ if (add_first_entry) {
             let button_save = document.createElement('button')
             button_save.className = 'save_button'
             button_save.textContent = 'Save'
+            let span_element_save = document.createElement('span')
+            span_element_save.classList.add('material-symbols-outlined')
+            span_element_save.textContent = 'save'
+            button_save.classList.add('button_style')
+            button_save.classList.add('align-button')
+            button_save.appendChild(span_element_save)
+
+
             let button_cancel = document.createElement('button')
+            let button_icon = document.createElement('span')
+            button_icon.classList.add('material-symbols-outlined')
+            button_icon.textContent = 'close'
+    
             button_cancel.className = 'cancel_button'
+            button_cancel.classList.add('button_style')
             button_cancel.textContent = 'Cancel'
+
+            button_cancel.appendChild(button_icon)
+            button_cancel.classList.add('align-button')
+
             input8_cell.appendChild(button_save)
             input8_cell.appendChild(button_cancel)
             input8_cell.className = 'added_table'
             div_container.appendChild(table)
             tableAppended = true; // Set the flag to true, indicating that the table has been appended
             let formData = new FormData()
-
             let save_add = input_row.querySelector('.save_button')
             if (save_add) {
                 save_add.addEventListener('click', function (event) {
-                    let inputCells = document.querySelectorAll('input, select')
+                    let valid = true
+                    let inputCells = input_row.querySelectorAll('input, select')
                     inputCells.forEach(function (input, index) {
-                        formData.append(input.name, input.value)
+                        let cellInput = input.parentElement
+                        if(!input.value){
+                            valid = false;
+                            input.classList.add('error');
+                             // Check if the error span already exists within the parent element
+                        if (!cellInput.querySelector('.error-message')) {
+                            const errorSpan = document.createElement('span');
+                            errorSpan.textContent = '*This field is required.';
+                            errorSpan.classList.add('error-message');
+                            cellInput.appendChild(errorSpan);
+                        }
+                        }else{
+                            input.classList.remove('error');
+                            const errorSpan = input.parentNode.querySelector('.error-message');
+                            if (errorSpan) {
+                                input.parentNode.removeChild(errorSpan);
+                            }
+                            formData.append(input.name, input.value);
+                        }
+                  
+                    })
+                    if(valid){
                         const csrftoken = Cookies.get('csrftoken');
                         fetch('/books/add_book_entry', {
                             method: 'POST',
@@ -387,7 +470,7 @@ if (add_first_entry) {
                             headers: { 'X-CSRFToken': csrftoken }
 
                         }).then(response => { location.reload() })
-                    })
+                    }
                 })
             }
             let cancel_btn = input_row.querySelector('.cancel_button')
@@ -403,8 +486,6 @@ if (add_first_entry) {
         }
     })
 }
-
-
 // Function to toggle column visibility based on checkbox status
 function toggleColumnVisibility(checkboxId, columnIndex) {
     const checkbox = document.getElementById(checkboxId);
@@ -470,12 +551,10 @@ const checkboxIds = [
 ];
 
 function applyStoredColumnSettings() {
-
     checkboxIds.forEach(checkboxId => {
         const visibility = localStorage.getItem(checkboxId);
         console.log(checkboxId, visibility)
         const columnIndex = parseInt(document.getElementById(checkboxId).getAttribute('data-column-index'));
-
         if (visibility === 'hidden') {
             toggleColumnVisibility(checkboxId, columnIndex);
             document.getElementById(checkboxId).checked = false;

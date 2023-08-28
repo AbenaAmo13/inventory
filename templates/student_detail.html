@@ -32,8 +32,13 @@
                 <td>Yes</td>
                 <td>{{ book_received.date_received }}</td>
               <td>
-                        <button class="update_received_status" data-book-id="{{ book_received.book.id }}" data-student-id="{{ student.id }}" data-url="{% url 'students:update_received_status' %}">Update Received Status</button>
-                     </td>
+                <div class="align-button">
+                  <span class="material-symbols-outlined circle_check">
+                    check_circle
+                    </span>
+                    Book received
+                </div>
+                </td>
               </tr>
         {% endfor %}
           {% for not_received in not_received_books %}
@@ -42,7 +47,14 @@
                 <td>No</td>
                 <td>Not received</td>
               <td>
-                        <button class="update_received_status" data-book-id="{{ not_received.id }}" data-student-id="{{ student.id }}" data-url="{% url 'students:update_received_status' %}">Update Received Status</button>
+                        <button class="update_received_status button_style" data-book-id="{{ not_received.id }}" data-student-id="{{ student.id }}" data-url="{% url 'students:update_received_status' %}">
+                          <div class="align-button">
+                              Update Receive Status
+                              <span class="material-symbols-outlined">
+                                  update
+                              </span>
+                          </div>
+                          </button>
                      </td>
               </tr>
         {% endfor %}

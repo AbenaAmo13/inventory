@@ -34,8 +34,20 @@ def dashboard(request):
                                               'books_search_form': book_search_form, 'status_form': status_form})
 
 
+
+
+
+def book_validation(dictionary):
+    for key in dictionary:
+        value = dictionary[key]
+        print(value)
+
+    return None
+
+
 def add_book_entry(request):
     if request.method == 'POST':
+        book_validation(request.POST)
         isbn = request.POST.get('isbn')
         book_name = request.POST.get('book_name')
         quantity_requested = request.POST.get('quantity_requested')

@@ -34,20 +34,27 @@
             <input type="file" name="books_inventory" id="books_inventory" required class="button_style">
             <button type="submit" value="Bulk Add Books Lists" class="button_style">
                 <div class="align-button">
-                    Bulk Add Books
                     <span class="material-symbols-outlined">
                         add
-                        </span>
+                    </span>
                     <span class="material-symbols-outlined">
                         library_books
-                    </button>
+                        </span>
+                    Bulk Add Books
                 </div>
                 </button>
         </form>
         {% if not books_data %}
         <div class="shift_left">
             <p> To add a single book item, click the Add first book entry</p>
-            <button id="add_first_book">Add first book entry </button>
+            <button id="add_first_book" class="button_style">
+                <div class="align-button">
+                    <span class="material-symbols-outlined">
+                        library_add
+                    </span>
+                    Add first book entry 
+                </div>
+            </button>
         </div>
         {% endif %}
         <div class="books-forms">
@@ -57,10 +64,12 @@
                     {{ filter_form.year_group|add_class:"mui_select" }}
                 <button type="submit" class="button_style">
                     <div class="align-button">
-                        Filter
                         <span class="material-symbols-outlined">
                             filter_alt
                         </span>
+                        Filter
+                       
+                       
                     </div>
                 </button>
             </form>
@@ -71,9 +80,10 @@
                 {{status_form.status_filtering|add_class:"mui_select"}}
                 <button type="submit" class="button_style">
                     <div class="align-button">
-                        Filter Status
                         <span class="material-symbols-outlined">
                             filter_alt
+                        </span>
+                        Filter
                     </div>
                 </button>
             </form>
@@ -84,10 +94,10 @@
                 <!--{{ books_search_form.as_table }}-->
                 <button type="submit" class="button_style">
                     <div class="align-button">
-                        Search
                         <span class="material-symbols-outlined">
                             search
                         </span>
+                        Search
                     </div>
                 </button>
             </form>
