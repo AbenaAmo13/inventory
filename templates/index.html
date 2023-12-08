@@ -8,6 +8,7 @@
     <link rel="stylesheet" href="{% static 'css/styles.css' %}">
     <link rel="stylesheet" href="{% static 'css/styles.css' %}">
             <script src = "{% static 'javascript/login.js' %}" defer></script>
+            <script src="https://code.iconify.design/iconify-icon/1.0.7/iconify-icon.min.js"></script>
             <style>
                 body {
                     background-image: url('{% static "images/enasBackgroundImage.jpeg" %}');
@@ -32,15 +33,28 @@
             {% csrf_token %}
             <h2 style="text-align: center;">Login</h2>
             <div class="form-content">
-                <label for="username">Username:</label><br>
+                <label for="username" class="login-labels">
+                    <iconify-icon icon="mdi:user" width="28"></iconify-icon>
+                    Username:
+                </label>
+                <br>
                 <input type="text" id="username" name="username" class="input-boxes"><br>
-                <label for="password">Password:</label><br>
+                <label for="password" class="login-labels">
+                    <iconify-icon icon="material-symbols:password" width="28"></iconify-icon>
+                    Password:
+                </label><br>
                 <input type="password" id="password" name="password" class="input-boxes"><br><br>
             </div>
               <!-- An element to toggle between password visibility -->
               <div class="show_password">
-                 <input type="checkbox" onclick="togglePassword()" name="showPassword" id="showPassword" >
-                 <label for="showPassword"> Show password</label><br>
+                <div>
+                    <input type="checkbox" onclick="togglePassword()" name="showPassword" id="showPassword" >
+                    <label for="showPassword"> Show password</label><br>
+                </div>
+                 
+
+                 <a href="">Reset Password</a>
+
               </div>
               <div class="submit-container" style="display: flex; justify-content: center; ">
                 <input type="submit" value="Submit" style="width: 150px;" class="button_style">

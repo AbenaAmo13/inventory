@@ -24,6 +24,12 @@ html, body {
 
 }
 
+.login-labels{
+  display: flex;
+  align-items: center;
+  gap: 3px;
+}
+
 .enas_logo_image{
   width: 50px; 
   height: 50px;
@@ -58,6 +64,7 @@ input:focus {
 .show_password{
     display: flex;
     margin-bottom: 10px;
+    justify-content: space-between;
 }
 
 
