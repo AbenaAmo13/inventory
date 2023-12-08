@@ -24,6 +24,7 @@ editButtons.forEach(function (editBtn) {
         let input1 = document.createElement('input')
         input1.type = 'text'
         input1.name = 'isbn'
+        input1.classList.add('textfield_mui')
         input1.value = isbn.innerHTML
         isbn.innerHTML = ''
         isbn.appendChild(input1)
@@ -32,6 +33,7 @@ editButtons.forEach(function (editBtn) {
         let input2 = document.createElement('input')
         input2.type = 'text'
         input2.name = 'book_name'
+        input2.classList.add('textfield_mui')
         input2.value = bookName.innerHTML
         bookName.innerHTML = ''
         bookName.appendChild(input2)
@@ -40,12 +42,14 @@ editButtons.forEach(function (editBtn) {
         let input3 = document.createElement('input');
         input3.type = 'number';
         input3.name = 'quantity_requested';
+        input3.classList.add('textfield_mui')
         input3.value = quantity_requested.innerText;
         quantity_requested.innerHTML = '';
         quantity_requested.appendChild(input3);
 
         let quantity_received = dataCells[3]
         let input4 = document.createElement('input')
+        input4.classList.add('textfield_mui')
         input4.type = 'number';
         input4.name = 'quantity_received'
         input4.value = quantity_received.innerText;
@@ -54,6 +58,7 @@ editButtons.forEach(function (editBtn) {
 
         let year_group = dataCells[4]
         let year_selection = document.createElement('select')
+        year_selection.classList.add('mui_select')
         year_selection.name = "year_group"
         year_options.forEach((option) => {
             let option_name = document.createElement('option')
@@ -139,11 +144,13 @@ if (add_row_btn) {
         let input4 = document.createElement('input')
         input4.type = 'number'
         input4.name = 'quantity_requested'
+        input4.classList.add("textfield_mui")
         input4.required = true
         let cell4 = newRow.insertCell()
         cell4.append(input4)
 
         let input5 = document.createElement('input')
+        input5.classList.add("textfield_mui")
         input5.type = 'number'
         input5.name = 'quantity_received'
         input5.required = true
@@ -158,6 +165,7 @@ if (add_row_btn) {
             option_name.text = year_options[index]
             year_group_selection.appendChild(option_name)
         })
+        year_group_selection.classList.add("textfield_mui")
         year_group_selection.name = 'year_group'
         year_group_selection.required = true
         cell6.append(year_group_selection)
@@ -172,12 +180,14 @@ if (add_row_btn) {
             option_name.text = order_status_options[index]
             order_status_selection.appendChild(option_name)
         })
+        order_status_selection.classList.add("textfield_mui")
         cell7.append(order_status_selection)
 
         let input6 = document.createElement('input')
         input6.value = new Date().toISOString().slice(0, 16)
         input6.type = 'datetime-local'
         input6.name = 'date_added'
+        input6.classList.add('textfield_mui')
         input6.readOnly = true
         let cell8 = newRow.insertCell()
         cell8.appendChild(input6)
@@ -185,11 +195,30 @@ if (add_row_btn) {
         let cell9 = newRow.insertCell()
         let saveBtn = document.createElement('button')
         let cancelBtn = document.createElement('button')
-        saveBtn.innerHTML = 'Save'
         saveBtn.className = 'add_book'
+        let span_element_save = document.createElement('span')
+        span_element_save.classList.add('material-symbols-outlined')
+        span_element_save.textContent = 'save'
+        let divNewSave = document.createElement('div')
+        divNewSave.textContent = 'Save'
+        divNewSave.classList.add('align-button')
+        divNewSave.appendChild(span_element_save)
+        saveBtn.appendChild(divNewSave)
+
+
         cancelBtn.className = 'cancel_book'
-        cancelBtn.innerHTML = 'Cancel'
+        let cancel_btn_span = document.createElement('span')
+        cancel_btn_span.classList.add('material-symbols-outlined')
+        cancel_btn_span.textConxtent = 'cancel'
+        let divNew = document.createElement('div')
+        divNew.textContent = 'Cancel'
+        divNew.appendChild(cancel_btn_span)
+        divNew.classList.add('align-button')
+        cancelBtn.appendChild(divNew)
+    
         cell9.className = 'button_actions'
+        saveBtn.classList.add('button_style')
+        cancelBtn.classList.add('button_style')
         cell9.appendChild(saveBtn)
         cell9.appendChild(cancelBtn)
 
@@ -306,7 +335,6 @@ deleteButton.forEach(function (button) {
 })
 
 let tableAppended = false; // Flag variable to keep track of whether the table has been appended
-
 let add_first_entry = document.getElementById('add_first_book')
 if (add_first_entry) {
     add_first_entry.addEventListener('click', function (event) {
@@ -324,17 +352,10 @@ if (add_first_entry) {
 
                 }
                 table_row.appendChild(header_title)
-               
-                
             })
-
-            
-            
             let input_row = table.insertRow()
-
             let hidden_cell = input_row.insertCell()
             hidden_cell.style.display='none'
-
 
             let input1_cell = input_row.insertCell()
             let input1 = document.createElement('input')

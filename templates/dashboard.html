@@ -17,7 +17,6 @@
     <script src="{% static 'javascript/index.js' %}" defer></script>
     <script src="https://cdn.jsdelivr.net/npm/js-cookie@3.0.5/dist/js.cookie.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.4.0/jspdf.umd.min.js" defer></script>
-
 </head>
 
 <body>
@@ -31,8 +30,17 @@
         <form method="post" action="/books/add_books" enctype="multipart/form-data" class="shift_left">
             {% csrf_token %}
             <label for="books_inventory">Import Student List from Excel Sheet:</label><br>
-            <input type="file" name="books_inventory" id="books_inventory" required class="button_style">
-            <button type="submit" value="Bulk Add Books Lists" class="button_style">
+                <label for="books_inventory" class="custom-file-input">
+                    <div class="align-button custom-file-input top_spac" style="border-radius: 4px; background-color: #209cff; color:white; width:20%; padding: 3px;">
+                        <span class="material-symbols-outlined">
+                            upload_file
+                        </span>
+                        <p style="margin: auto;">Click or drag to upload a file</p>
+                    </div>
+                </label>
+                   
+            <input type="file" name="books_inventory" id="books_inventory" required class="hidden-input">
+            <button type="submit" value="Bulk Add Books Lists" class="button_style top_space">
                 <div class="align-button">
                     <span class="material-symbols-outlined">
                         add
@@ -42,7 +50,7 @@
                         </span>
                     Bulk Add Books
                 </div>
-                </button>
+            </button>
         </form>
         {% if not books_data %}
         <div class="shift_left">
@@ -138,24 +146,24 @@
                         Actions
                         <button id="add_new_entry_button" class="button_style">
                             <div class="align-button">
-                                Add new entry
                                 <span class="material-symbols-outlined">add</span>
+                                Add new entry
                             </div>
                         </button>
                         <button type="submit" name="table_action" value="update_all_statuses" class="button_style">
                             <div class="align-button">
-                                Update all Order Statuses
                                 <span class="material-symbols-outlined">
                                     sync
                                 </span>
+                                Update all Order Statuses
                             </div>
                         </button>
                         <button type="submit" name="table_action" value="delete_all" class="button_style">
                             <div class="align-button">
-                                Delete All
                                 <span class="material-symbols-outlined">
                                     delete
-                                    </span>
+                                </span>
+                                Delete All
                             </div>
                             </button>
                     </th>
@@ -180,46 +188,45 @@
                         <button type="submit" name="table_action" value="edit" class="edit button_style" data-book-id={{ x.id
                             }}>
                             <div class="align-button">
-                                Edit
                                 <span class="material-symbols-outlined">
                                     edit
-                                    </span>
+                                </span>
+                                Edit
                             </div>
                         </button>
                         <button class="save button_style" data-book-id={{x.id }}>
                             <div class="align-button">
-                                Save
                                 <span class="material-symbols-outlined">
                                     save
                                 </span>
-
+                                Save
                             </div>
                             
                         </button>
                         <button class="cancel button_style" data-book-id="{{ x.id }}">
                             <div class="align-button">
-                                Cancel
                                 <span class="material-symbols-outlined">
                                     cancel
-                                    </span>
+                                </span>
+                                Cancel
                             </div>
                             
                         </button>
                         <button class="delete button_style">
                             <div class="align-button">
-                                Delete
                                 <span class="material-symbols-outlined">
                                     close
                                 </span>
+                                Delete
                             </div>
                            
                         </button>
                         <button class="update_order button_style" data-book-id={{x.id }}>
                             <div class="align-button">
-                                Update Order Status
                                 <span class="material-symbols-outlined">
                                     update
                                 </span>
+                                Update Order Status
                             </div>
                             
                         </button>

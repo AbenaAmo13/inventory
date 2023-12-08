@@ -6,32 +6,41 @@
     <meta charset="UTF-8">
     <title>Title</title>
     <link rel="stylesheet" href="{% static 'css/styles.css' %}">
+    <link rel="stylesheet" href="{% static 'css/styles.css' %}">
             <script src = "{% static 'javascript/login.js' %}" defer></script>
-
-
 </head>
 <body class="login_body">
 <h1>ENAS Book Inventory</h1>
-<form method="post" action="/login" >
-    {% csrf_token %}
-    <label for="username">Username:</label><br>
-      <input type="text" id="username" name="username"><br>
-      <label for="password">Password:</label><br>
-      <input type="password" id="password" name="password"><br><br>
-      <!-- An element to toggle between password visibility -->
-      <div class="show_password">
-         <input type="checkbox" onclick="togglePassword()" name="showPassword" id="showPassword">
-         <label for="showPassword"> Show password</label><br>
-      </div>
+<form method="post" action="/login" class="login_form" >
+    <div class="form-body">
+        {% csrf_token %}
+        <h2 style="text-align: center;">Login</h2>
+        <div class="form-content">
+            <label for="username">Username:</label><br>
+            <input type="text" id="username" name="username"><br>
+            <label for="password">Password:</label><br>
+            <input type="password" id="password" name="password"><br><br>
+        </div>
+          <!-- An element to toggle between password visibility -->
+          <div class="show_password">
+             <input type="checkbox" onclick="togglePassword()" name="showPassword" id="showPassword">
+             <label for="showPassword"> Show password</label><br>
+          </div>
+          <div class="submit-container" style="display: flex; justify-content: center; ">
+            <input type="submit" value="Submit" style="width: 150px;">
+          </div>
+          
 
-      <input type="submit" value="Submit">
-    {% if errors %}
-        {% for error in errors %}
-            <ul>
-                <li> {{ error }} </li>
-            </ul>
-        {% endfor %}
-    {% endif %}
+        {% if errors %}
+            {% for error in errors %}
+                <ul>
+                    <li> {{ error }} </li>
+                </ul>
+            {% endfor %}
+        {% endif %}
+
+    </div>
+   
 </form>
 
 </body>

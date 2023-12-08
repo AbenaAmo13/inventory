@@ -10,12 +10,18 @@ class Book(models.Model):
     quantity_needed = models.IntegerField()
     quantity_received = models.IntegerField()
 
+    def __str__(self):
+        return self.book_name
+
 
 class Student(models.Model):
     name = models.CharField(max_length=100)
     year_group = models.CharField(max_length=20)
     paid_status = models.BooleanField(default=False)
     books_received = models.ManyToManyField('Book', through='BookReceived')
+
+    def __str__(self):
+        return self.name
 
 
 class BookReceived(models.Model):
