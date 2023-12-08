@@ -1,6 +1,16 @@
 
 
-
+body {
+  background-image: url('{% static "/images/enasBackgroundImage.jpeg" %}');
+  background-size: cover; /* Adjust the background size as needed */
+  background-position: center; /* Adjust the background position as needed */
+  background-repeat: no-repeat;
+  /* Additional styles for the body if needed */
+}
+html, body {
+  margin: 0;
+  height: 100%;
+}
 .save, .student_save{
   display: none;
 }
@@ -9,10 +19,30 @@
   box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
   width: 400px;
   height:400px;
-  margin: 0 auto;
-  float:none;
-  margin-bottom: 10px;
+  margin-top:40px;
+  background-color:white;
 
+}
+
+.enas_logo_image{
+  width: 50px; 
+  height: 50px;
+  border-radius: 50%;
+  overflow: hidden;
+
+}
+
+.input-boxes{
+  border: 1px solid #ced4da;
+  border-radius: 0.25rem;
+  padding: .375rem .75rem;
+  transition: border-color 0.3s, box-shadow 0.3s;
+}
+
+input:focus {
+  outline: none;
+  border-color: #007bff; /* Blue color on focus */
+  box-shadow: 0 0 5px rgba(0, 123, 255, 0.5); /* Optional: Add a subtle box shadow */
 }
 
 .form-content{
@@ -89,8 +119,14 @@ html,body{
   justify-content: space-evenly;
   align-items: center;
   background: linear-gradient(to top, #209cff 0%, #68e0cf 100%);
-    /*background-color: lightblue;*/
-  /*background: linear-gradient(to bottom, #B0E0E6, #87CEEB);*/
+  /*background-color: lightblue;*/
+/*   background: linear-gradient(to bottom, #B0E0E6, #87CEEB);
+ */
+}
+.header.login-page{
+  background: linear-gradient(to bottom, #B0E0E6, #87CEEB);
+
+
 }
 
 .header a {
