@@ -27,11 +27,7 @@ def add_account_index(request):
 
 def index(request):
     # Check if a user exists
-    user = User.objects.all()
-    if len(user) <= 0:
-        return redirect('add_account')
-    else:
-        return render(request, 'index.html', {'errors': None})
+    return render(request, 'index.html', {'errors': None})
     # if User.objects.all()
     # database_user = os.getenv('USERNAME'),
     # database_password = os.getenv('PASSWORD'),

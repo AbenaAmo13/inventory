@@ -8,9 +8,12 @@ import pandas as pd
 import json
 from datetime import datetime
 from django.shortcuts import render, redirect
+from django.contrib.auth.decorators import login_required
+
 
 from enasInventory.forms.forms import BooksYearGroupFilterForm, BooksSearchForm, StatusFiltering
 from enasInventory.models import Book
+
 
 
 def dashboard(request):

@@ -19,15 +19,17 @@ from django.urls import path, include
 from django.conf.urls.static import static
 from django.conf import settings
 from . import views
+from django.contrib.auth.decorators import login_required
+
 
 urlpatterns = [
                   path("admin/", admin.site.urls),
+                  path('accounts/', include('django.contrib.auth.urls')),
                   path('', views.index, name='index'),
                   path('add_account/', views.add_account_index, name='add_account'),
                   path('account_setup', views.account_setup, name='account_setup'),
                   # Other URL patterns
                   path('students/', include('students.urls')),
-                  path('login', views.login_post),
                   path('books/', include('books.urls'))
 
               ] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)

@@ -11,6 +11,8 @@ https://docs.djangoproject.com/en/4.2/ref/settings/
 """
 import os
 from pathlib import Path
+from dotenv import load_dotenv
+load_dotenv()
 
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
@@ -43,6 +45,10 @@ INSTALLED_APPS = [
     "books",
     'widget_tweaks'
 ]
+
+LOGIN_URL = '/'
+LOGOUT_REDIRECT_URL = '/'
+
 
 MIDDLEWARE = [
     "django.middleware.security.SecurityMiddleware",
@@ -81,13 +87,29 @@ MEDIA_ROOT = os.path.join(BASE_DIR, 'excel_templates')
 # Database
 # https://docs.djangoproject.com/en/4.2/ref/settings/#databases
 
+DB_NAME = os.getenv("DB_NAME", "default_val")
+print(DB_NAME)
 DATABASES = {
     "default": {
-        "ENGINE": "django.db.backends.sqlite3",
-        "NAME": BASE_DIR / "db.sqlite3",
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME': os.getenv('DB_NAME'),
+        'USER': os.getenv('DB_USER'),
+        'PASSWORD': os.getenv('DB_PASSWORD'),
+        'HOST': os.getenv('DB_HOST'),
+        'PORT': '',
     }
 }
 
+""" DATABASES = {
+    "default": {
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME': 'enas_db',
+        'USER': 'enas_super_user',
+        'PASSWORD': 'ANiY25THaB2nD2',
+        'HOST': 'localhost',
+        'PORT': ''
+    }
+} """
 
 
 # Password validation
