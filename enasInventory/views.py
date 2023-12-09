@@ -27,7 +27,7 @@ def add_account_index(request):
 
 def index(request):
     # Check if a user exists
-    return render(request, 'index.html', {'errors': None})
+    return render(request, 'enasInventory/index.html', {'errors': None})
     # if User.objects.all()
     # database_user = os.getenv('USERNAME'),
     # database_password = os.getenv('PASSWORD'),
