@@ -87,8 +87,6 @@ MEDIA_ROOT = os.path.join(BASE_DIR, 'excel_templates')
 # Database
 # https://docs.djangoproject.com/en/4.2/ref/settings/#databases
 
-DB_NAME = os.getenv("DB_NAME", "default_val")
-print(DB_NAME)
 DATABASES = {
     "default": {
         'ENGINE': 'django.db.backends.postgresql',
