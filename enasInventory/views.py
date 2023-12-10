@@ -5,6 +5,7 @@ from django.contrib.auth.models import User
 from dotenv import load_dotenv
 from django.shortcuts import render, redirect
 from django.contrib.auth import authenticate
+from .middleware import login_exempt
 
 from django.http import HttpResponse
 
@@ -25,6 +26,7 @@ def add_account_index(request):
     return render(request, 'account_setup.html')
 
 
+@login_exempt
 def index(request):
     # Check if a user exists
     return render(request, 'enasInventory/index.html', {'errors': None})

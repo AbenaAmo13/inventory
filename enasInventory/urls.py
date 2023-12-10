@@ -19,11 +19,12 @@ from django.urls import path, include
 from django.conf.urls.static import static
 from django.conf import settings
 from . import views
+from .middleware import login_exempt
 from django.contrib.auth.decorators import login_required
 
 
 urlpatterns = [
-                  path("admin/", admin.site.urls),
+                  path("enas-inventory-admin/", admin.site.urls),
                   path('accounts/', include('django.contrib.auth.urls')),
                   path('', views.index, name='index'),
                   path('add_account/', views.add_account_index, name='add_account'),
