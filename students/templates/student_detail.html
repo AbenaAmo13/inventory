@@ -1,0 +1,85 @@
+{% load static %}
+{% load widget_tweaks %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link rel="stylesheet" href="{% static 'css/styles.css' %}">
+        <script src = "{% static 'javascript/student-index.js' %}" defer></script>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@300;400;600;700&display=swap">
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@48,400,0,0" />
+    <script src="https://cdn.jsdelivr.net/npm/js-cookie@3.0.5/dist/js.cookie.min.js"></script>
+
+</head>
+<body>
+{% include "header.html" %}
+  <div class="shift_left">
+    <h3>Student Books Detail</h1>
+    <p>Name: {{ student.name }}</p>
+    <p>Year Group: {{ student.year_group }}</p>
+     {% if books %}
+         <table>
+          <thead>
+                    <th>Book Name</th>
+                    <th>Received</th>
+                    <th>Date Received</th>
+                    <th>Actions</th>
+                  </thead>
+           {% for book_received in received_books %}
+              <tr>
+                <td>{{ book_received.book.book_name }}</td>
+                <td>Yes</td>
+                <td>{{ book_received.date_received }}</td>
+              <td>
+                <div class="align-button">
+                  <span class="material-symbols-outlined circle_check">
+                    check_circle
+                    </span>
+                    Book received
+                </div>
+                </td>
+              </tr>
+        {% endfor %}
+          {% for not_received in not_received_books %}
+              <tr>
+                <td>{{ not_received.book_name }}</td>
+                <td>No</td>
+                <td>Not received</td>
+              <td>
+                        <button class="update_received_status button_style" data-book-id="{{ not_received.id }}" data-student-id="{{ student.id }}" data-url="{% url 'students:update_received_status' %}">
+                          <div class="align-button">
+                              Update Receive Status
+                              <span class="material-symbols-outlined">
+                                  update
+                              </span>
+                          </div>
+                          </button>
+                     </td>
+              </tr>
+        {% endfor %}
+          </table>
+          {% else %}
+         <p>No books is available in the system for this year group.</p>
+         <p>You can add a book for this year group and student by completing the form down below</p>
+         <form method="post" class="form_align">
+             {% csrf_token %}
+             {{book_form.isbn_name.label_tag}}
+             {{book_form.isbn_name|add_class:"textfield_mui"}}
+             {{book_form.book_name.label_tag}}
+             {{book_form.book_name}}
+            <!--{{ book_form.as_table }}-->
+            <button type="submit" class="button_style">
+              <div class="align-button">
+                  <span class="material-symbols-outlined">
+                      add
+                  </span>
+                  Add book
+              </div>
+            </button>
+         </form>
+    {% endif %}
+  </div>
+    
+</body>
+</html>

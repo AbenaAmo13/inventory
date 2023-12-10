@@ -1,0 +1,192 @@
+{% load static %}
+{% load widget_tweaks %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link rel="stylesheet" href="{% static 'css/styles.css' %}">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@300;400;600;700&display=swap">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@48,400,0,0" />
+    <script src = "{% static 'javascript/student-index.js' %}" defer></script>
+    <script src="https://cdn.jsdelivr.net/npm/js-cookie@3.0.5/dist/js.cookie.min.js"></script>
+</head>
+<body>
+{% include "header.html" %}
+<div class="shift_left">
+    <h3>Student Book Management</h3>
+<div class="student-forms">
+    <form method="get">
+        {% csrf_token %}
+        {{ filter_form.year_group.label_tag }}
+        {{ filter_form.year_group|add_class:"mui_select" }}
+    <button type="submit" class="button_style">
+        <div class="align-button">
+            Filter
+            <span class="material-symbols-outlined">
+                filter_alt
+            </span>
+        </div>
+    </button>
+</form>
+        <form method="get">
+          {% csrf_token %}
+          {{paid_filter.paid_status.label_tag}}
+          {{paid_filter.paid_status|add_class:"mui_select"}}
+    <!--{{ paid_filter.as_table }}-->
+    <button type="submit" class="button_style">
+        <div class="align-button">
+            Filter
+            <span class="material-symbols-outlined">
+                filter_alt
+            </span>
+        </div>
+    </button>
+</form>
+    <form method="get"> 
+        {% csrf_token %}
+        {{search_form.search_student_query.label_tag}}
+        {{search_form.search_student_query|add_class:"textfield_mui"}}
+        <!--{{ search_form.as_table }}-->
+        <button type="submit" class="button_style">
+            <div class="align-button">
+                <span class="material-symbols-outlined">
+                    search
+                </span>
+                Search
+            </div>
+            </button>
+    </form>
+</div>
+        <p>To bulk add the students, you can download and fill this Excel template by   <a href="{% static 'excel_templates/student_template.xlsx' %}">Downloading Student Template</a>
+        and uploading it in by clicking "Choose File" down below:
+        </p>
+    <form method="post" action="/students/add_students_bulk" enctype="multipart/form-data" class="padding_bottom">
+        {% csrf_token %}
+        <label for="books_inventory">Import Student List from Excel Sheet:</label><br>
+          <input type="file" name="student_inventory" id="student_inventory" required>
+       <button type="submit" class="button_style" >
+        <div class="align-button">
+            <span class="material-symbols-outlined">
+                add
+                </span>
+            <span class="material-symbols-outlined">
+                library_books
+            </span>
+            Bulk Add Students
+        </div>
+    </button>
+    </form>
+
+       {% if not students_data %}
+    <div>
+        <p> To add a single student item, click the Add first student entry</p>
+      <button id="add_student_entry">Add first student entry </button>
+    </div>
+     {% endif %}
+
+<div class="student_table_container">
+ {% if students_data %}
+         <table id="student_table">
+            <thead>
+                <tr>
+                    <th>
+                        <label for="select_all">Select All:</label>
+                        <input type="checkbox" id="select_all" onclick="toggleAllCheckboxes(this)" >
+                    </th>
+                    <th>Student Name</th>
+                    <th>Paid Status</th>
+                     <th>Year Group</th>
+                    <th>
+                        Actions
+                        <button id="add_new_student" class="button_style">
+                            <div class="align-button">
+                                Add new Student
+                                <span class="material-symbols-outlined">
+                                    add
+                                </span>
+                            </div>
+                        </button>
+                        <button id="update_all_students" class="button_style">
+                            <div class="align-button">
+                                Update All
+                                <span class="material-symbols-outlined">
+                                    sync
+                                </span>
+                            </div>
+                        </button>
+                        <button id="delete_all_students" class="button_style">
+                            <div class="align-button">
+                                Delete
+                                <span class="material-symbols-outlined">
+                                    delete
+                                </span>
+                            </div>
+                        </button>
+                    </th>
+
+                </tr>
+            </thead>
+            <tbody>
+                {% for student in students_data %}
+                <tr>
+                     <td>
+                        <input type="checkbox" name="students_check" value="{{ student.id }}" required>
+                     </td>
+                    <td class="editable_data">{{ student.name }}</td>
+                    <td class="paid_status">{{ student.paid_status }}</td>
+                    <td class="editable_data">{{ student.year_group }}</td>
+                    <td>
+                        <button class="student_edit button_style" data-student-id = {{student.id }}>
+                            <div class="align-button">
+                                <span class="material-symbols-outlined">
+                                    edit
+                                </span>
+                                Edit
+                            </div>
+                            
+                        </button>
+                        <button class="student_save button_style" data-student-id = {{student.id }}>
+                            <div class="align-button">
+                                <span class="material-symbols-outlined">
+                                    save
+                                </span>
+                                Save
+                            </div>
+                           
+                        </button>
+                        <button class="student_delete button_style" data-student-id = {{student.id }}>
+                            <div class="align-button">
+                                <span class="material-symbols-outlined">
+                                    delete
+                                </span>
+                                Delete
+                            </div>
+                        </button>
+
+                        <button class="update_paid_statu button_style" data-student-id = {{student.id }}>
+                            <div class="align-button">
+                                <span class="material-symbols-outlined">
+                                        check
+                                </span>
+                                Update Paid Status
+                            </div>
+                            
+                        </button>
+                        <a href="{% url 'students:student_detail' student.id  %}" class="mui_link">View Book Details</a>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+    </table>
+  {% else %}
+        <p>No student data available.</p>
+ {% endif %}
+</div>
+</div>
+
+
+
+
+</body>
+</html>
