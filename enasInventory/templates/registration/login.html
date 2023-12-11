@@ -28,22 +28,23 @@
 </div>
 
 <div style="display: flex; justify-content: center;">
-    <form method="post" class="login_form" >
+    <form method="post"  class="login_form" >
         <div class="form-body">
             {% csrf_token %}
             <h2 style="text-align: center;">Login</h2>
             <div class="form-content">
+     
                 <label for="username" class="login-labels">
                     <iconify-icon icon="mdi:user" width="28"></iconify-icon>
                     Username:
                 </label>
                 <br>
-                <input type="text" id="username" name="username" class="input-boxes"><br>
+                <input type="text" id="username" name="username" class="input-boxes" required><br>
                 <label for="password" class="login-labels">
                     <iconify-icon icon="material-symbols:password" width="28"></iconify-icon>
                     Password:
                 </label><br>
-                <input type="password" id="password" name="password" class="input-boxes"><br><br>
+                <input type="password" id="password" name="password" class="input-boxes" required><br><br>
             </div>
               <!-- An element to toggle between password visibility -->
               <div class="show_password">
@@ -59,14 +60,13 @@
               <div class="submit-container" style="display: flex; justify-content: center; ">
                 <input type="submit" value="Submit" style="width: 150px;" class="button_style">
               </div>
-              
-    
-            {% if errors %}
-                {% for error in errors %}
-                    <ul>
-                        <li> {{ error }} </li>
-                    </ul>
-                {% endfor %}
+
+              {% if messages %}
+                <ul class="messages">
+                    {% for message in messages %}
+                        <li>{{ message }}</li>
+                    {% endfor %}
+                </ul>
             {% endif %}
     
         </div>

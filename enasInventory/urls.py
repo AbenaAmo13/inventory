@@ -19,6 +19,9 @@ from django.urls import path, include
 from django.conf.urls.static import static
 from django.conf import settings
 from . import views
+from .views import LoginUserView
+from django.contrib.auth.views import LogoutView 
+
 from .middleware import login_exempt
 from django.contrib.auth.decorators import login_required
 
@@ -26,6 +29,8 @@ from django.contrib.auth.decorators import login_required
 urlpatterns = [
                   path("enas-inventory-admin/", admin.site.urls),
                   path('accounts/', include('django.contrib.auth.urls')),
+                  path('login/', LoginUserView.as_view(), name='login'),
+                  path('logout/', LogoutView.as_view(next_page='login'),name='logout'),
                   path('', views.index, name='index'),
                   path('add_account/', views.add_account_index, name='add_account'),
                   path('account_setup', views.account_setup, name='account_setup'),
