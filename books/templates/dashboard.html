@@ -23,35 +23,59 @@
     {% include "header.html" %}
     <div class="non-printable">
         <h3 class="shift_left ">Books Inventory Management</h3>
-        <p class="shift_left">To bulk add the students, you can download and fill this Excel template by <a
-                href="{% static 'excel_templates/book_template.xlsx' %}">Downloading Book Template</a>
-            and uploading it in by clicking "Choose File" down below:
-        </p>
-        <form method="post" action="/books/add_books" enctype="multipart/form-data" class="shift_left">
-            {% csrf_token %}
-            <label for="books_inventory">Import Student List from Excel Sheet:</label><br>
-                <label for="books_inventory" class="custom-file-input">
-                    <div class="align-button custom-file-input top_spac" style="border-radius: 4px; background-color: #209cff; color:white; width:20%; padding: 3px;">
-                        <span class="material-symbols-outlined">
-                            upload_file
-                        </span>
-                        <p style="margin: auto;">Click or drag to upload a file</p>
-                    </div>
-                </label>
-                   
-            <input type="file" name="books_inventory" id="books_inventory" required class="hidden-input">
-            <button type="submit" value="Bulk Add Books Lists" class="button_style top_space">
-                <div class="align-button">
-                    <span class="material-symbols-outlined">
-                        add
-                    </span>
-                    <span class="material-symbols-outlined">
-                        library_books
-                        </span>
-                    Bulk Add Books
+        <div style="display: flex;">
+            <div class="shift_left book_instruction_covering">
+                <div class="book_instruction_container">
+                    <p class="book_instruction_text">1</p>
                 </div>
-            </button>
-        </form>
+                <p style="padding-left: 5px;">
+            
+                    <a class="instruction_button_style book_instructions_link"
+                    href="{% static 'excel_templates/book_template.xlsx' %}" >
+                    <span class="material-symbols-outlined">
+                        download
+                        </span>
+                    Download Book Template
+                </a>
+                </p>
+            </div>
+            <form method="post" action="/books/add_books" enctype="multipart/form-data" class="shift_left" style="display: flex;">
+                {% csrf_token %}
+                <div class="book_instruction_covering">
+                    <!-- <label for="books_inventory">Import Student List from Excel Sheet:</label><br> -->
+                    <div class="book_instruction_container">
+                        <p class="book_instruction_text">2</p>
+                    </div>
+                    <label for="books_inventory" class="custom-file-input">
+                        <div class="align-button custom-file-input top_spac" style="border-radius: 4px; background-color: #209cff; color:white; padding: 3px;">
+                            <span class="material-symbols-outlined">
+                                upload_file
+                            </span>
+                            <p style="margin: auto;">Upload Completed Template Sheet</p>
+                        </div>
+                    </label>
+
+                </div>
+                <div>
+
+                </div>
+                <input type="file" name="books_inventory" id="books_inventory" required class="hidden-input">
+                <button type="submit" value="Bulk Add Books Lists" class="instruction_button_style top_space">
+                    <div class="align-button">
+                        <span class="material-symbols-outlined">
+                            add
+                        </span>
+                        <span class="material-symbols-outlined">
+                            library_books
+                            </span>
+                        Bulk Add Books
+                    </div>
+                </button>
+            </form>
+            
+
+        </div>
+      
         {% if not books_data %}
         <div class="shift_left">
             <p> To add a single book item, click the Add first book entry</p>
