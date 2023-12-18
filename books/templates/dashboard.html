@@ -54,24 +54,41 @@
                             <p style="margin: auto;">Upload Completed Template Sheet</p>
                         </div>
                     </label>
-
                 </div>
-                <div>
-
+               <div class="book_instruction_covering shift_left">
+                    <div class="book_instruction_container">
+                        <p class="book_instruction_text">3</p>
+                    </div>
+                    <input type="file" name="books_inventory" id="books_inventory" required class="hidden-input">
+                    <button type="submit" value="Bulk Add Books Lists" class="instruction_button_style">
+                        <div class="align-button">
+                            <span class="material-symbols-outlined">
+                                add
+                            </span>
+                            <span class="material-symbols-outlined">
+                                library_books
+                                </span>
+                            Bulk Add Books
+                        </div>
+                    </button>
+               </div>
+            </form>
+            <h4 class="or_label">OR</h4>
+            <div class="shift_left book_instruction_covering">
+                <div class="book_instruction_container">
+                    <p class="book_instruction_text">1</p>
                 </div>
-                <input type="file" name="books_inventory" id="books_inventory" required class="hidden-input">
-                <button type="submit" value="Bulk Add Books Lists" class="instruction_button_style top_space">
+                <button id="add_first_book" class="instruction_button_style" >
                     <div class="align-button">
                         <span class="material-symbols-outlined">
-                            add
+                            library_add
                         </span>
-                        <span class="material-symbols-outlined">
-                            library_books
-                            </span>
-                        Bulk Add Books
+                        Add first book entry 
                     </div>
                 </button>
-            </form>
+                
+            </div>
+
             
 
         </div>
@@ -79,14 +96,7 @@
         {% if not books_data %}
         <div class="shift_left">
             <p> To add a single book item, click the Add first book entry</p>
-            <button id="add_first_book" class="button_style">
-                <div class="align-button">
-                    <span class="material-symbols-outlined">
-                        library_add
-                    </span>
-                    Add first book entry 
-                </div>
-            </button>
+           
         </div>
         {% endif %}
         <div class="books-forms">
