@@ -17,19 +17,18 @@
     <script src="{% static 'javascript/index.js' %}" defer></script>
     <script src="https://cdn.jsdelivr.net/npm/js-cookie@3.0.5/dist/js.cookie.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.4.0/jspdf.umd.min.js" defer></script>
+    <script src="https://cdn.tailwindcss.com"></script>
 </head>
 
 <body>
     {% include "header.html" %}
     <div class="non-printable">
-        <h3 class="shift_left ">Books Inventory Management</h3>
         <div style="display: flex;">
             <div class="shift_left book_instruction_covering">
                 <div class="book_instruction_container">
                     <p class="book_instruction_text">1</p>
                 </div>
-                <p style="padding-left: 5px;">
-            
+                <p>
                     <a class="instruction_button_style book_instructions_link"
                     href="{% static 'excel_templates/book_template.xlsx' %}" >
                     <span class="material-symbols-outlined">
@@ -39,6 +38,7 @@
                 </a>
                 </p>
             </div>
+            
             <form method="post" action="/books/add_books" enctype="multipart/form-data" class="shift_left" style="display: flex;">
                 {% csrf_token %}
                 <div class="book_instruction_covering">
@@ -47,7 +47,7 @@
                         <p class="book_instruction_text">2</p>
                     </div>
                     <label for="books_inventory" class="custom-file-input">
-                        <div class="align-button custom-file-input top_spac" style="border-radius: 4px; background-color: #209cff; color:white; padding: 3px;">
+                        <div class="align-button custom-file-input top_spac instruction_button_style" >
                             <span class="material-symbols-outlined">
                                 upload_file
                             </span>
@@ -73,6 +73,7 @@
                     </button>
                </div>
             </form>
+            {% if not books_data %}
             <h4 class="or_label">OR</h4>
             <div class="shift_left book_instruction_covering">
                 <div class="book_instruction_container">
@@ -83,22 +84,12 @@
                         <span class="material-symbols-outlined">
                             library_add
                         </span>
-                        Add first book entry 
+                        Add First Book Entry 
                     </div>
                 </button>
-                
             </div>
-
-            
-
-        </div>
-      
-        {% if not books_data %}
-        <div class="shift_left">
-            <p> To add a single book item, click the Add first book entry</p>
-           
-        </div>
-        {% endif %}
+            {% endif %}
+        </div> 
         <div class="books-forms">
             <form method="get">
                 {% csrf_token %}
@@ -277,13 +268,6 @@
     <!-- Checkboxes to toggle column visibility -->
 
     <script>
-        {% comment %} function toggle(source) {
-            let checkboxes = document.getElementsByName('ordered_checkbox');
-            for (let i = 0, n = checkboxes.length; i < n; i++) {
-                checkboxes[i].checked = source.checked;
-            }
-        } {% endcomment %}
-
         function toggleAllCheckboxes(source) {
             let checkboxes = document.querySelectorAll('input[type="checkbox"][name="books_selection"]');
             for (let i = 0; i < checkboxes.length; i++) {
