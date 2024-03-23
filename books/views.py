@@ -33,7 +33,7 @@ def dashboard(request):
         status_filtering = status_form.cleaned_data['status_filtering']
         if status_filtering:
             books = Book.objects.filter(order_status=status_filtering)
-    return render(request, 'dashboard.html', {'books_data': books, 'edit_mode': False, 'filter_form': filter_form,
+    return render(request, 'new_dashboard.html', {'books_data': books, 'edit_mode': False, 'filter_form': filter_form,
                                               'books_search_form': book_search_form, 'status_form': status_form})
 
 

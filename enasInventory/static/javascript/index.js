@@ -600,13 +600,13 @@ function toggleAllCheckboxes(source) {
 
 
 let currentPage = window.location.href
-console.log(currentPage)
+let books_active = document.getElementsByClassName('tabs_links')[0]
+let student_active = document.getElementsByClassName('tabs_links')[1]
 if (currentPage.includes('books')) {
-    let books_active = document.getElementsByClassName('tabs_links')[0]
-    let student_active = document.getElementsByClassName('tabs_links')[1]
     books_active.classList.add('active_link')
     student_active.classList.remove('active_link')
-} 
+    console.log('here')
+}
 
 
 
