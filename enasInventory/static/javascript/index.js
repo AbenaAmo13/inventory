@@ -1,3 +1,10 @@
+window.addEventListener('load', function () {
+    addNewBookItem()
+    
+  })
+
+
+
 let editButtons = document.querySelectorAll('.edit');
 const year_options = ['Reception', 'Nursery 1', 'Nursery 2', 'Year 1', 'Year 2', 'Year 3', 'Year 4', 'Year 5', 'Year 6', 'Year 7', 'Year 9', 'Year 10', 'Year 11', 'Year 12', 'Year 13']
 const order_status_options = ['REQUESTED', 'ORDERED', 'RECEIVED']
@@ -111,162 +118,65 @@ editButtons.forEach(function (editBtn) {
 
 
 
-//Adding a new table entry:
-const add_row_btn = document.getElementById('add_new_entry_button');
-if (add_row_btn) {
-    add_row_btn.addEventListener('click', function (event) {
-        event.preventDefault(); // Prevent form submission
-        const table = document.getElementById('books_inventory_table');
-        let newRow = table.insertRow()
-        let input1 = document.createElement('input')
-        input1.type = 'checkbox'
-        input1.name = 'select_checkbox'
-        input1.required = true
-        let cell1 = newRow.insertCell()
-        cell1.append(input1)
+function addNewBookItem(){
+    //Adding a new table entry:
+    const add_row_btn = document.getElementById('add_new_entry_button');
+    if (add_row_btn) {
+        add_row_btn.addEventListener('click', function (event) {
+            console.log()
+            event.preventDefault(); // Prevent form submission
+            const table = document.getElementById('books_inventory_table');
+            let newRow = table.insertRow()
+            const elements = [
+                { type: 'checkbox', name: 'select_checkbox', required: true },
+                { type: 'text', name: 'isbn', required: true, class: 'textfield_mui' },
+                { type: 'text', name: 'book_name', required: true, class: 'textfield_mui' },
+                { type: 'number', name: 'quantity_requested', required: true, class: 'textfield_mui' },
+                { type: 'number', name: 'quantity_received', required: true, class: 'textfield_mui' }
+            ];
 
-        let input2 = document.createElement('input')
-        input2.type = 'text'
-        input2.name = 'isbn'
-        input2.setAttribute('required', true)
-        input2.classList.add("textfield_mui")
-        let cell2 = newRow.insertCell()
-        cell2.append(input2)
+            elements.forEach(element => {
+                let input = Object.assign(document.createElement('input'), element);
+                input.classList.add(element.class)
+                newRow.insertCell().appendChild(input);
+            });
 
-        let input3 = document.createElement('input')
-        input3.type = 'text'
-        input3.name = 'book_name'
-        input3.required = true
-        input3.classList.add("textfield_mui")
-        let cell3 = newRow.insertCell()
-        cell3.append(input3)
-
-        let input4 = document.createElement('input')
-        input4.type = 'number'
-        input4.name = 'quantity_requested'
-        input4.classList.add("textfield_mui")
-        input4.required = true
-        let cell4 = newRow.insertCell()
-        cell4.append(input4)
-
-        let input5 = document.createElement('input')
-        input5.classList.add("textfield_mui")
-        input5.type = 'number'
-        input5.name = 'quantity_received'
-        input5.required = true
-        let cell5 = newRow.insertCell()
-        cell5.append(input5)
-
-        let year_group_selection = document.createElement('select')
-        let cell6 = newRow.insertCell()
-        year_options.forEach(function (option_name, index) {
-            option_name = document.createElement('option');
-            option_name.value = year_options[index]
-            option_name.text = year_options[index]
-            year_group_selection.appendChild(option_name)
-        })
-        year_group_selection.classList.add("textfield_mui")
-        year_group_selection.name = 'year_group'
-        year_group_selection.required = true
-        cell6.append(year_group_selection)
-
-        let cell7 = newRow.insertCell()
-        let order_status_selection = document.createElement('select')
-        order_status_selection.required = true
-        order_status_selection.name = 'order_status'
-        order_status_options.forEach(function (option_name, index) {
-            option_name = document.createElement('option')
-            option_name.value = order_status_options[index]
-            option_name.text = order_status_options[index]
-            order_status_selection.appendChild(option_name)
-        })
-        order_status_selection.classList.add("textfield_mui")
-        cell7.append(order_status_selection)
-
-        let input6 = document.createElement('input')
-        input6.value = new Date().toISOString().slice(0, 16)
-        input6.type = 'datetime-local'
-        input6.name = 'date_added'
-        input6.classList.add('textfield_mui')
-        input6.readOnly = true
-        let cell8 = newRow.insertCell()
-        cell8.appendChild(input6)
-
-        let cell9 = newRow.insertCell()
-        let saveBtn = document.createElement('button')
-        let cancelBtn = document.createElement('button')
-        saveBtn.className = 'add_book'
-        let span_element_save = document.createElement('span')
-        span_element_save.classList.add('material-symbols-outlined')
-        span_element_save.textContent = 'save'
-        let divNewSave = document.createElement('div')
-        divNewSave.textContent = 'Save'
-        divNewSave.classList.add('align-button')
-        divNewSave.appendChild(span_element_save)
-        saveBtn.appendChild(divNewSave)
-
-
-        cancelBtn.className = 'cancel_book'
-        let cancel_btn_span = document.createElement('span')
-        cancel_btn_span.classList.add('material-symbols-outlined')
-        cancel_btn_span.textConxtent = 'cancel'
-        let divNew = document.createElement('div')
-        divNew.textContent = 'Cancel'
-        divNew.appendChild(cancel_btn_span)
-        divNew.classList.add('align-button')
-        cancelBtn.appendChild(divNew)
-    
-        cell9.className = 'button_actions'
-        saveBtn.classList.add('button_style')
-        cancelBtn.classList.add('button_style')
-        cell9.appendChild(saveBtn)
-        cell9.appendChild(cancelBtn)
-
-        let isFormValid = true
-
-        let addStudentRow = newRow.querySelector('.add_book')
-        addStudentRow.addEventListener('click', function (event) {
-            let form = new FormData()
-            let inputData = newRow.querySelectorAll('input, select')
-            inputData.forEach((data) => {
-                console.log(data.name, data.value)
-                form.append(data.name, data.value)
-                if(!data.value){
-                    isFormValid= false
-                }
-            })
-            console.log(isFormValid)
-
-            if(!isFormValid){
-                //run
-                alert('Form is invalid, check your inputs')
+            ['year_group', 'order_status'].forEach(name => {
+                let select = newRow.insertCell().appendChild(document.createElement('select'));
+                select.classList.add('textfield_mui');
+                select.name = name;
+                select.required = true;
                 
-            }else{
-                const csrftoken = Cookies.get('csrftoken');
-                fetch('/books/add_book_entry', {
-                    method: 'POST',
-                    body: form,
-                    credentials: 'same-origin',
-                    headers: { 'X-CSRFToken': csrftoken }
-                }).then(r => {
-                    location.reload()
-                })
-            }
+                const options = name === 'year_group' ? year_options : order_status_options;
+                options.forEach(option => select.add(new Option(option, option)));
+            });
 
-          
+            let dateInput = Object.assign(document.createElement('input'), {
+                value: new Date().toISOString().slice(0, 16),
+                type: 'datetime-local',
+                name: 'date_added',
+                class: 'textfield_mui',
+                readOnly: true
+            });
+            newRow.insertCell().appendChild(dateInput);
+            ['Save', 'Cancel'].forEach(action => {
+                let button = newRow.insertCell().appendChild(document.createElement('button'));
+                button.className = action === 'Save' ? 'add_book button_style' : 'cancel_book button_style';
+                button.innerHTML = `<div class="align-button">${action}</div>`;
+            });
 
-            
-           
-
+            newRow.querySelector('.cancel_book').addEventListener('click', function (event) {
+                location.reload()
+            })
+    
         })
-        let cancelRow = newRow.querySelector('.cancel_book')
-        cancelRow.addEventListener('click', function (event) {
-            location.reload()
-        })
-
-    })
+    
+    }
 
 }
+
+
+
 
 
 let updateOrderButtons = document.querySelectorAll('.update_order');
