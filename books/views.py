@@ -1,3 +1,10 @@
+from rest_framework.views import APIView
+from rest_framework.response import Response
+from rest_framework import status
+from rest_framework import permissions
+from .models import Books
+from .serializers import BooksSerialiser
+
 import http
 from io import BytesIO
 
@@ -14,6 +21,28 @@ from django.contrib.auth.decorators import login_required
 from enasInventory.forms.forms import BooksYearGroupFilterForm, BooksSearchForm, StatusFiltering
 from books.models import Book
 
+
+class BooksApiView(APIView):
+    # add permission to check if user is authenticated
+    permission_classes = [permissions.IsAuthenticated]
+    # 2. Create 
+     def post(self, request, *args, **kwargs):
+        '''
+        Create Books Instance with given books data
+        '''
+        data = {
+            'isbn': request.data.get('task'), 
+            'book_name': request.data.get('completed'), 
+            'year_group': request.data.get('year_group'),
+            'date_requested' : request.data.get('date_requested')
+            'order_status' : request.data.get('order_status')
+            'quantity_needed': request.data.get('quantity_needed'),
+            'quantity_received': request.data.get('quantity_received')
+        }
+        serializer = BooksSerialiser(data=data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data, status=status.HTTP_201_CREATED)
 
 
 def dashboard(request):
@@ -47,23 +76,6 @@ def book_validation(dictionary):
 
     return None
 
-
-def add_book_entry(request):
-    if request.method == 'POST':
-        book_validation(request.POST)
-        isbn = request.POST.get('isbn')
-        book_name = request.POST.get('book_name')
-        quantity_requested = request.POST.get('quantity_requested')
-        year_group = request.POST.get('year_group')
-        order_status = request.POST.get('order_status')
-        quantity_received = request.POST.get('quantity_received')
-        date_added = request.POST.get('date_added')
-        new_book_entry = Book(book_name=book_name, isbn=isbn, quantity_needed=quantity_requested,
-                              quantity_received=quantity_received,
-                              year_group=year_group, order_status=order_status, date_requested=date_added)
-        new_book_entry.save()
-    # Redirect to the dashboard page using JavaScript
-    return redirect('dashboard')
 
 
 def add_books(request):
