@@ -36,6 +36,7 @@ urlpatterns = [
                   path('account_setup', views.account_setup, name='account_setup'),
                   # Other URL patterns
                   path('students/', include('students.urls')),
-                  path('books/', include('books.urls'))
+                  path('books/', include('books.urls')),
+                  path('api-auth/', include('rest_framework.urls')),
 
               ] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)

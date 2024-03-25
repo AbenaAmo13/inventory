@@ -12,7 +12,7 @@ from django.contrib.auth.decorators import login_required
 
 
 from enasInventory.forms.forms import BooksYearGroupFilterForm, BooksSearchForm, StatusFiltering
-from enasInventory.models import Book
+from books.models import Book
 
 
 

@@ -1,8 +1,5 @@
 from django import forms
 
-from enasInventory.models import BookReceived
-
-
 class YearGroupFilterForm(forms.Form):
     year_group = forms.ChoiceField(
         choices=[
@@ -112,11 +109,6 @@ class StudentBookForm(forms.Form):
                 'class': 'textfield_mui'
         })
 
-
     )
 
 
-class BookReceivedForm(forms.ModelForm):
-    class Meta:
-        model = BookReceived
-        fields = ['student', 'book', 'date_received']

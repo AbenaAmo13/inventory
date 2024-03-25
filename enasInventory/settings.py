@@ -43,7 +43,8 @@ INSTALLED_APPS = [
     "enasInventory",
     "students",
     "books",
-    'widget_tweaks'
+    'widget_tweaks',
+    'rest_framework',
 ]
 
 
@@ -86,15 +87,15 @@ MEDIA_ROOT = os.path.join(BASE_DIR, 'excel_templates')
 # Database
 # https://docs.djangoproject.com/en/4.2/ref/settings/#databases
 
-""" DATABASES = {
+DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.sqlite3',
         'NAME': 'mydatabase', # This is where you put the name of the db file. 
                  # If one doesn't exist, it will be created at migration time.
     }
-} """
+} 
 
-DATABASES = {
+""" DATABASES = {
     "default": {
         'ENGINE': os.getenv('DB_ENGINE'),
         'NAME': os.getenv('DB_NAME'),
@@ -104,7 +105,7 @@ DATABASES = {
         'PORT': os.getenv('DB_PORT'),
     }
 } 
-
+ """
 """ DATABASES = {
     "default": {
         'ENGINE': 'django.db.backends.postgresql',

@@ -7,11 +7,11 @@ from django.http import FileResponse, HttpResponse
 from django.shortcuts import render, redirect, get_object_or_404
 import json
 from django.templatetags.static import static
-from enasInventory.forms.forms import SearchStudentForm, YearGroupFilterForm, StudentBookForm, BookReceivedForm, \
+from enasInventory.forms.forms import SearchStudentForm, YearGroupFilterForm, StudentBookForm, \
     PaidStatusFiltering
-from enasInventory.models import Student
-from enasInventory.models import Book
-from enasInventory.models import BookReceived
+from students.forms.forms import BookReceivedForm
+from students.models import Student
+from books.models import Book
 from django.utils import timezone
 from datetime import datetime
 from django.db import IntegrityError
