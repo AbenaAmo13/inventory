@@ -117,7 +117,33 @@ editButtons.forEach(function (editBtn) {
 })
 
 
+function apiFunctions(methodType, dataBody){
+    const csrftoken = Cookies.get('csrftoken');
 
+    fetch('api/', {
+        method: `${methodType}`,
+        headers: {
+            'Content-Type': 'application/json',
+            'X-CSRFToken': csrftoken
+
+        },
+        body: JSON.stringify(dataBody),
+    })
+    .then(response => {
+        if (!response.ok) {
+            throw new Error('Network response was not ok');
+        }
+        return response.json();
+    })
+    .then(data => {
+        console.log('Success:', data);
+        // Optionally, redirect to another page or perform any other action upon success
+    })
+    .catch(error => {
+        console.error('Error:', error);
+    });
+
+}
 function addNewBookItem(){
     //Adding a new table entry:
     const add_row_btn = document.getElementById('add_new_entry_button');
@@ -129,8 +155,8 @@ function addNewBookItem(){
             let newRow = table.insertRow()
             const elements = [
                 { type: 'checkbox', name: 'select_checkbox', required: true },
-                { type: 'text', name: 'isbn', required: true, class: 'textfield_mui' },
-                { type: 'text', name: 'book_name', required: true, class: 'textfield_mui' },
+                { type: 'text', name: 'isbn', required: true, class: 'textfield_mui'},
+                { type: 'text', name: 'book_name', required: true, class: 'textfield_mui'},
                 { type: 'number', name: 'quantity_requested', required: true, class: 'textfield_mui' },
                 { type: 'number', name: 'quantity_received', required: true, class: 'textfield_mui' }
             ];
@@ -168,6 +194,19 @@ function addNewBookItem(){
             newRow.querySelector('.cancel_book').addEventListener('click', function (event) {
                 location.reload()
             })
+            newRow.querySelector('.add_book').addEventListener('click', function(event){
+            let booksData = {
+                    'isbn': newRow.querySelector('[name="isbn"]').value, 
+                    'book_name': newRow.querySelector('[name="book_name"]').value, 
+                    'year_group': newRow.querySelector('[name="year_group"]').value,
+                    'date_requested': newRow.querySelector('[name="date_added"]').value,
+                    'order_status':newRow.querySelector('[name="order_status"]').value,
+                    'quantity_needed': newRow.querySelector('[name="quantity_requested"]').value,
+                    'quantity_received': newRow.querySelector('[name="quantity_received"]').value
+                }
+            apiFunctions('POST', booksData)
+            })
+            
     
         })
     
@@ -417,7 +456,7 @@ if (add_first_entry) {
         }
     })
 }
-// Function to toggle column visibility based on checkbox status
+/* // Function to toggle column visibility based on checkbox status
 function toggleColumnVisibility(checkboxId, columnIndex) {
     const checkbox = document.getElementById(checkboxId);
     const columnCells = document.querySelectorAll(`td:nth-child(${columnIndex})`);
@@ -506,7 +545,7 @@ function toggleAllCheckboxes(source) {
     checkboxes.forEach(checkbox => {
         checkbox.checked = source.checked;
     });
-}
+} */
 
 
 let currentPage = window.location.href
